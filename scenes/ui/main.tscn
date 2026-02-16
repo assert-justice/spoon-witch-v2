@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://b12imx7h6poo4"]
+
+[ext_resource type="Script" uid="uid://cyn0tp60nn324" path="res://Src/UI/Main.cs" id="1_0ay0p"]
+[ext_resource type="Script" uid="uid://bodvay0korirm" path="res://Src/UI/SwMenuHolder.cs" id="2_2p1s2"]
+[ext_resource type="Script" uid="uid://plunvbjmkx1j" path="res://Src/UI/SwMenu.cs" id="3_02nsg"]
+
+[node name="Main" type="Control" unique_id=910366092]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0ay0p")
+
+[node name="GameHolder" type="Node2D" parent="." unique_id=1731914424]
+process_mode = 1
+
+[node name="MenuHolder" type="Control" parent="." unique_id=181542438]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_2p1s2")
+
+[node name="MainMenu" type="HBoxContainer" parent="MenuHolder" unique_id=657433058]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_02nsg")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/MainMenu" unique_id=1185670423]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MenuHolder/MainMenu/VBox" unique_id=1967959277]
+layout_mode = 2
+text = "Spoon Witch"
+horizontal_alignment = 1
+
+[node name="Embark" type="Button" parent="MenuHolder/MainMenu/VBox" unique_id=1845102740]
+layout_mode = 2
+text = "Embark"
+
+[node name="Options" type="Button" parent="MenuHolder/MainMenu/VBox" unique_id=819568292]
+layout_mode = 2
+text = "Options"
+
+[node name="Credits" type="Button" parent="MenuHolder/MainMenu/VBox" unique_id=1708487182]
+layout_mode = 2
+text = "Credits"
+
+[node name="Quit" type="Button" parent="MenuHolder/MainMenu/VBox" unique_id=407176676]
+layout_mode = 2
+text = "Quit"
+
+[node name="OptionsMenu" type="HBoxContainer" parent="MenuHolder" unique_id=1139717682]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_02nsg")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/OptionsMenu" unique_id=670519201]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MenuHolder/OptionsMenu/VBox" unique_id=710192260]
+layout_mode = 2
+text = "Options"
+horizontal_alignment = 1
+
+[node name="Back" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=1398029019]
+layout_mode = 2
+text = "Back"
+
+[node name="Credits" type="HBoxContainer" parent="MenuHolder" unique_id=1662060385]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_02nsg")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/Credits" unique_id=2023466438]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MenuHolder/Credits/VBox" unique_id=402105626]
+layout_mode = 2
+text = "A Game made by
+Spoon Witch Coven"
+horizontal_alignment = 1
+
+[node name="Back" type="Button" parent="MenuHolder/Credits/VBox" unique_id=1735595558]
+layout_mode = 2
+text = "Back"
