@@ -10,11 +10,11 @@ public partial class SwPlayer : SwActor
 	}
 	private void OnEnterRunning(SwState lastState)
 	{
-		BodySprite.Play("run_" + GetFacing());
+		BodySprite.Play("run2_" + GetFacing());
 	}
 	private void OnTickRunning(float dt)
 	{
-		if(FacingIdx.IsDirty()) BodySprite.Play("run_" + GetFacing());
+		if(FacingIdx.IsDirty()) BodySprite.Play("run2_" + GetFacing());
 		Velocity = InputManager.Move.GetValue() * Speed;
 		if(Velocity.LengthSquared() < SwConstants.EPSILON) StateMachine.QueueState(SwState.Idle);
 	}

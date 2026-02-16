@@ -8,10 +8,10 @@ public partial class SwPlayer : SwActor
 	}
 	private void OnEnterIdle(SwState lastState)
 	{
-		BodySprite.Play("idle_" + GetFacing());
+		BodySprite.Play("idle2_" + GetFacing());
 	}
 	private void OnTickIdle(float dt)
 	{
-		if(FacingIdx.IsDirty()) BodySprite.Play("idle_" + GetFacing());
+		if(FacingIdx.IsDirty()) BodySprite.Play("idle2_" + GetFacing());
 	}
 }
