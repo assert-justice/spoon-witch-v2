@@ -10,8 +10,8 @@ public partial class SwVAxis2 : SwInput, ISwInput<Vector2>
     private readonly List<Func<Vector2>> Fns = [];
     private Vector2 Value = Vector2.Zero;
     private Func<Vector2,Vector2> Filter;
-    private SwMaxAvg AvgX = new();
-    private SwMaxAvg AvgY = new();
+    private SwMaxAbs AvgX = new();
+    private SwMaxAbs AvgY = new();
     public SwVAxis2(float deadzone = 0.25f)
     {
         SetDeadzone(deadzone);

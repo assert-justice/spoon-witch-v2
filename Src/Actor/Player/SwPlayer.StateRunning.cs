@@ -1,3 +1,5 @@
+using SW.Src.Global;
+
 namespace SW.Src.Actor.Player;
 
 public partial class SwPlayer : SwActor
@@ -13,9 +15,7 @@ public partial class SwPlayer : SwActor
 	private void OnTickRunning(float dt)
 	{
 		if(FacingIdx.IsDirty()) BodySprite.Play("run_" + GetFacing());
-		if(InputManager.SpoonAttack.IsPressed()) StateMachine.QueueState(SwState.Attacking);
-		else if(InputManager.ChargeSling.IsPressed()) StateMachine.QueueState(SwState.Charging);
-		else if(InputManager.Dodge.IsPressed()) StateMachine.QueueState(SwState.Dodging);
-		else if(InputManager.Move.GetValue().LengthSquared() > 0.1f) StateMachine.QueueState(SwState.Running);
+		Velocity = InputManager.Move.GetValue() * Speed;
+		if(Velocity.LengthSquared() < SwConstants.EPSILON) StateMachine.QueueState(SwState.Idle);
 	}
 }

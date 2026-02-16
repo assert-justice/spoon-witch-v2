@@ -13,9 +13,5 @@ public partial class SwPlayer : SwActor
 	private void OnTickIdle(float dt)
 	{
 		if(FacingIdx.IsDirty()) BodySprite.Play("idle_" + GetFacing());
-		if(InputManager.SpoonAttack.IsPressed()) StateMachine.QueueState(SwState.Attacking);
-		else if(InputManager.ChargeSling.IsPressed()) StateMachine.QueueState(SwState.Charging);
-		else if(InputManager.Dodge.IsPressed()) StateMachine.QueueState(SwState.Dodging);
-		else if(InputManager.Move.GetValue().LengthSquared() > 0.1f) StateMachine.QueueState(SwState.Running);
 	}
 }

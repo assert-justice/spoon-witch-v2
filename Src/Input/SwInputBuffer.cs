@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Generic;
 using SW.Src.Global;
 
 namespace SW.Src.Input;
 
 public class SwInputBuffer
 {
-    // private readonly List<(T,Func<bool>)> Buttons = [];
     private bool HasValue = false;
-    private int Value = default;
+    private int Value = 0;
     private readonly Func<bool>[] Fns;
     private readonly bool[] Values;
     public SwInputBuffer(string[] buttonNames)
@@ -28,7 +26,7 @@ public class SwInputBuffer
         {
             bool val = Fns[idx]();
             if(val) Value = idx;
-            else if(Value == idx) val = true;
+            else if(HasValue && Value == idx) val = true;
             Values[idx] = val;
         }
     }

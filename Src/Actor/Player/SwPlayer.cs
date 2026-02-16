@@ -37,7 +37,7 @@ public partial class SwPlayer : SwActor
 		BindStateIdle();
 		BindStateRunning();
 		InputLockout = AddTimer(new SwClock());
-		// Controls = new(StateMachine.QueueState, InputManager, InputLockout);
+		Controls = new(StateMachine.QueueState, InputManager, InputLockout);
 		base._Ready();
 	}
 	protected override void Tick(float dt)
@@ -46,7 +46,7 @@ public partial class SwPlayer : SwActor
 		if (facingIdx < 0) facingIdx += 4;
 		FacingIdx.Value = facingIdx;
 		// Player controls are not used or updated while in a submenu
-		// if(StateMachine.GetState() != SwState.InSubmenu) Controls.Poll(dt);
+		if(StateMachine.GetState() != SwState.InSubmenu) Controls.Poll(dt);
 		StateMachine.Tick(dt);
 	}
 	private string GetFacing()

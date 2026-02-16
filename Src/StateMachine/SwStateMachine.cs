@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Godot;
 
 namespace SW.Src.StateMachine;
 public class SwStateMachine<T>
@@ -10,7 +11,7 @@ public class SwStateMachine<T>
 	public SwStateMachine(){}
 	public SwStateMachine(T initialStateId)
 	{
-		QueueState(initialStateId);
+		QueueStateUnchecked(initialStateId);
 	}
 	public void AddState(SwState<T> state)
 	{
@@ -27,7 +28,7 @@ public class SwStateMachine<T>
 		T lastStateId = default;
 		if(CurrentState is not null)
 		{
-			if(EqualityComparer<T>.Default.Equals(nextStateId, nextState.StateId)) return;
+			if(EqualityComparer<T>.Default.Equals(nextStateId, CurrentState.StateId)) return;
 			CurrentState.OnExitState(nextStateId);
 			lastStateId = CurrentState.StateId;
 		}
@@ -36,6 +37,11 @@ public class SwStateMachine<T>
 	}
 	public T GetState(){return (CurrentState is not null) ? CurrentState.StateId : default;}
 	public void QueueState(T nextStateId)
+	{
+		if(!States.ContainsKey(nextStateId)) throw new Exception($"Invalid state id '{nextStateId}'");
+		StateQueue.Enqueue(nextStateId);
+	}
+	private void QueueStateUnchecked(T nextStateId)
 	{
 		StateQueue.Enqueue(nextStateId);
 	}

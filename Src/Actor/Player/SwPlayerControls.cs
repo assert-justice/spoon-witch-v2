@@ -1,4 +1,5 @@
 using System;
+using Godot;
 using SW.Src.Global;
 using SW.Src.Input;
 using SW.Src.Timer;
@@ -7,9 +8,9 @@ namespace SW.Src.Actor.Player;
 
 public class SwPlayerControls
 {
-    private SwInputManager InputManager;
-    private SwInputBuffer InputBuffer;
-    private SwClock InputLockout;
+    private readonly SwInputManager InputManager;
+    private readonly SwInputBuffer InputBuffer;
+    private readonly SwClock InputLockout;
     private Action<SwPlayer.SwState> QueueState;
     private float IdleTime = 0;
     private enum SwAction
@@ -38,6 +39,7 @@ public class SwPlayerControls
         InputBuffer.Poll();
         if(InputLockout.IsRunning()) return;
         bool idle = false;
+        // if(false){}
         if(SpoonAttack) QueueState(SwPlayer.SwState.Attacking);
         else if(ChargeSling) QueueState(SwPlayer.SwState.Charging);
         else if(Dodge) QueueState(SwPlayer.SwState.Dodging);
@@ -46,6 +48,7 @@ public class SwPlayerControls
         else idle = true;
         if(idle) IdleTime += dt;
         else IdleTime = 0;
+        // GD.Print(InputManager.Move.GetValue());
     }
     public float GetIdleTime(){return IdleTime;}
 }
