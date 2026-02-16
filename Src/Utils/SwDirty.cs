@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SW.Src.Global;
 
 namespace SW.Src.Utils;
 
@@ -15,7 +16,7 @@ public struct SwDirty<T>
         }
         set
         {
-            if(EqualityComparer<T>.Default.Equals(value, Value_)) return;
+            if(SwGlobal.IsEqual(value, Value_)) return;
             Dirty = true;
             Value_ = value;
         }

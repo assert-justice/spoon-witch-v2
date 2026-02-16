@@ -22,12 +22,13 @@ public partial class SwPlayer : SwActor
 	}
 	private SwStateMachine<SwState> StateMachine;
 	private string[] Facing = ["right", "down", "left", "up"];
-	private SwDirty<int> FacingIdx = new(1);
+	private SwDelta<int> FacingIdx = new();
 	private SwInputManager InputManager;
 	private AnimatedSprite2D BodySprite;
 	private AnimatedSprite2D SpoonSprite;
 	private SwPlayerControls Controls;
 	private SwClock InputLockout;
+	private SwClock IdleTime;
 	public override void _Ready()
 	{
 		BodySprite = GetNode<AnimatedSprite2D>("BodySprite");
@@ -36,8 +37,11 @@ public partial class SwPlayer : SwActor
 		StateMachine = new(SwState.Idle);
 		BindStateIdle();
 		BindStateRunning();
+		BindStateAttacking();
 		InputLockout = AddTimer(new SwClock());
-		Controls = new(StateMachine.QueueState, InputManager, InputLockout);
+		// Deliberately *not* added to timers, we will manage updating it ourselves
+		IdleTime = new SwClock(0, false, null, ()=>StateMachine.QueueState(SwState.Idle));
+		Controls = new(StateMachine.QueueState, InputManager, InputLockout, IdleTime);
 		base._Ready();
 	}
 	protected override void Tick(float dt)
@@ -46,7 +50,11 @@ public partial class SwPlayer : SwActor
 		if (facingIdx < 0) facingIdx += 4;
 		FacingIdx.Value = facingIdx;
 		// Player controls are not used or updated while in a submenu
-		if(StateMachine.GetState() != SwState.InSubmenu) Controls.Poll(dt);
+		if(StateMachine.GetState() != SwState.InSubmenu)
+		{
+			IdleTime.Tick(dt);
+			Controls.Poll();
+		}
 		StateMachine.Tick(dt);
 	}
 	private string GetFacing()

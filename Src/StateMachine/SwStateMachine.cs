@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using SW.Src.Global;
 
 namespace SW.Src.StateMachine;
 public class SwStateMachine<T>
@@ -28,12 +29,13 @@ public class SwStateMachine<T>
 		T lastStateId = default;
 		if(CurrentState is not null)
 		{
-			if(EqualityComparer<T>.Default.Equals(nextStateId, CurrentState.StateId)) return;
+			if(SwGlobal.IsEqual(nextStateId, CurrentState.StateId)) return;
 			CurrentState.OnExitState(nextStateId);
 			lastStateId = CurrentState.StateId;
 		}
 		CurrentState = nextState;
 		CurrentState.OnEnterState(lastStateId);
+		// GD.Print(CurrentState.StateId);
 	}
 	public T GetState(){return (CurrentState is not null) ? CurrentState.StateId : default;}
 	public void QueueState(T nextStateId)

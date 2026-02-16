@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 using SW.Src.Input;
 
@@ -36,5 +37,10 @@ public partial class SwGlobal : Node
     public override void _Input(InputEvent inputEvent)
     {
         LastInputEvent = inputEvent;
+    }
+    // I don't know where else to put this
+    public static bool IsEqual<T>(T a, T b)
+    {
+        return EqualityComparer<T>.Default.Equals(a, b);
     }
 }

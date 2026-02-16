@@ -11,8 +11,8 @@ public class SwPlayerControls
     private readonly SwInputManager InputManager;
     private readonly SwInputBuffer InputBuffer;
     private readonly SwClock InputLockout;
-    private Action<SwPlayer.SwState> QueueState;
-    private float IdleTime = 0;
+    private readonly Action<SwPlayer.SwState> QueueState;
+    private readonly SwClock IdleTime;
     private enum SwAction
 	{
 		SpoonAttack,
@@ -26,15 +26,16 @@ public class SwPlayerControls
     public bool Dodge{get=>InputBuffer.TryGetValue(2);}
     public bool UseItem{get=>InputBuffer.TryGetValue(0);}
     public bool Heal{get=>InputBuffer.TryGetValue(1);}
-    public SwPlayerControls(Action<SwPlayer.SwState> queueState, SwInputManager inputManager, SwClock inputLockout)
+    public SwPlayerControls(Action<SwPlayer.SwState> queueState, SwInputManager inputManager, SwClock inputLockout, SwClock idleTime)
     {
         QueueState = queueState;
         InputLockout = inputLockout;
         InputManager = inputManager;
+        IdleTime = idleTime;
         // Names listed in reverse order of priority
         InputBuffer = new(["UseItem","Heal","Dodge","ChargeSling","SpoonAttack"]);
     }
-    public void Poll(float dt)
+    public void Poll()
     {
         InputBuffer.Poll();
         if(InputLockout.IsRunning()) return;
@@ -46,9 +47,9 @@ public class SwPlayerControls
         else if(Heal || UseItem) QueueState(SwPlayer.SwState.UsingItem);
         else if(InputManager.Move.GetValue().LengthSquared() > SwConstants.EPSILON) QueueState(SwPlayer.SwState.Running);
         else idle = true;
-        if(idle) IdleTime += dt;
-        else IdleTime = 0;
+        if(!idle) IdleTime.Restart();
+        // if(idle) IdleTime += dt;
+        // else IdleTime = 0;
         // GD.Print(InputManager.Move.GetValue());
     }
-    public float GetIdleTime(){return IdleTime;}
 }
