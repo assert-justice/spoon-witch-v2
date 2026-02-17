@@ -356,6 +356,7 @@ animations = [{
 }]
 
 [node name="Slume" type="CharacterBody2D" unique_id=483287388]
+texture_filter = 1
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=824999226]
 shape = SubResource("CircleShape2D_vf7sy")
