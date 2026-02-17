@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://daq3h4vpr4mgh"]
 
+[ext_resource type="Script" uid="uid://qn58o7bs856n" path="res://Src/Actor/Slume/SwSlume.cs" id="1_amcsy"]
 [ext_resource type="Texture2D" uid="uid://4vxt4kaivfoy" path="res://assets/sprites/characters/enemies/slume/slume_death.png" id="1_ebxwb"]
 [ext_resource type="Texture2D" uid="uid://y157y4yixhyu" path="res://assets/sprites/characters/enemies/slume/idle/slume_idle_d.png" id="2_amcsy"]
 [ext_resource type="Texture2D" uid="uid://dr2w8xumqxhf7" path="res://assets/sprites/characters/enemies/slume/idle/slume_idle_dr.png" id="3_4axoo"]
@@ -357,6 +358,8 @@ animations = [{
 
 [node name="Slume" type="CharacterBody2D" unique_id=483287388]
 texture_filter = 1
+motion_mode = 1
+script = ExtResource("1_amcsy")
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=824999226]
 shape = SubResource("CircleShape2D_vf7sy")
@@ -364,3 +367,5 @@ shape = SubResource("CircleShape2D_vf7sy")
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1013048236]
 sprite_frames = SubResource("SpriteFrames_re5ys")
 animation = &"idle_down"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=910629453]

@@ -8,41 +8,27 @@ using SW.Src.Utils;
 namespace SW.Src.Actor;
 public abstract partial class SwActor : CharacterBody2D
 {
-	// protected float MaxHealth = 100;
 	protected float Health;
-	// private readonly List<SwTimer> Timers = [];
 	private readonly List<ISwTick> Tickers = [];
-	// private readonly List<ISwPoll> Pollers = [];
 	protected readonly Dictionary<SwDamageType, float> DamageMultipliers = [];
-	// protected readonly Dictionary<SwDamage, float> DamageThresholds = [];
 	private Vector2 LastVelocity = Vector2.Down;
 	protected bool IsAlive(){return Health > 0;}
 	public override void _Ready()
 	{
-		// MotionMode = MotionModeEnum.Floating;
 		Health = GetMaxHealth();
-		// AddTicker(new SwClock(GetDeathDelay(), false, null, Cleanup));
 		AddClock(new(){Duration = GetDeathDelay(), IsPaused = true, OnFinish = Cleanup});
-		// Init();
 	}
 	public override void _PhysicsProcess(double delta)
 	{
 		float dt = (float)delta;
-		// Maybe have system where tickers and pollers can set their own priority interleaved?
-		// In that system actor itself could be a ticker
 		foreach (var item in Tickers)
 		{
 			item.Tick(dt);
 		}
-		// foreach (var item in Pollers)
-		// {
-		// 	item.Poll();
-		// }
 		Tick(dt);
 		MoveAndSlide();
 		if(Velocity.LengthSquared() > SwConstants.EPSILON) LastVelocity = Velocity;
 	}
-	// protected virtual void Init(){}
 	protected virtual void Cleanup()
 	{
 		QueueFree();
@@ -57,11 +43,6 @@ public abstract partial class SwActor : CharacterBody2D
 	{
 		return AddTicker(new SwClock(clockData));
 	}
-	// protected T AddPoller<T>(T poller) where T : ISwPoll
-	// {
-	// 	Pollers.Add(poller);
-	// 	return poller;
-	// }
 	public Vector2 GetLastVelocity(){return LastVelocity;}
 	public virtual float Damage(SwDamage damage)
 	{
