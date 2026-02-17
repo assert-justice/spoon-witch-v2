@@ -1,9 +1,10 @@
 using System;
 using SW.Src.Global;
+using SW.Src.Utils;
 
 namespace SW.Src.Input;
 
-public class SwInputBuffer
+public class SwInputBuffer : ISwPoll
 {
     private bool HasValue = false;
     private int Value = 0;

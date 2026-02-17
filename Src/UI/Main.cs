@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 using SW.Src.Input;
-using SW.Src.StateMachine;
+using SW.Src.Utils;
 
 namespace SW.Src.Ui;
 public partial class Main : Control
@@ -12,7 +12,7 @@ public partial class Main : Control
 		NoGame,
 		Running,
 		Paused,
-		InUi,
+		InSubmenu,
 	}
 	private static readonly Queue<string> MessageQueue = new();
 	private SwStateMachine<SwMainState> StateMachine;
@@ -23,10 +23,10 @@ public partial class Main : Control
 		GameHolder = GetNode<Node2D>("GameHolder");
 		MenuHolder = GetNode<SwMenuHolder>("MenuHolder");
 		StateMachine = new(SwMainState.NoGame);
-		StateMachine.AddState(new(SwMainState.NoGame, OnEnterMainMenu));
-		StateMachine.AddState(new(SwMainState.Running, OnEnterGame));
-		StateMachine.AddState(new(SwMainState.Paused, OnEnterPause));
-		StateMachine.AddState(new(SwMainState.InUi, OnEnterUi));
+		StateMachine.AddState(new(){State = SwMainState.NoGame, OnEnterState = OnEnterMainMenu});
+		StateMachine.AddState(new(){State = SwMainState.Running, OnEnterState = OnEnterGame});
+		StateMachine.AddState(new(){State = SwMainState.Paused, OnEnterState = OnEnterPause});
+		StateMachine.AddState(new(){State = SwMainState.InSubmenu, OnEnterState = OnEnterSubmenu});
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -88,9 +88,9 @@ public partial class Main : Control
 		Pause();
 		MenuHolder.SetMenu("Pause");
 	}
-	private void OnEnterUi(SwMainState lastStateId)
+	private void OnEnterSubmenu(SwMainState lastStateId)
 	{
-		// Show requested ui page
+		// Show requested submenu
 	}
 	private void Pause()
 	{

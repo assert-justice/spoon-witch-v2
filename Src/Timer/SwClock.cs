@@ -1,28 +1,10 @@
-using System;
-
 namespace SW.Src.Timer;
 
-public class SwClock : SwTimer
+public class SwClock(SwClockData clockData) : SwTimer(clockData)
 {
-    private float Duration = 0;
+    private float Duration = clockData.Duration;
     private float Time = 0;
-    public SwClock()
-    {
-        IsPaused = true;
-    }
-    public SwClock(float duration)
-    {
-        SetDuration(duration);
-    }
-    public SwClock(float duration, 
-        bool repeats, 
-        Action onStart = null, 
-        Action onFinish = null, 
-        Action<float> onTick = null)
-        :base(onStart, onFinish, onTick, repeats)
-    {
-        SetDuration(duration);
-    }
+
     public float GetTime(){return Time;}
     public float GetDuration(){return Duration;}
     public float GetProgress(){return Time / Duration;}
@@ -32,9 +14,9 @@ public class SwClock : SwTimer
         if(duration <= 0) IsPaused = true;
         Duration = duration;
     }
-    public override void Restart()
+    public override void Restart(bool isPaused = false)
     {
-        base.Restart();
+        base.Restart(isPaused);
         Time = 0;
     }
     public override bool IsFinished(){return Time > Duration;}
@@ -43,4 +25,9 @@ public class SwClock : SwTimer
         base.TickInternal(dt);
         Time += dt;
     }
+}
+
+public record class SwClockData : SwTimerData
+{
+    public float Duration{get; init;} = 1;
 }
