@@ -60,7 +60,9 @@ public abstract partial class SwPlayerApi : SwActor
     }
 	// Input
 	private SwInputBuffer InputBuffer;
+	protected SwDelta<bool> IsMoving = new();
 	protected abstract string[] InitInputBuffer();
+	// Overrides
 	public override void _Ready()
 	{
 		BodySprite = GetNode<AnimatedSprite2D>("BodySprite");
@@ -79,13 +81,12 @@ public abstract partial class SwPlayerApi : SwActor
 		if (facingIdx < 0) facingIdx += 4;
 		FacingIdx.Value = facingIdx;
 		StateMachine.Tick(dt);
+		IsMoving.Value = InputManager.Move.GetValue().LengthSquared() > SwConstants.EPSILON;
 	}
-	
 	protected override float GetDeathDelay()
     {
         return DeathDelay;
     }
-
     protected override float GetMaxHealth()
     {
         return MaxHealth;

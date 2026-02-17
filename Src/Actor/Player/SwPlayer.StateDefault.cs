@@ -8,11 +8,16 @@ public partial class SwPlayer : SwPlayerApi
         {
             State = SwPlayerState.Default, 
             OnEnterState = OnEnterDefault, 
-            OnExitState = OnExitDefault, 
             OnTick = OnTickDefault
         });
 	}
-	private void OnEnterDefault(SwPlayerState lastState){}
-	private void OnExitDefault(SwPlayerState lastState){}
-	private void OnTickDefault(float dt){}
+	private void OnEnterDefault(SwPlayerState lastState)
+    {
+        PlayBodyAnimFaced(IsMoving.Value ? "run" : "idle", 2);
+    }
+	private void OnTickDefault(float dt)
+    {
+        Velocity = InputManager.Move.GetValue() * Speed;
+        if(IsMoving.IsDirty()) PlayBodyAnimFaced(IsMoving.Value ? "run" : "idle", 2);
+    }
 }
