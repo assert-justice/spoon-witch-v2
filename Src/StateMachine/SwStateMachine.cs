@@ -35,7 +35,7 @@ public class SwStateMachine<T>
 		}
 		CurrentState = nextState;
 		CurrentState.OnEnterState(lastStateId);
-		// GD.Print(CurrentState.StateId);
+		GD.Print(CurrentState.StateId);
 	}
 	public T GetState(){return (CurrentState is not null) ? CurrentState.StateId : default;}
 	public void QueueState(T nextStateId)
