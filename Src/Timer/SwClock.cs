@@ -8,11 +8,10 @@ public class SwClock(SwClockData clockData) : SwTimer(clockData)
     public float GetTime(){return Time;}
     public float GetDuration(){return Duration;}
     public float GetProgress(){return Time / Duration;}
-    public void SetDuration(float duration)
+    public void SetDuration(float duration, bool isPaused = false)
     {
-        Restart();
-        if(duration <= 0) IsPaused = true;
         Duration = duration;
+        Restart(isPaused);
     }
     public override void Restart(bool isPaused = false)
     {

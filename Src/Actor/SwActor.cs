@@ -12,7 +12,7 @@ public abstract partial class SwActor : CharacterBody2D
 	protected float Health;
 	// private readonly List<SwTimer> Timers = [];
 	private readonly List<ISwTick> Tickers = [];
-	private readonly List<ISwPoll> Pollers = [];
+	// private readonly List<ISwPoll> Pollers = [];
 	protected readonly Dictionary<SwDamageType, float> DamageMultipliers = [];
 	// protected readonly Dictionary<SwDamage, float> DamageThresholds = [];
 	private Vector2 LastVelocity = Vector2.Down;
@@ -34,10 +34,10 @@ public abstract partial class SwActor : CharacterBody2D
 		{
 			item.Tick(dt);
 		}
-		foreach (var item in Pollers)
-		{
-			item.Poll();
-		}
+		// foreach (var item in Pollers)
+		// {
+		// 	item.Poll();
+		// }
 		Tick(dt);
 		MoveAndSlide();
 		if(Velocity.LengthSquared() > SwConstants.EPSILON) LastVelocity = Velocity;
@@ -57,12 +57,12 @@ public abstract partial class SwActor : CharacterBody2D
 	{
 		return AddTicker(new SwClock(clockData));
 	}
-	protected T AddPoller<T>(T poller) where T : ISwPoll
-	{
-		Pollers.Add(poller);
-		return poller;
-	}
-	protected Vector2 GetLastVelocity(){return LastVelocity;}
+	// protected T AddPoller<T>(T poller) where T : ISwPoll
+	// {
+	// 	Pollers.Add(poller);
+	// 	return poller;
+	// }
+	public Vector2 GetLastVelocity(){return LastVelocity;}
 	public virtual float Damage(SwDamage damage)
 	{
 		// Note, damage effects can *heal* you as well as hurt you depending on what your multiplier is.
