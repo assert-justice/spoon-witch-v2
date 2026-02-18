@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://df220aw2sa867"]
+
+[ext_resource type="Script" uid="uid://cqfyq8um83b3l" path="res://Src/GameSpace/Dungeon/SwDungeon.cs" id="1_gdhqx"]
+
+[node name="Dungeon" type="Node2D" unique_id=630593261]
+script = ExtResource("1_gdhqx")
+
+[node name="CollisionLayer" type="TileMapLayer" parent="." unique_id=418340827]
