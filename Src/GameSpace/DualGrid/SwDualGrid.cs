@@ -117,7 +117,6 @@ public partial class SwDualGrid : TileMapLayer
 						GD.PrintErr($"No mask for region {x},{y}");
 						continue;
 					}
-					// GD.Print("mask: ", mask);
 					CoordLookup.AddCoords(mask, sourceId, tileCoord);
 					atlas.CreateTile(tileCoord);
 				}

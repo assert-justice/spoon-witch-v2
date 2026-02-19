@@ -76,10 +76,6 @@ public partial class SwVAxis2 : SwInput, ISwInput<Vector2>
         }
         Filter = fn;
     }
-    // public void AddAction(string negX, string posX, string negY, string posY)
-    // {
-    //     Fns.Add(()=>Godot.Input.GetVector(negX, posX, negY, posY, 0));
-    // }
     public Vector2 GetValue(){return Value;}
 
     public override bool TryAddBind(SwInputBind inputBind)

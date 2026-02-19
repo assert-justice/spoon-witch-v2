@@ -49,10 +49,10 @@ public class SwVButton(float pulseCooldown = 0, float pulseDelay = Mathf.Inf) : 
     {
         AddFn(()=>Godot.Input.IsPhysicalKeyPressed(key));
     }
-    // public void AddKey(Key key)
-    // {
-    //     AddFn(()=>Godot.Input.IsKeyPressed(key));
-    // }
+    public void AddKey(Key key)
+    {
+        AddFn(()=>Godot.Input.IsKeyPressed(key));
+    }
     public void AddMouseButton(MouseButton mouseButton)
     {
         AddFn(()=>Godot.Input.IsMouseButtonPressed(mouseButton));
