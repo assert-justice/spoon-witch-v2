@@ -38,9 +38,4 @@ public partial class SwGlobal : Node
     {
         LastInputEvent = inputEvent;
     }
-    // I don't know where else to put this
-    public static bool IsEqual<T>(T a, T b)
-    {
-        return EqualityComparer<T>.Default.Equals(a, b);
-    }
 }

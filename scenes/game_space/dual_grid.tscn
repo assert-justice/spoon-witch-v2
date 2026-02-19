@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://daaekhe1xlrtj" path="res://Src/GameSpace/DualGrid/SwDualGrid.cs" id="1_m2akw"]
 [ext_resource type="Texture2D" uid="uid://y13vm3igqoa1" path="res://assets/sprites/tiles/demo_grass_tiles.png" id="2_qitqf"]
 [ext_resource type="Script" uid="uid://bt4nfl4crtwpi" path="res://Src/GameSpace/DualGrid/SwTerrainData.cs" id="3_s8nhc"]
-[ext_resource type="Texture2D" uid="uid://coeefygpv87s3" path="res://assets/sprites/tiles/demo_multi_tiles.png" id="4_s8nhc"]
+[ext_resource type="Script" uid="uid://d1qd238da8ig1" path="res://Src/GameSpace/DualGrid/SwDualGridLayer.cs" id="5_sk2d8"]
 
 [sub_resource type="Image" id="Image_s8nhc"]
 data = {
@@ -60,109 +60,45 @@ texture_region_size = Vector2i(32, 32)
 3:2/0 = 0
 3:3/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7bh4v"]
-texture = ExtResource("4_s8nhc")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-0:1/0 = 0
-0:2/0 = 0
-0:4/0 = 0
-0:5/0 = 0
-0:6/0 = 0
-1:0/0 = 0
-1:1/0 = 0
-1:2/0 = 0
-1:3/0 = 0
-1:4/0 = 0
-1:5/0 = 0
-1:6/0 = 0
-1:7/0 = 0
-2:0/0 = 0
-2:1/0 = 0
-2:2/0 = 0
-2:3/0 = 0
-2:4/0 = 0
-2:5/0 = 0
-2:6/0 = 0
-2:7/0 = 0
-3:0/0 = 0
-3:1/0 = 0
-3:2/0 = 0
-3:3/0 = 0
-3:4/0 = 0
-3:5/0 = 0
-3:6/0 = 0
-3:7/0 = 0
-4:0/0 = 0
-4:1/0 = 0
-4:2/0 = 0
-4:4/0 = 0
-4:5/0 = 0
-4:6/0 = 0
-5:0/0 = 0
-5:1/0 = 0
-5:2/0 = 0
-5:3/0 = 0
-5:4/0 = 0
-5:5/0 = 0
-5:6/0 = 0
-5:7/0 = 0
-6:0/0 = 0
-6:1/0 = 0
-6:2/0 = 0
-6:3/0 = 0
-6:4/0 = 0
-6:5/0 = 0
-6:6/0 = 0
-6:7/0 = 0
-7:0/0 = 0
-7:1/0 = 0
-7:2/0 = 0
-7:3/0 = 0
-7:4/0 = 0
-7:5/0 = 0
-7:6/0 = 0
-7:7/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_18xls"]
+[sub_resource type="TileSet" id="TileSet_7bh4v"]
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_clvpi")
 sources/1 = SubResource("TileSetAtlasSource_hfv7q")
 sources/2 = SubResource("TileSetAtlasSource_loqru")
-sources/3 = SubResource("TileSetAtlasSource_7bh4v")
 
-[sub_resource type="Resource" id="Resource_sk2d8"]
+[sub_resource type="Resource" id="Resource_7bh4v"]
 script = ExtResource("3_s8nhc")
 Texture = ExtResource("2_qitqf")
 metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
 
-[sub_resource type="Resource" id="Resource_clvpi"]
-script = ExtResource("3_s8nhc")
-Texture = ExtResource("4_s8nhc")
-metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
-
 [node name="DualGrid" type="TileMapLayer" unique_id=1947211823]
-tile_map_data = PackedByteArray("AAAGAAMAAAAAAAAAAAAHAAMAAAAAAAAAAAAIAAMAAAAAAAAAAAAJAAMAAAAAAAAAAAAKAAMAAAAAAAAAAAAKAAQAAAAAAAAAAAALAAQAAAAAAAAAAAAMAAQAAAAAAAAAAAANAAQAAAAAAAAAAAANAAUAAAAAAAAAAAAOAAUAAAAAAAAAAAAPAAUAAAAAAAAAAAA=")
-tile_set = SubResource("TileSet_18xls")
+tile_set = SubResource("TileSet_7bh4v")
 script = ExtResource("1_m2akw")
-TerrainDataArray = [SubResource("Resource_sk2d8"), SubResource("Resource_clvpi")]
+CurrentTerrain = -1
+TerrainDataArray = [SubResource("Resource_7bh4v")]
 
-[node name="CollisionLayer" type="TileMapLayer" parent="." unique_id=721763503]
-tile_set = SubResource("TileSet_18xls")
+[node name="CollisionLayer" type="TileMapLayer" parent="." unique_id=1334621658]
+tile_map_data = PackedByteArray("AAAMAAQAAQAAAAAAAAAMAAUAAQAAAAAAAAANAAUAAQAAAAAAAAALAAYAAQAAAAAAAAAMAAYAAQAAAAAAAAANAAYAAQAAAAAAAAANAAQAAQAAAAAAAAANAAMAAQAAAAAAAAAMAAMAAQAAAAAAAAALAAMAAQAAAAAAAAAKAAMAAQAAAAAAAAAJAAMAAQAAAAAAAAAIAAMAAQAAAAAAAAAHAAMAAQAAAAAAAAAGAAMAAQAAAAAAAAAFAAMAAQAAAAAAAAAEAAMAAQAAAAAAAAAGAAcAAQAAAAAAAAADAAUAAQAAAAAAAAADAAQAAQAAAAAAAAADAAMAAQAAAAAAAAADAAYAAQAAAAAAAAAFAAcAAQAAAAAAAAAEAAcAAQAAAAAAAAADAAcAAQAAAAAAAAACAAcAAQAAAAAAAAAHAAcAAQAAAAAAAAAIAAcAAQAAAAAAAAAJAAcAAQAAAAAAAAAKAAcAAQAAAAAAAAALAAcAAQAAAAAAAAAMAAcAAQAAAAAAAAANAAcAAQAAAAAAAAAOAAcAAQAAAAAAAAA=")
+tile_set = SubResource("TileSet_7bh4v")
 
-[node name="VisualLayer1" type="TileMapLayer" parent="." unique_id=1800191375]
+[node name="VisualLayer1" type="TileMapLayer" parent="." unique_id=1500926067]
 position = Vector2(-16, -16)
-tile_set = SubResource("TileSet_18xls")
+tile_map_data = PackedByteArray("AAAGAAQAAgABAAIAAAAHAAQAAgABAAIAAAAIAAQAAgABAAIAAAAJAAQAAgABAAIAAAAKAAQAAgABAAIAAAALAAQAAgABAAIAAAAMAAQAAgACAAIAAAAMAAUAAgABAAAAAAANAAQAAgACAAEAAAANAAUAAgACAAEAAAAMAAYAAgABAAEAAAANAAYAAgACAAEAAAALAAYAAgABAAMAAAAOAAUAAgADAAIAAAAOAAYAAgADAAIAAAAGAAcAAgADAAAAAAAHAAcAAgADAAAAAAAIAAcAAgADAAAAAAAJAAcAAgADAAAAAAAKAAcAAgADAAAAAAALAAcAAgABAAEAAAAMAAcAAgACAAEAAAANAAcAAgACAAEAAAAOAAcAAgACAAAAAAAOAAQAAgADAAIAAAANAAMAAgADAAAAAAAOAAMAAgAAAAAAAAAMAAMAAgADAAAAAAALAAMAAgADAAAAAAAKAAMAAgADAAAAAAAJAAMAAgADAAAAAAAIAAMAAgADAAAAAAAHAAMAAgADAAAAAAAGAAMAAgADAAAAAAAFAAMAAgADAAAAAAAFAAQAAgABAAIAAAAEAAMAAgADAAAAAAAEAAQAAgADAAEAAAAFAAcAAgADAAAAAAAGAAgAAgABAAIAAAAHAAgAAgABAAIAAAAEAAYAAgADAAIAAAAEAAcAAgACAAAAAAADAAUAAgABAAAAAAAEAAUAAgADAAIAAAADAAYAAgABAAAAAAADAAQAAgABAAAAAAADAAMAAgABAAMAAAADAAcAAgABAAEAAAAFAAgAAgABAAIAAAAEAAgAAgABAAIAAAADAAgAAgABAAIAAAACAAcAAgABAAMAAAACAAgAAgAAAAIAAAAIAAgAAgABAAIAAAAJAAgAAgABAAIAAAAKAAgAAgABAAIAAAALAAgAAgABAAIAAAAMAAgAAgABAAIAAAANAAgAAgABAAIAAAAOAAgAAgABAAIAAAAPAAcAAgAAAAAAAAAPAAgAAgADAAMAAAA=")
+tile_set = SubResource("TileSet_7bh4v")
+script = ExtResource("5_sk2d8")
 
-[node name="VisualLayer2" type="TileMapLayer" parent="." unique_id=1198858164]
+[node name="VisualLayer2" type="TileMapLayer" parent="." unique_id=1359701686]
 position = Vector2(-16, -16)
-tile_set = SubResource("TileSet_18xls")
+tile_set = SubResource("TileSet_7bh4v")
+script = ExtResource("5_sk2d8")
 
-[node name="VisualLayer3" type="TileMapLayer" parent="." unique_id=832292161]
+[node name="VisualLayer3" type="TileMapLayer" parent="." unique_id=1783508137]
 position = Vector2(-16, -16)
-tile_set = SubResource("TileSet_18xls")
+tile_set = SubResource("TileSet_7bh4v")
+script = ExtResource("5_sk2d8")
 
-[node name="VisualLayer4" type="TileMapLayer" parent="." unique_id=1482346495]
+[node name="VisualLayer4" type="TileMapLayer" parent="." unique_id=1294772720]
 position = Vector2(-16, -16)
-tile_set = SubResource("TileSet_18xls")
+tile_set = SubResource("TileSet_7bh4v")
+script = ExtResource("5_sk2d8")

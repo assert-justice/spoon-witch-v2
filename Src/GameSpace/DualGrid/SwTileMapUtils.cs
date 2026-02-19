@@ -22,20 +22,20 @@ public static class SwTileMapUtils
 		}
         return tileSet;
     }
-    public static TileSetAtlasSource AddAtlas(TileSet tileSet, int widthInTiles, int heightInTiles)
+    public static TileSetAtlasSource AddAtlas(TileSet tileSet, int widthInTiles, int heightInTiles, out int atlasId)
     {
         var image = Image.CreateEmpty(widthInTiles * tileSet.TileSize.X, heightInTiles * tileSet.TileSize.Y, false, Image.Format.Rgba8);
         Texture2D texture = ImageTexture.CreateFromImage(image);
-        return AddAtlas(tileSet, texture);
+        return AddAtlas(tileSet, texture, out atlasId);
     }
-    public static TileSetAtlasSource AddAtlas(TileSet tileSet, Texture2D texture)
+    public static TileSetAtlasSource AddAtlas(TileSet tileSet, Texture2D texture, out int atlasId)
     {
         TileSetAtlasSource atlas = new()
 		{
 			Texture = texture,
 			TextureRegionSize = tileSet.TileSize
 		};
-        tileSet.AddSource(atlas);
+        atlasId = tileSet.AddSource(atlas);
         return atlas;
     }
     public static TileData AddTile(TileSetAtlasSource atlas, Vector2I coord, bool setCollision = false)

@@ -27,7 +27,7 @@ public class SwStateMachine<TParent, TState>
 		TState previousState = default;
 		if(CurrentStateData is not null)
 		{
-			if(SwGlobal.IsEqual(nextState, CurrentStateData.State)) return;
+			if(SwStatic.IsEqual(nextState, CurrentStateData.State)) return;
 			CurrentStateData.ExitState(nextState);
 			previousState = CurrentStateData.State;
 		}

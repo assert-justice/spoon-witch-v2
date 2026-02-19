@@ -14,7 +14,7 @@ public struct SwDelta<T>
         {
             LastValue = Value_;
             Value_ = value;
-            Dirty = !SwGlobal.IsEqual(LastValue, Value_);
+            Dirty = !SwStatic.IsEqual(LastValue, Value_);
         }
     }
     public readonly bool IsDirty(){return Dirty;}
