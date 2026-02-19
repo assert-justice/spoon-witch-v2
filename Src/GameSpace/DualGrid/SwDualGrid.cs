@@ -19,7 +19,7 @@ public partial class SwDualGrid : TileMapLayer
 	private int CurrentTerrain_ = 0;
 	[Export] private int CurrentTerrain{get=>CurrentTerrain_; set
 		{
-			if(IsValidTerrainIdx(value)) CurrentTerrain_ = value;
+			if(value == 0 || IsValidTerrainIdx(value)) CurrentTerrain_ = value;
 		}
 	}
 	private int NumLayers_ = 4;
@@ -32,7 +32,7 @@ public partial class SwDualGrid : TileMapLayer
 	private int CurrentLayer_ = 0;
 	[Export] private int CurrentLayer{get=>CurrentLayer_; set
 		{
-			if(IsValidLayerIdx(value)) CurrentLayer_ = value;
+			if(value == 0 || IsValidLayerIdx(value)) CurrentLayer_ = value;
 		}
 	}
 	[Export] private SwTerrainData[] TerrainDataArray = [];
@@ -53,10 +53,6 @@ public partial class SwDualGrid : TileMapLayer
 	private TileMapLayer CollisionLayer;
 	private int CollisionLayerSourceId;
 	private readonly List<SwDualGridLayer> VisualMapLayers = [];
-	// public override void _Ready()
-	// {
-	//     base._Ready();
-	// }
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -88,6 +84,7 @@ public partial class SwDualGrid : TileMapLayer
 	}
 	private void RebuildTileSet()
 	{
+		GD.Print("Rebuild TileSet");
 		TileSet = SwTileMapUtils.InitTileSet(TileWidth_);
 		// Add base atlas
 		var atlas = SwTileMapUtils.AddAtlas(TileSet, 1, 1, out BaseSourceId);
@@ -129,7 +126,7 @@ public partial class SwDualGrid : TileMapLayer
 	}
 	private void RebuildTileLayers()
 	{
-		GD.Print("RebuildTileLayers");
+		GD.Print("Rebuild TileGridLayers");
 		VisualMapLayers.Clear();
 		CollisionLayer = new()
 		{
