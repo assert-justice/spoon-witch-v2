@@ -198,29 +198,27 @@ metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
 [node name="DualGrid" type="TileMapLayer" unique_id=1947211823]
 tile_set = SubResource("TileSet_t6hrw")
 script = ExtResource("1_m2akw")
-CurrentTerrain = 1
-CurrentLayer = 1
 TerrainDataArray = [SubResource("Resource_7bh4v"), SubResource("Resource_16f7y"), SubResource("Resource_2vnmd"), SubResource("Resource_mgqo2")]
 
-[node name="CollisionLayer" type="TileMapLayer" parent="." unique_id=341425731]
+[node name="CollisionLayer" type="TileMapLayer" parent="." unique_id=1169353822]
 tile_set = SubResource("TileSet_t6hrw")
 
-[node name="VisualLayer1" type="TileMapLayer" parent="." unique_id=1188529636]
+[node name="VisualLayer1" type="TileMapLayer" parent="." unique_id=1543719152]
 position = Vector2(-16, -16)
 tile_set = SubResource("TileSet_t6hrw")
 script = ExtResource("5_sk2d8")
 
-[node name="VisualLayer2" type="TileMapLayer" parent="." unique_id=943775465]
+[node name="VisualLayer2" type="TileMapLayer" parent="." unique_id=874674760]
 position = Vector2(-16, -16)
 tile_set = SubResource("TileSet_t6hrw")
 script = ExtResource("5_sk2d8")
 
-[node name="VisualLayer3" type="TileMapLayer" parent="." unique_id=670700455]
+[node name="VisualLayer3" type="TileMapLayer" parent="." unique_id=1630568378]
 position = Vector2(-16, -16)
 tile_set = SubResource("TileSet_t6hrw")
 script = ExtResource("5_sk2d8")
 
-[node name="VisualLayer4" type="TileMapLayer" parent="." unique_id=604111365]
+[node name="VisualLayer4" type="TileMapLayer" parent="." unique_id=1105544143]
 position = Vector2(-16, -16)
 tile_set = SubResource("TileSet_t6hrw")
 script = ExtResource("5_sk2d8")

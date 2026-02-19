@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Godot;
-using SW.Src.Global;
 using SW.Src.Utils;
 
 namespace SW.Src.GameSpace.DualGrid;
@@ -13,26 +12,27 @@ public partial class SwDualGrid : TileMapLayer
 	[Export] private int TileWidth{get=>TileWidth_; set
 		{
 			TileWidth_ = value;
-			TileSetNeedRebuild = true;
+			TileSetRebuildFlag.SetDirty();
 		}
 	}
 	private int CurrentTerrain_ = 0;
 	[Export] private int CurrentTerrain{get=>CurrentTerrain_; set
 		{
-			if(value == 0 || IsValidTerrainIdx(value)) CurrentTerrain_ = value;
+			if(value == 0 || IsValidTerrainIdx(value, out _)) CurrentTerrain_ = value;
 		}
 	}
+	[Export] private bool Erase = false;
 	private int NumLayers_ = 4;
 	[Export] private int NumLayers{get=>NumLayers_; set
 		{
 			NumLayers_ = value;
-			LayersNeedRebuild = true;
+			LayerRebuildFlag.SetDirty();
 		}
 	}
 	private int CurrentLayer_ = 0;
 	[Export] private int CurrentLayer{get=>CurrentLayer_; set
 		{
-			if(value == 0 || IsValidLayerIdx(value)) CurrentLayer_ = value;
+			if(value == 0 || IsValidLayerIdx(value, out _)) CurrentLayer_ = value;
 		}
 	}
 	[Export] private SwTerrainData[] TerrainDataArray = [];
@@ -41,13 +41,17 @@ public partial class SwDualGrid : TileMapLayer
 	private readonly SwTileCoordLookup CoordLookup = new();
 	private TileSet SharedTileSet;
 	// Tool buttons and dirty flags
-	// private SwDirtyFlag TileSetFlag = new(false);
-	private bool TileSetNeedRebuild = true;
+	private SwDirtyFlag TileSetRebuildFlag = new();
+	// private bool TileSetNeedRebuild = true;
 	[ExportToolButton("Rebuild TileSet")]
-	public Callable QueueRebuildTileSetButton => Callable.From(()=>TileSetNeedRebuild = true);
-	private bool LayersNeedRebuild = true;
+	public Callable QueueRebuildTileSetButton => Callable.From(()=>TileSetRebuildFlag.SetDirty());
+	private SwDirtyFlag LayerRebuildFlag = new();
+	// private bool LayersNeedRebuild = true;
 	[ExportToolButton("Rebuild Layers")]
-	public Callable QueueRebuildLayersButton => Callable.From(()=>LayersNeedRebuild = true);
+	public Callable QueueRebuildLayersButton => Callable.From(()=>LayerRebuildFlag.SetDirty());
+	[ExportToolButton("Clear All")]
+	public Callable ClearButton => Callable.From(ClearAll);
+	// private SwDirtyFlag FillFlag = new(); 
 	// Child nodes
 	private int BaseSourceId;
 	private TileMapLayer CollisionLayer;
@@ -56,18 +60,18 @@ public partial class SwDualGrid : TileMapLayer
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if(TileSetNeedRebuild)
+		if(TileSetRebuildFlag.IsDirty())
 		{
-			TileSetNeedRebuild = false;
-			LayersNeedRebuild = true;
+			TileSetRebuildFlag.Clean();
+			LayerRebuildFlag.SetDirty();
 			RebuildTileSet();
 		}
-		if (LayersNeedRebuild)
+		if (LayerRebuildFlag.IsDirty())
 		{
 			if(GetChildCount() > 0) FreeChildren();
 			else
 			{
-				LayersNeedRebuild = false;
+				LayerRebuildFlag.Clean();
 				RebuildTileLayers();
 			}
 		}
@@ -154,12 +158,7 @@ public partial class SwDualGrid : TileMapLayer
 		var usedCells = GetUsedCells();
 		if(usedCells.Count == 0) return;
 		// GD.Print($"Updating {usedCells.Count} Cells");
-		if(!TryGetLayer(CurrentLayer, out var layer))
-		{
-			GD.PrintErr($"Failed to get layer {CurrentLayer}");
-			Clear();
-			return;
-		}
+		if(!IsValidLayerIdx(CurrentLayer, out var layer)) return;
 		foreach (var tilePos in GetUsedCells())
 		{
 			SetTile(tilePos, layer, CurrentTerrain);
@@ -168,17 +167,13 @@ public partial class SwDualGrid : TileMapLayer
 	}
 	private void SetTile(Vector2I tilePos, SwDualGridLayer layer, int terrainIdx)
 	{
-		if(terrainIdx == -1 || !SourceIdLookup.TryGetValue(terrainIdx, out int sourceId))
+		if(Erase || !SourceIdLookup.TryGetValue(terrainIdx, out int sourceId))
 		{
 			ClearTile(tilePos, layer);
 			return;
 		}
 		// Look up terrain data
-		if(!TryGetTerrain(terrainIdx, out var terrainData))
-		{
-			ClearTile(tilePos, layer);
-			return;
-		}
+		if(!IsValidTerrainIdx(terrainIdx, out var terrainData)) return;
 		// Set collision to match
 		CollisionLayer.SetCell(tilePos, CollisionLayerSourceId, terrainData.MovementMul == 0 ? Vector2I.Right : Vector2I.Zero);
 		// Set tile on child visual layer
@@ -209,22 +204,33 @@ public partial class SwDualGrid : TileMapLayer
 		layer = VisualMapLayers[layerIdx];
 		return layer is not null;
 	}
-	private bool IsValidTerrainIdx(int terrainIdx)
+	private bool IsValidTerrainIdx(int terrainIdx, out SwTerrainData terrainData)
 	{
-		if(terrainIdx == -1) return true; // Special carve out for empty terrains
-		if(TryGetTerrain(terrainIdx, out _)) return true;
+		if(TryGetTerrain(terrainIdx, out terrainData)) return true;
 		GD.PrintErr($"Attempted to use an invalid terrain index '{terrainIdx}'");
 		return false;
 	}
-	private bool IsValidLayerIdx(int layerIdx)
+	private bool IsValidLayerIdx(int layerIdx, out SwDualGridLayer layer)
 	{
-		if(TryGetLayer(layerIdx, out _)) return true;
+		if(TryGetLayer(layerIdx, out layer)) return true;
 		GD.PrintErr($"Attempted to use an invalid layer index '{layerIdx}'");
 		return false;
 	}
 	public void SetTile(Vector2I tilePos, int layerIdx, int terrainIdx)
 	{
-		
+		if(IsValidLayerIdx(layerIdx, out var layer)) SetTile(tilePos, layer, terrainIdx);
 	}
-	public void ClearTile(Vector2I tilePos, int layerIdx){}
+	public void ClearTile(Vector2I tilePos, int layerIdx)
+	{
+		if(IsValidLayerIdx(layerIdx, out var layer)) ClearTile(tilePos, layer);
+	}
+	public void ClearAll()
+	{
+		Clear();
+		CollisionLayer.Clear();
+		foreach (var layer in VisualMapLayers)
+		{
+			layer.ClearContents();
+		}
+	}
 }
