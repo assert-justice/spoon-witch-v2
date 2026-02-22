@@ -9,7 +9,7 @@ namespace SW.Src.GameSpace.DualGrid;
 public partial class SwDualGrid : TileMapLayer
 {
 	[Export] private SwTerrainRes TerrainData;
-	[Export] private int NumLayers = 0; //{get=>GetNumLayers(); set=>SetNumLayers(value);}
+	[Export] private int NumLayers{get=>GetNumLayers(); set=>SetNumLayers(value);}
 	SwTileCoordLookup TileCoordLookup;
 	private int CurrentLayer_ = 0;
 	[Export] private int CurrentLayer{get=>CurrentLayer_; set
@@ -37,11 +37,6 @@ public partial class SwDualGrid : TileMapLayer
 	{
 		if (Engine.IsEditorHint())
 		{
-			int numLayersCurrent = GetNumLayers();
-			if(numLayersCurrent != NumLayers)
-			{
-				SetNumLayers(NumLayers);
-			}
 			Update();
 		}
 	}
@@ -89,7 +84,6 @@ public partial class SwDualGrid : TileMapLayer
 			{
 				TileSet = TerrainData.DisplayTileSet,
 				Name = $"Layer{idx + currentNumLayers}",
-				ZIndex = 100,
 			};
 			collisionLayer.AddChild(layer);
 			layer.Owner = this;
@@ -179,10 +173,6 @@ public partial class SwDualGrid : TileMapLayer
 			{
 				layer.SetTile(cellPos, CurrentTerrainType_);
 			}
-		}
-		foreach (var item in layer.GetUsedCells())
-		{
-			GD.Print(item);
 		}
 		Clear();
 	}
