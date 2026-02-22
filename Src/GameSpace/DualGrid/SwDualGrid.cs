@@ -10,7 +10,7 @@ public partial class SwDualGrid : TileMapLayer
 {
 	[Export] private SwTerrainRes TerrainData;
 	[Export] private int NumLayers = 0; //{get=>GetNumLayers(); set=>SetNumLayers(value);}
-	SwTileCoordLookup tileCoordLookup;
+	SwTileCoordLookup TileCoordLookup;
 	private int CurrentLayer_ = 0;
 	[Export] private int CurrentLayer{get=>CurrentLayer_; set
 		{
@@ -37,7 +37,6 @@ public partial class SwDualGrid : TileMapLayer
 	{
 		if (Engine.IsEditorHint())
 		{
-			// UpdateNumTerrainTypes();
 			int numLayersCurrent = GetNumLayers();
 			if(numLayersCurrent != NumLayers)
 			{
@@ -90,6 +89,7 @@ public partial class SwDualGrid : TileMapLayer
 			{
 				TileSet = TerrainData.DisplayTileSet,
 				Name = $"Layer{idx + currentNumLayers}",
+				ZIndex = 100,
 			};
 			collisionLayer.AddChild(layer);
 			layer.Owner = this;
@@ -138,6 +138,28 @@ public partial class SwDualGrid : TileMapLayer
 			layer.TileSet = TerrainData.DisplayTileSet;
 		}
 	}
+	private SwTileCoordLookup GetTileCoordLookup()
+	{
+		if(TileCoordLookup is not null) return TileCoordLookup;
+		SwTileCoordLookup coordLookup = new();
+		for (int idx = 0; idx < TerrainData.DisplayTileSet.GetSourceCount(); idx++)
+		{
+			var source = TerrainData.DisplayTileSet.GetSource(idx);
+			if(source is not TileSetAtlasSource atlas) continue;
+			for (int fdx = 0; fdx < atlas.GetTilesCount(); fdx++)
+			{
+				Vector2I tilePos = atlas.GetTileId(fdx);
+				if(!SwTerrainUtils.TryGetMask(tilePos, out var mask))
+				{
+					GD.PrintErr($"Probably unreachable");
+					continue;
+				}
+				coordLookup.AddCoords(mask, idx, tilePos);
+			}
+		}
+		TileCoordLookup = coordLookup;
+		return coordLookup;
+	}
 	private void Update()
 	{
 		if(!TryGetDisplayLayer(CurrentLayer_, out var layer)) return;
@@ -166,7 +188,6 @@ public partial class SwDualGrid : TileMapLayer
 	}
 	public bool TryGetAtlasCoords((bool, bool, bool, bool) mask, int sourceId, out Vector2I atlasCoords)
 	{
-		atlasCoords = default;
-		return TerrainData?.TileCoordLookup?.TryGetAtlasCoords(mask, sourceId, out atlasCoords)??false;
+		return GetTileCoordLookup().TryGetAtlasCoords(mask, sourceId, out atlasCoords);
 	}
 }

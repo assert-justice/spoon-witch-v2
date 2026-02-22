@@ -38,22 +38,21 @@ namespace SW.Src.GameSpace.Terrain;
 			TileSize = new(TileWidth, TileHeight)
 		};
 		TerrainData.DisplayTileSet = tileSet;
-		SwTileCoordLookup coordLookup = new();
-		TerrainData.TileCoordLookup = coordLookup;
+		// SwTileCoordLookup coordLookup = new();
+		// TerrainData.TileCoordLookup = coordLookup;
 		// Loop through terrain types
 		foreach (var terrain in TerrainTypes)
 		{
 			// init atlas
 			var texture = terrain.Texture;
-			var image = texture.GetImage();
 			atlas = SwTerrainUtils.AddAtlas(tileSet, texture, out int atlasId);
+			var image = texture.GetImage();
 			int width = texture.GetWidth() / TileWidth;
 			int height = texture.GetHeight() / TileHeight;
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
 				{
-					// GD.Print($"here {x} {y}");
 					var region = image.GetRegion(new(TileWidth * x, TileHeight * y, TileWidth, TileHeight));
 					if(region.IsInvisible()) continue;
 					Vector2I tileCoord = new(x, y);
@@ -62,13 +61,13 @@ namespace SW.Src.GameSpace.Terrain;
 						GD.PrintErr($"No mask for region {x},{y}");
 						continue;
 					}
-					// GD.Print(mask, atlasId, tileCoord);
-					coordLookup.AddCoords(mask, atlasId, tileCoord);
+					GD.Print(mask, atlasId, tileCoord);
+					// coordLookup.AddCoords(mask, atlasId, tileCoord);
 					atlas.CreateTile(tileCoord);
 				}
 			}
 		}
-		// TerrainData.TileCoordLookup = JsonSerializer.Serialize(coordLookup);
+		// TerrainData.TileCoordLookupJson = JsonSerializer.Serialize(coordLookup);
 		ResourceSaver.Save(TerrainData);
 	}
 }

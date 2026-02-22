@@ -26,9 +26,7 @@ public partial class SwDualGridLayer : TileMapLayer
             else if(Parent.TryGetAtlasCoords(mask, oldId, out atlasCoords)){sourceId = oldId;}
             else atlasCoords = new(-1,-1);
             SetCell(displayTilePos, sourceId, atlasCoords);
-            GD.Print($"pos: {displayTilePos}, idx: {sourceId}, atlas coords: {atlasCoords}");
         }
-        // GD.Print(GetCellSourceId(tilePos), GetCellAtlasCoords(tilePos), GetUsedCells());
     }
     private void RefreshClearedTile(Vector2I tilePos)
     {

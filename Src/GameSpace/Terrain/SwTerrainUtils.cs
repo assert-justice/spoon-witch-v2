@@ -39,11 +39,7 @@ public static class SwTerrainUtils
     }
     public static TileSet InitTileSet(TileSet tileSet, int tileWidth, int tileHeight)
     {
-        if(tileSet is null)
-        {
-            // GD.PrintErr("Null tile set. Saving new tile sets is not currently supported");
-            tileSet = new();
-        };
+        tileSet ??= new(); ;
         tileSet.TileSize = new(tileWidth, tileHeight);
         if(tileSet.GetPhysicsLayersCount() == 0) tileSet.AddPhysicsLayer(0);
         return tileSet;
