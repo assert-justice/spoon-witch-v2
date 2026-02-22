@@ -64,13 +64,13 @@ public partial class SwDualGridLayer : TileMapLayer
     }
     private (bool, bool, bool, bool) GetMask(Vector2I displayTilePos)
     {
-        bool br = IsTileSolid(displayTilePos - Neighbors[0]);
-        bool bl = IsTileSolid(displayTilePos - Neighbors[1]);
-        bool tr = IsTileSolid(displayTilePos - Neighbors[2]);
-        bool tl = IsTileSolid(displayTilePos - Neighbors[3]);
+        bool br = IsTileFilled(displayTilePos - Neighbors[0]);
+        bool bl = IsTileFilled(displayTilePos - Neighbors[1]);
+        bool tr = IsTileFilled(displayTilePos - Neighbors[2]);
+        bool tl = IsTileFilled(displayTilePos - Neighbors[3]);
         return(tl, tr, bl, br);
     }
-    private bool IsTileSolid(Vector2I tilePos)
+    public bool IsTileFilled(Vector2I tilePos)
     {
         return GridData.TryGetValue(tilePos, out int sourceId) && sourceId != -1;
     }
@@ -88,5 +88,10 @@ public partial class SwDualGridLayer : TileMapLayer
     {
         Clear();
         GridData.Clear();
+    }
+    public int GetTileId(Vector2I tilePos)
+    {
+        if(GridData.TryGetValue(tilePos, out var id)) return id;
+        return -1;
     }
 }

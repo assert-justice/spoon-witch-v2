@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bn4u671m13s2a"]
 
 [ext_resource type="Script" uid="uid://cc4af66rmdged" path="res://Src/GameSpace/Terrain/SwTerrainTool.cs" id="1_r4a56"]
-[ext_resource type="Texture2D" uid="uid://y13vm3igqoa1" path="res://assets/sprites/tiles/demo_grass_tiles.png" id="2_emw7h"]
+[ext_resource type="Texture2D" uid="uid://0r627l42djiy" path="res://assets/sprites/tiles/grassland_tileset.png" id="2_r4a56"]
 [ext_resource type="Script" uid="uid://bt4nfl4crtwpi" path="res://Src/GameSpace/Terrain/SwTerrainTypeRes.cs" id="3_a8h1h"]
 [ext_resource type="Texture2D" uid="uid://da3vbxp1vbolh" path="res://assets/sprites/tiles/demo_dirt_tiles.png" id="4_7vtna"]
 [ext_resource type="Texture2D" uid="uid://c7qmqnfbgspug" path="res://assets/sprites/tiles/demo_sand_tiles.png" id="5_7n4qc"]
@@ -10,7 +10,7 @@
 
 [sub_resource type="Resource" id="Resource_ecr6u"]
 script = ExtResource("3_a8h1h")
-Texture = ExtResource("2_emw7h")
+Texture = ExtResource("2_r4a56")
 metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
 
 [sub_resource type="Resource" id="Resource_sb187"]
@@ -21,6 +21,7 @@ metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
 [sub_resource type="Resource" id="Resource_lkfu7"]
 script = ExtResource("3_a8h1h")
 Texture = ExtResource("5_7n4qc")
+IsSolid = true
 metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
 
 [sub_resource type="Resource" id="Resource_lh472"]

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Godot;
@@ -9,7 +10,7 @@ namespace SW.Src.GameSpace.DualGrid;
 public partial class SwDualGrid : TileMapLayer
 {
 	[Export] private SwTerrainRes TerrainData;
-	[Export] private int NumLayers{get=>GetNumLayers(); set=>SetNumLayers(value);}
+	[Export] private int NumLayers = 0; //{get=>GetNumLayers(); set=>SetNumLayers(value);}
 	SwTileCoordLookup TileCoordLookup;
 	private int CurrentLayer_ = 0;
 	[Export] private int CurrentLayer{get=>CurrentLayer_; set
@@ -26,10 +27,23 @@ public partial class SwDualGrid : TileMapLayer
 		}
 	}
 	[Export] private bool EraseMode = false;
+	[ExportToolButton("Clear")]
+	public Callable ClearAllButton => Callable.From(ClearAll);
+	private TileMapLayer CollisionLayer;
 	public override void _Ready()
 	{
 		TileSet = TerrainData.BaseTileSet;
-		if(TryGetCollisionLayer(out var collisionLayer)) collisionLayer.TileSet = TerrainData.CollisionTileSet;
+		CollisionLayer = GetNodeOrNull<TileMapLayer>("CollisionLayer");
+		if(CollisionLayer is null)
+		{
+			CollisionLayer = new()
+			{
+				Name = "CollisionLayer"
+			};
+			AddChild(CollisionLayer);
+			CollisionLayer.Owner = this;
+		}
+		CollisionLayer.TileSet = TerrainData.CollisionTileSet;
 		SetTerrainData();
 	}
 
@@ -37,25 +51,14 @@ public partial class SwDualGrid : TileMapLayer
 	{
 		if (Engine.IsEditorHint())
 		{
+			if(CollisionLayer is null) return;
+			if(NumLayers != GetNumLayers()) SetNumLayers(NumLayers);
 			Update();
 		}
 	}
-
-	private bool TryGetCollisionLayer(out TileMapLayer collisionLayer)
-	{
-		collisionLayer = default;
-		if(GetChild(0) is TileMapLayer layer)
-		{
-			collisionLayer = layer;
-			return true;
-		}
-		GD.PrintErr("Invalid or absent collision layer");
-		return false;
-	}
 	private int GetNumLayers()
 	{
-		if(!TryGetCollisionLayer(out var collisionLayer)) return 0;
-		return collisionLayer.GetChildCount();
+		return CollisionLayer.GetChildCount();
 	}
 	private void SetNumLayers(int numLayers)
 	{
@@ -71,12 +74,11 @@ public partial class SwDualGrid : TileMapLayer
 	}
 	private void PushLayer(int numNewLayers = 1)
 	{
-		if(!TryGetCollisionLayer(out var collisionLayer)) return;
 		GD.Print($"pushing {numNewLayers} layers");
 		int currentNumLayers = GetNumLayers();
 		for (int idx = 0; idx < currentNumLayers; idx++)
 		{
-			collisionLayer.GetChild(idx).Name = $"Layer{idx}";
+			CollisionLayer.GetChild(idx).Name = $"Layer{idx}";
 		}
 		for (int idx = 0; idx < numNewLayers; idx++)
 		{
@@ -84,45 +86,47 @@ public partial class SwDualGrid : TileMapLayer
 			{
 				TileSet = TerrainData.DisplayTileSet,
 				Name = $"Layer{idx + currentNumLayers}",
+				Position = new Vector2(TerrainData.TileWidth, TerrainData.TileHeight) * -0.5f,
 			};
-			collisionLayer.AddChild(layer);
+			CollisionLayer.AddChild(layer);
 			layer.Owner = this;
 		}
 	}
 	private void PopLayer(int numRemovedLayers = 1)
 	{
-		if(!TryGetCollisionLayer(out var collisionLayer)) return;
 		GD.Print($"popping {numRemovedLayers} layers");
 		int numLayers = GetNumLayers();
 		for (int layerIdx = 0; layerIdx < numRemovedLayers; layerIdx++)
 		{
-			var child = collisionLayer.GetChild(numLayers-layerIdx-1);
-			collisionLayer.RemoveChild(child);
+			var child = CollisionLayer.GetChild(numLayers-layerIdx-1);
+			CollisionLayer.RemoveChild(child);
 			child.QueueFree();
 		}
 	}
-	private SwDualGridLayer[] GetLayers()
+	private IEnumerable<SwDualGridLayer> GetLayersR()
 	{
-		if(!TryGetCollisionLayer(out var collisionLayer)) return [];
-		List<SwDualGridLayer> layers = new(collisionLayer.GetChildCount());
-		var children = collisionLayer.GetChildren();
-		for (int layerIdx = 0; layerIdx < children.Count; layerIdx++)
+		int numLayers = CollisionLayer.GetChildCount();
+		for (int idx = 0; idx < numLayers; idx++)
 		{
-			var child = children[layerIdx];
-			if(child is SwDualGridLayer layer) layers.Add(layer);
+			yield return CollisionLayer.GetChild<SwDualGridLayer>(numLayers - idx - 1);
+		}
+	}
+	private IEnumerable<SwDualGridLayer> GetLayers()
+	{
+		foreach (var child in CollisionLayer.GetChildren())
+		{
+			if(child is SwDualGridLayer layer) yield return layer;
 			else
 			{
-				GD.PrintErr($"Layer {layerIdx} is not a DualGridLayer");
-				return [];
+				GD.PrintErr("Expected child to be a SwDualGridLayer");
+				break;
 			}
 		}
-		return [..layers];
 	}
 	private bool TryGetDisplayLayer(int layerIdx, out SwDualGridLayer layer)
 	{
 		layer = default;
-		if(!TryGetCollisionLayer(out var collisionLayer)) return false;
-		layer = collisionLayer.GetChildOrNull<SwDualGridLayer>(layerIdx);
+		layer = CollisionLayer.GetChildOrNull<SwDualGridLayer>(layerIdx);
 		return layer is not null;
 	}
 	private void SetTerrainData()
@@ -165,6 +169,8 @@ public partial class SwDualGrid : TileMapLayer
 			foreach (var cellPos in updated)
 			{
 				layer.ClearTile(cellPos);
+				if(IsSolid(cellPos)) CollisionLayer.SetCell(cellPos, 0, Vector2I.Right);
+				else CollisionLayer.SetCell(cellPos);
 			}
 		}
 		else
@@ -172,12 +178,32 @@ public partial class SwDualGrid : TileMapLayer
 			foreach (var cellPos in updated)
 			{
 				layer.SetTile(cellPos, CurrentTerrainType_);
+				if(IsSolid(cellPos)) CollisionLayer.SetCell(cellPos, 0, Vector2I.Right);
+				else CollisionLayer.SetCell(cellPos);
 			}
 		}
 		Clear();
 	}
+	public bool IsSolid(Vector2I tilePos)
+	{
+		foreach (var layer in GetLayersR())
+		{
+			int tileId = layer.GetTileId(tilePos);
+			if(tileId == -1) continue;
+			if(TerrainData.TerrainTypes[tileId].GetIsSolid()) return true;
+		}
+		return false;
+	}
 	public bool TryGetAtlasCoords((bool, bool, bool, bool) mask, int sourceId, out Vector2I atlasCoords)
 	{
 		return GetTileCoordLookup().TryGetAtlasCoords(mask, sourceId, out atlasCoords);
+	}
+	public void ClearAll()
+	{
+		Clear();
+		CollisionLayer.Clear();
+		int numLayers = NumLayers;
+		SetNumLayers(0);
+		SetNumLayers(numLayers);
 	}
 }
