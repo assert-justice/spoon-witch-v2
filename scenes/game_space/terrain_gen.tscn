@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bn4u671m13s2a"]
+
+[ext_resource type="Script" uid="uid://cc4af66rmdged" path="res://Src/GameSpace/Terrain/SwTerrainTool.cs" id="1_r4a56"]
+[ext_resource type="Texture2D" uid="uid://y13vm3igqoa1" path="res://assets/sprites/tiles/demo_grass_tiles.png" id="2_emw7h"]
+[ext_resource type="Script" uid="uid://bt4nfl4crtwpi" path="res://Src/GameSpace/Terrain/SwTerrainTypeRes.cs" id="3_a8h1h"]
+[ext_resource type="Texture2D" uid="uid://da3vbxp1vbolh" path="res://assets/sprites/tiles/demo_dirt_tiles.png" id="4_7vtna"]
+[ext_resource type="Texture2D" uid="uid://c7qmqnfbgspug" path="res://assets/sprites/tiles/demo_sand_tiles.png" id="5_7n4qc"]
+[ext_resource type="Texture2D" uid="uid://coeefygpv87s3" path="res://assets/sprites/tiles/demo_multi_tiles.png" id="6_p38nw"]
+[ext_resource type="Resource" uid="uid://4pijtkuy000h" path="res://resources/terrain.tres" id="7_dhc5p"]
+
+[sub_resource type="Resource" id="Resource_ecr6u"]
+script = ExtResource("3_a8h1h")
+Texture = ExtResource("2_emw7h")
+metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
+
+[sub_resource type="Resource" id="Resource_sb187"]
+script = ExtResource("3_a8h1h")
+Texture = ExtResource("4_7vtna")
+metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
+
+[sub_resource type="Resource" id="Resource_lkfu7"]
+script = ExtResource("3_a8h1h")
+Texture = ExtResource("5_7n4qc")
+metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
+
+[sub_resource type="Resource" id="Resource_lh472"]
+script = ExtResource("3_a8h1h")
+Texture = ExtResource("6_p38nw")
+metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
+
+[node name="TerrainGen" type="Node2D" unique_id=32749416]
+script = ExtResource("1_r4a56")
+TerrainTypes = [SubResource("Resource_ecr6u"), SubResource("Resource_sb187"), SubResource("Resource_lkfu7"), SubResource("Resource_lh472")]
+TerrainData = ExtResource("7_dhc5p")

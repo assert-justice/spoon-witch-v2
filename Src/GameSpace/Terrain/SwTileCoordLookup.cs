@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace SW.Src.GameSpace.DualGrid;
+namespace SW.Src.GameSpace.Terrain;
 
 public class SwTileCoordLookup
 {

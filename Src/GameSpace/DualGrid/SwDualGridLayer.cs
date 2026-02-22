@@ -8,19 +8,38 @@ public partial class SwDualGridLayer : TileMapLayer
 {
     private readonly Dictionary<Vector2I, int> GridData = [];
     private static readonly Vector2I[] Neighbors = [Vector2I.Zero, Vector2I.Right, Vector2I.Down, Vector2I.One];
-    private SwTileCoordLookup CoordLookup = new();
-    private void RefreshTile(Vector2I tilePos, int sourceId)
+    private SwDualGrid Parent;
+    public override void _Ready()
+    {
+        base._Ready();
+        Parent = GetParent().GetParent<SwDualGrid>();
+    }
+    private void RefreshSetTile(Vector2I tilePos, int sourceId)
+    {
+        SetCell(tilePos, sourceId, Vector2I.Zero);
+        foreach (var delta in Neighbors)
+        {
+            Vector2I displayTilePos = tilePos + delta;
+            var mask = GetMask(displayTilePos);
+            int oldId = GetCellSourceId(displayTilePos);
+            if(Parent.TryGetAtlasCoords(mask, sourceId, out var atlasCoords)){}
+            else if(Parent.TryGetAtlasCoords(mask, oldId, out atlasCoords)){sourceId = oldId;}
+            else atlasCoords = new(-1,-1);
+            SetCell(displayTilePos, sourceId, atlasCoords);
+            GD.Print($"pos: {displayTilePos}, idx: {sourceId}, atlas coords: {atlasCoords}");
+        }
+        // GD.Print(GetCellSourceId(tilePos), GetCellAtlasCoords(tilePos), GetUsedCells());
+    }
+    private void RefreshClearedTile(Vector2I tilePos)
     {
         foreach (var delta in Neighbors)
         {
             Vector2I displayTilePos = tilePos + delta;
-            // get atlas coords
             var mask = GetMask(displayTilePos);
             int oldId = GetCellSourceId(displayTilePos);
-            if(CoordLookup.TryGetAtlasCoords(mask, sourceId, out var atlasCoords)){}
-            else if(CoordLookup.TryGetAtlasCoords(mask, oldId, out atlasCoords)){sourceId = oldId;}
+            if(Parent.TryGetAtlasCoords(mask, oldId, out var atlasCoords)){}
             else atlasCoords = new(-1,-1);
-            SetCell(displayTilePos, sourceId, atlasCoords);
+            SetCell(displayTilePos, oldId, atlasCoords);
         }
     }
     private (bool, bool, bool, bool) GetMask(Vector2I displayTilePos)
@@ -35,15 +54,15 @@ public partial class SwDualGridLayer : TileMapLayer
     {
         return GridData.TryGetValue(tilePos, out int sourceId) && sourceId != -1;
     }
-    public void Init(SwTileCoordLookup coordLookup)
+    public void SetTile(Vector2I tilePos, int sourceId)
     {
-        CoordLookup = coordLookup;
+        GridData[tilePos] = sourceId;
+        RefreshSetTile(tilePos, sourceId);
     }
-    public void SetTile(Vector2I tilePos, int sourceId = -1)
+    public void ClearTile(Vector2I tilePos)
     {
-        if(sourceId == -1) GridData.Remove(tilePos);
-        else GridData[tilePos] = sourceId;
-        RefreshTile(tilePos, sourceId);
+        GridData.Remove(tilePos);
+        RefreshClearedTile(tilePos);
     }
     public void ClearContents()
     {
