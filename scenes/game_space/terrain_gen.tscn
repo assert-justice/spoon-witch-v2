@@ -5,8 +5,10 @@
 [ext_resource type="Script" uid="uid://bt4nfl4crtwpi" path="res://Src/GameSpace/Terrain/SwTerrainTypeRes.cs" id="3_a8h1h"]
 [ext_resource type="Texture2D" uid="uid://da3vbxp1vbolh" path="res://assets/sprites/tiles/demo_dirt_tiles.png" id="4_7vtna"]
 [ext_resource type="Texture2D" uid="uid://c7qmqnfbgspug" path="res://assets/sprites/tiles/demo_sand_tiles.png" id="5_7n4qc"]
-[ext_resource type="Texture2D" uid="uid://coeefygpv87s3" path="res://assets/sprites/tiles/demo_multi_tiles.png" id="6_p38nw"]
+[ext_resource type="Texture2D" uid="uid://cn5mit5ircvqc" path="res://assets/sprites/tiles/floor_wooden_tileset.png" id="6_a8h1h"]
+[ext_resource type="Texture2D" uid="uid://dxx77c6nkiowj" path="res://assets/sprites/tiles/water_tileset.png" id="7_7vtna"]
 [ext_resource type="Resource" uid="uid://4pijtkuy000h" path="res://resources/terrain.tres" id="7_dhc5p"]
+[ext_resource type="Texture2D" uid="uid://4e8cs5px3o5l" path="res://assets/sprites/tiles/wall_tileset.png" id="8_7n4qc"]
 
 [sub_resource type="Resource" id="Resource_ecr6u"]
 script = ExtResource("3_a8h1h")
@@ -21,15 +23,27 @@ metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
 [sub_resource type="Resource" id="Resource_lkfu7"]
 script = ExtResource("3_a8h1h")
 Texture = ExtResource("5_7n4qc")
-IsSolid = true
+MovementMul = 0.5
 metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
 
 [sub_resource type="Resource" id="Resource_lh472"]
 script = ExtResource("3_a8h1h")
-Texture = ExtResource("6_p38nw")
+Texture = ExtResource("6_a8h1h")
+metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
+
+[sub_resource type="Resource" id="Resource_0v4n0"]
+script = ExtResource("3_a8h1h")
+Texture = ExtResource("7_7vtna")
+IsSolid = true
+metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
+
+[sub_resource type="Resource" id="Resource_8o8f8"]
+script = ExtResource("3_a8h1h")
+Texture = ExtResource("8_7n4qc")
+IsSolid = true
 metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
 
 [node name="TerrainGen" type="Node2D" unique_id=32749416]
 script = ExtResource("1_r4a56")
-TerrainTypes = [SubResource("Resource_ecr6u"), SubResource("Resource_sb187"), SubResource("Resource_lkfu7"), SubResource("Resource_lh472")]
+TerrainTypes = [SubResource("Resource_ecr6u"), SubResource("Resource_sb187"), SubResource("Resource_lkfu7"), SubResource("Resource_lh472"), SubResource("Resource_0v4n0"), SubResource("Resource_8o8f8")]
 TerrainData = ExtResource("7_dhc5p")

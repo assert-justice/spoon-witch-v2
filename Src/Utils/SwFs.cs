@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using Godot;
+using SW.Src.Global;
 
 namespace SW.Src.Utils;
 
@@ -24,13 +25,13 @@ public class SwFs
         contents = default;
         if(!TryResolveFilePath(path, out string resolvedPath))
         {
-            GD.PrintErr($"Could not find file at path '{path}'");
+            SwStatic.LogError($"Could not find file at path '{path}'");
 			return false;
         }
         using var file = FileAccess.Open(resolvedPath, FileAccess.ModeFlags.Read);
 		if(file is null)
 		{
-			GD.PrintErr($"Could not open file at path '{path}'");
+			SwStatic.LogError($"Could not open file at path '{path}'");
 			return false;
 		}
 		contents = file.GetAsText();
@@ -47,7 +48,7 @@ public class SwFs
         }
         catch(Exception e)
         {
-            GD.PrintErr($"Error parsing json at path '{path}': {e}");
+            SwStatic.LogError($"Error parsing json at path '{path}': {e}");
 			return false;
         }
     }
@@ -61,7 +62,7 @@ public class SwFs
         }
         catch(Exception e)
         {
-            GD.PrintErr($"Error writing to file at path '{path}': {e}");
+            SwStatic.LogError($"Error writing to file at path '{path}': {e}");
             return false;
         }
     }
@@ -70,7 +71,7 @@ public class SwFs
         using var dir = DirAccess.Open(path);
 		if(dir is null)
 		{
-			GD.PrintErr($"Failed to open directory at path '{path}'.");
+			SwStatic.LogError($"Failed to open directory at path '{path}'.");
 			return [];
 		}
 		List<string> filenames = [];
@@ -94,7 +95,7 @@ public class SwFs
         using var dir = DirAccess.Open(path);
 		if(dir is null)
 		{
-			GD.PrintErr($"Failed to open directory at path '{path}'.");
+			SwStatic.LogError($"Failed to open directory at path '{path}'.");
 			return [];
 		}
 		List<string> filenames = [];

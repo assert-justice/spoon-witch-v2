@@ -33,7 +33,7 @@ public class SwStateMachine<TParent, TState>
 		}
 		CurrentStateData = nextStateData;
 		CurrentStateData.EnterState(previousState);
-		if(LogStates) GD.Print(nextState);
+		if(LogStates) SwStatic.Log(nextState);
 	}
 	public void QueueStateUnchecked(TState nextState)
 	{

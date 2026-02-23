@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Godot;
+using SW.Src.Global;
 
 namespace SW.Src.GameSpace.Terrain;
 
@@ -58,16 +59,13 @@ namespace SW.Src.GameSpace.Terrain;
 					Vector2I tileCoord = new(x, y);
 					if(!SwTerrainUtils.TryGetMask(tileCoord, out var mask))
 					{
-						GD.PrintErr($"No mask for region {x},{y}");
+						SwStatic.LogError($"No mask for region {x},{y}");
 						continue;
 					}
-					GD.Print(mask, atlasId, tileCoord);
-					// coordLookup.AddCoords(mask, atlasId, tileCoord);
 					atlas.CreateTile(tileCoord);
 				}
 			}
 		}
-		// TerrainData.TileCoordLookupJson = JsonSerializer.Serialize(coordLookup);
 		ResourceSaver.Save(TerrainData);
 	}
 }

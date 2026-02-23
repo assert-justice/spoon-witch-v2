@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json.Nodes;
 using Godot;
+using SW.Src.Global;
 
 namespace SW.Src.Utils;
 
@@ -41,7 +42,7 @@ public partial class SwDirtyDb
     {
         string path = GetPath();
         using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
-        if(file == null) GD.PrintErr($"Failed to write db data to path '{path}'");
+        if(file == null) SwStatic.LogError($"Failed to write db data to path '{path}'");
         else file.StoreString(Db.ToString());
     }
     public string GetPath(){return DbPath??=$"res://db/{Guid.NewGuid()}";}
