@@ -23,7 +23,7 @@ public abstract partial class SwProjectile : SwHurtbox
         base.OnNodeEntered(node);
         if(ShouldDie(node)) Die();
     }
-    protected virtual bool ShouldDie(Node2D node){return true;}
+    protected virtual bool ShouldDie(Node2D node){return false;}
     protected virtual void Die()
     {
         Cleanup();
@@ -32,9 +32,10 @@ public abstract partial class SwProjectile : SwHurtbox
     {
         QueueFree();
     }
-    public void Init(Vector2 velocity, SwDamage[] damages)
+    public void Init(Node parent, Vector2 velocity, Vector2 position)
     {
+        parent.AddChild(this);
         Velocity = velocity;
-        Damages = damages;
+        Position = position;
     }
 }

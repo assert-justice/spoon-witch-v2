@@ -1,4 +1,5 @@
 using Godot;
+using SW.Src.Entity.Projectile;
 
 namespace SW.Src.Actor.Player.Component;
 
@@ -17,5 +18,10 @@ public class SwPlayerEvoker(SwPlayer parent)
     {
         HurtboxCollision.Disabled = true;
     }
-    public void FireSling(){}
+    public void FireSling()
+    {
+        var bullet = Parent.SlingBulletScene.Instantiate<SwSlingBullet>();
+        bullet.Init(Parent.GetParent(), Parent.Controls.Aim() * Parent.SlingBulletSpeed, Parent.Position);
+        Parent.Inventory.RemoveItems(Inventory.SwItemType.SlingBullet, 1);
+    }
 }

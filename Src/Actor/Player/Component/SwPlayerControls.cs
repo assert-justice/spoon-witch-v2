@@ -9,9 +9,10 @@ public class SwPlayerControls : ISwPoll
 {
     private readonly SwInputBuffer InputBuffer;
     private readonly SwInputManager InputManager;
-    // private SwDelta<bool> IsMoving_ = new();
-    public SwPlayerControls()
+    private readonly SwPlayer Parent;
+    public SwPlayerControls(SwPlayer parent)
     {
+        Parent = parent;
         InputManager = SwGlobal.GetInputManager();
         InputBuffer = new([]);
     }
@@ -24,7 +25,11 @@ public class SwPlayerControls : ISwPoll
     }
     public bool IsMoving(){return InputManager.Move.GetValue().LengthSquared() > SwConstants.EPSILON;}
     public Vector2 Move(){return InputManager.Move.GetValue();}
-    public Vector2 Aim(){return InputManager.Aim.GetValue();}
+    public Vector2 Aim()
+    {
+        if(!SwGlobal.WasLastInputKbm()) return InputManager.Aim.GetValue();
+        return (Parent.GetViewport().GetMousePosition() - Parent.Position).Normalized();
+    }
     public bool JustAttacked(){return InputManager.SpoonAttack.IsJustPressed();}
     public bool JustCharged(){return InputManager.ChargeSling.IsJustPressed();}
     public bool IsCharging(){return InputManager.ChargeSling.IsPressed();}

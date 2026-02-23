@@ -23,10 +23,10 @@ public partial class SwPlayer : SwActor
 	[Export] public float SpoonDefaultTime = 0.25f;
 	[ExportGroup("Sling")]
 	[Export] public PackedScene SlingBulletScene;
-	[Export] public float SlingBulletSpeed = 1;
+	[Export] public float SlingBulletSpeed = 100;
 	[Export] public SwDamage[] SlingDamages = [];
 	[Export] public float SlingDamageMul = 1;
-	[Export] public float SlingSpeedMul = 0.5f;
+	[Export] public float SlingMovementSpeedMul = 0.5f;
 	[Export] public float SlingChargeTime = 0.75f;
 	// [Export] public float SlingRecoveryTime = 0.25f;
 	// [Export] public float SlingDefaultTime = 0.25f;
@@ -53,7 +53,7 @@ public partial class SwPlayer : SwActor
 	{
 		Animator = new(this);
 		StateManager = new(this);
-		Controls = new();
+		Controls = new(this);
 		Evoker = new(this);
 		Inventory.AddItems(SwItemType.SlingBullet, 5);
 		base._Ready();

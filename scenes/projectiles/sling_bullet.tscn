@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dtcta1g1110d3"]
 
+[ext_resource type="Script" uid="uid://di74lgwbrkwqu" path="res://Src/Entity/Projectile/SwSlingBullet.cs" id="1_ms78m"]
 [ext_resource type="Texture2D" uid="uid://c21ovdvwfvqqt" path="res://assets/sprites/projectiles/sling_bullet.png" id="1_o8iev"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hah6i"]
@@ -7,6 +8,7 @@ radius = 9.0
 
 [node name="SlingBullet" type="Area2D" unique_id=1530589230]
 texture_filter = 1
+script = ExtResource("1_ms78m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=630843941]
 shape = SubResource("CircleShape2D_hah6i")

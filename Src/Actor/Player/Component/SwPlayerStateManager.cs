@@ -43,7 +43,7 @@ public class SwPlayerStateManager
 	private void AutoStateChange()
 	{
 		if(Parent.Controls.JustAttacked()) Parent.StateManager.QueueState(SwState.Attacking);
-		else if(Parent.Controls.JustCharged() && Parent.Inventory.CountItems(SwItemType.SlingBullet) > 0) Parent.StateManager.QueueState(SwState.SlingCharging);
+		else if(Parent.Controls.IsCharging() && Parent.Inventory.CountItems(SwItemType.SlingBullet) > 0) Parent.StateManager.QueueState(SwState.SlingCharging);
 	}
     public void Tick(float dt)
     {

@@ -22,14 +22,14 @@ public class SwPlayerStateSlingCharging : SwStateMachine<SwPlayer, SwState>.SwSt
     }
     public override void Tick(float dt)
     {
-        Parent.Velocity = Parent.Controls.Move() * Parent.Speed * Parent.SlingSpeedMul;
+        Parent.Velocity = Parent.Controls.Move() * Parent.Speed * Parent.SlingMovementSpeedMul;
         Parent.Animator.PlayBodyAnimDefault(1);
         if (Parent.Controls.IsChargingJustReleased())
         {
             // Cancel charge
             Parent.StateManager.QueueState(SwState.Default);
         }
-        else if(Parent.Controls.IsCharging()) Parent.StateManager.SetLockout(0.0f, 0.1f);
+        else if(Parent.Controls.IsCharging()) Parent.StateManager.SetLockout(0.1f, 0.1f);
         ChargeClock.Tick(dt);
         Parent.Animator.PlaySlingAnim(ChargeClock.GetProgress() * 0.5f + 0.5f);
     }

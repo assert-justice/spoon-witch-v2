@@ -58,15 +58,15 @@ public partial class SwDualGrid : TileMapLayer
 		SetTerrainData();
 	}
 
-	public override void _Process(double delta)
-	{
-		if (Engine.IsEditorHint())
-		{
-			if(!EditorEnabled || CollisionLayer is null) return;
-			if(NumLayers != GetNumLayers()) SetNumLayers(NumLayers);
-			Update();
-		}
-	}
+	// public override void _Process(double delta)
+	// {
+	// 	if (Engine.IsEditorHint())
+	// 	{
+	// 		if(!EditorEnabled || CollisionLayer is null) return;
+	// 		if(NumLayers != GetNumLayers()) SetNumLayers(NumLayers);
+	// 		Update();
+	// 	}
+	// }
 	// private void EnableEditor(bool enabled)
 	// {
 	// 	if(!enabled) return;

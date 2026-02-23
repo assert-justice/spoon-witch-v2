@@ -7,7 +7,7 @@ namespace SW.Src.Entity;
 public partial class SwHurtbox : Area2D
 {
     public readonly HashSet<string> GroupWhitelist = [];
-    public SwDamage[] Damages = [];
+    public List<SwDamage> Damages = [];
     public override void _Ready()
     {
         BodyEntered += OnBodyEntered;
