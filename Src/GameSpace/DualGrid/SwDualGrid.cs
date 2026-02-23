@@ -30,10 +30,18 @@ public partial class SwDualGrid : TileMapLayer
 	[Export] private bool EraseMode = false;
 	[ExportToolButton("Clear")]
 	public Callable ClearAllButton => Callable.From(ClearAll);
-	[Export] private bool EditorEnabled = false;
+	private bool EditorEnabled = false;
+	// private bool EditorEnabled_ = false;
+	// [Export] private bool EditorEnabled{get=>EditorEnabled_; set
+	// 	{
+	// 		EnableEditor(value);
+	// 		EditorEnabled_ = value;
+	// 	}
+	// }
 	private TileMapLayer CollisionLayer;
 	public override void _Ready()
 	{
+		// EnableEditor(true);
 		TileSet = TerrainData.BaseTileSet;
 		CollisionLayer = GetNodeOrNull<TileMapLayer>("CollisionLayer");
 		if(CollisionLayer is null)
@@ -43,7 +51,7 @@ public partial class SwDualGrid : TileMapLayer
 				Name = "CollisionLayer"
 			};
 			AddChild(CollisionLayer);
-			CollisionLayer.Owner = this;
+			CollisionLayer.Owner = GetTree().Root;
 		}
 		CollisionLayer.TileSet = TerrainData.CollisionTileSet;
 		SetNumLayers(NumLayers);
@@ -54,11 +62,29 @@ public partial class SwDualGrid : TileMapLayer
 	{
 		if (Engine.IsEditorHint())
 		{
-			if(!EditorEnabled || SwStatic.HasError || CollisionLayer is null) return;
+			if(!EditorEnabled || CollisionLayer is null) return;
 			if(NumLayers != GetNumLayers()) SetNumLayers(NumLayers);
 			Update();
 		}
 	}
+	// private void EnableEditor(bool enabled)
+	// {
+	// 	if(!enabled) return;
+	// 	TileSet = TerrainData.BaseTileSet;
+	// 	CollisionLayer = GetNodeOrNull<TileMapLayer>("CollisionLayer");
+	// 	if(CollisionLayer is null)
+	// 	{
+	// 		CollisionLayer = new()
+	// 		{
+	// 			Name = "CollisionLayer"
+	// 		};
+	// 		AddChild(CollisionLayer);
+	// 		CollisionLayer.Owner = GetTree().CurrentScene;
+	// 	}
+	// 	CollisionLayer.TileSet = TerrainData.CollisionTileSet;
+	// 	SetNumLayers(NumLayers);
+	// 	SetTerrainData();
+	// }
 	private int GetNumLayers()
 	{
 		return CollisionLayer.GetChildCount();
@@ -92,7 +118,7 @@ public partial class SwDualGrid : TileMapLayer
 				Position = new Vector2(TerrainData.TileWidth, TerrainData.TileHeight) * -0.5f,
 			};
 			CollisionLayer.AddChild(layer);
-			layer.Owner = this;
+			layer.Owner = GetTree().CurrentScene;
 		}
 	}
 	private void PopLayer(int numRemovedLayers = 1)

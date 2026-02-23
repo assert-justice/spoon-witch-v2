@@ -6,7 +6,7 @@ using SW.Src.Timer;
 using SW.Src.Utils;
 
 namespace SW.Src.Actor;
-public abstract partial class SwActor : CharacterBody2D
+public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 {
 	protected float Health;
 	private readonly List<ISwTick> Tickers = [];
@@ -16,7 +16,7 @@ public abstract partial class SwActor : CharacterBody2D
 	public override void _Ready()
 	{
 		Health = GetMaxHealth();
-		AddClock(new(){Duration = GetDeathDelay(), IsPaused = true, OnFinish = Cleanup});
+		// AddClock(new(){Duration = GetDeathDelay(), IsPaused = true, OnFinish = Cleanup});
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -44,6 +44,21 @@ public abstract partial class SwActor : CharacterBody2D
 		return AddTicker(new SwClock(clockData));
 	}
 	public Vector2 GetLastVelocity(){return LastVelocity;}
+	public float GetLastAngle()
+	{
+		float angle = LastVelocity.Angle();
+		return angle >= 0 ? angle : angle + Mathf.Tau;
+	}
+	public float GetLastAngleRounded()
+	{
+		const float mul = 4 / Mathf.Tau;
+		return Mathf.Round(GetLastAngle() * mul) * SwStatic.HALF_PI;
+	}
+	public int GetLastFacing4()
+	{
+		const float mul = 4 / Mathf.Tau;
+		return Mathf.RoundToInt(GetLastAngle() * mul) % 4;
+	}
 	public virtual float Damage(SwDamage damage)
 	{
 		// Note, damage effects can *heal* you as well as hurt you depending on what your multiplier is.
@@ -61,5 +76,4 @@ public abstract partial class SwActor : CharacterBody2D
 	}
 	protected virtual void Die(){}
 	protected abstract float GetMaxHealth();
-	protected abstract float GetDeathDelay();
 }

@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://uv4altk1t2rq" path="res://Src/Actor/Player/SwPlayer.cs" id="1_xx81n"]
 [ext_resource type="Texture2D" uid="uid://cyg2m4sejxy8a" path="res://assets/sprites/characters/belladonna/spoon/bella_spoon_d.png" id="2_0w4p8"]
 [ext_resource type="Texture2D" uid="uid://u60ugmktq6we" path="res://assets/sprites/characters/belladonna/idle/bella_idle_dr.png" id="2_7860b"]
+[ext_resource type="Script" uid="uid://bpjg1d3bfhdde" path="res://Src/Entity/SwHurtbox.cs" id="3_wl55n"]
 [ext_resource type="Texture2D" uid="uid://b7snbu72vmb5w" path="res://assets/sprites/characters/belladonna/idle/bella_idle_u.png" id="3_xx81n"]
 [ext_resource type="Texture2D" uid="uid://cwy41p3l5ayr8" path="res://assets/sprites/characters/belladonna/run/bella_run_d.png" id="4_0w4p8"]
 [ext_resource type="Texture2D" uid="uid://cw7ww6qu8t0ww" path="res://assets/sprites/characters/belladonna/run/bella_run_dr.png" id="5_wl55n"]
@@ -52,6 +53,9 @@ animations = [{
 "name": &"default",
 "speed": 8.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ypltb"]
+size = Vector2(32, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pi76d"]
 atlas = ExtResource("1_8y416")
@@ -1198,18 +1202,29 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8o2w2"]
 size = Vector2(20, 26)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ypltb"]
-
 [node name="Player" type="CharacterBody2D" unique_id=313462690]
 texture_filter = 1
 motion_mode = 1
 script = ExtResource("1_xx81n")
 
-[node name="SpoonSprite" type="AnimatedSprite2D" parent="." unique_id=1685599556]
+[node name="SpoonPivot" type="Node2D" parent="." unique_id=854999859]
+position = Vector2(0, 9)
+
+[node name="SpoonSprite" type="AnimatedSprite2D" parent="SpoonPivot" unique_id=1685599556]
 visible = false
 use_parent_material = true
-position = Vector2(0, 9)
+rotation = -1.5707964
 sprite_frames = SubResource("SpriteFrames_asdc1")
+frame = 4
+frame_progress = 1.0
+
+[node name="Hurtbox" type="Area2D" parent="SpoonPivot" unique_id=2146228512]
+position = Vector2(24, 0)
+script = ExtResource("3_wl55n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpoonPivot/Hurtbox" unique_id=1671960283]
+shape = SubResource("RectangleShape2D_ypltb")
+disabled = true
 
 [node name="BodySprite" type="AnimatedSprite2D" parent="." unique_id=30895521]
 use_parent_material = true
@@ -1226,11 +1241,16 @@ visible = false
 position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_8o2w2")
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=2146228512]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1671960283]
-shape = SubResource("RectangleShape2D_ypltb")
-disabled = true
-
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1066596357]
+
+[node name="SlingParticles" type="CPUParticles2D" parent="." unique_id=1191266366]
+position = Vector2(0, -16)
+emitting = false
+lifetime = 0.25
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+scale_amount_min = 2.5
+scale_amount_max = 2.5
+color = Color(0.3177043, 0.2503467, 0.097432755, 1)

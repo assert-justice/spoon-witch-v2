@@ -40,10 +40,6 @@ public partial class SwSlume : SwActor
         Animator.Poll();
         base._PhysicsProcess(delta);
     }
-    protected override float GetDeathDelay()
-    {
-        return DeathDelay;
-    }
     protected override float GetMaxHealth()
     {
         return MaxHealth;
@@ -51,6 +47,5 @@ public partial class SwSlume : SwActor
     protected override void Die()
     {
         StateMachine.QueueState(SwState.Dead);
-        base.Die();
     }
 }

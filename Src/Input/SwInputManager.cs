@@ -156,11 +156,10 @@ public class SwInputManager
 		UiNext.AddJoyButton(JoyButton.RightShoulder);
 		RightTrigger.AddJoyAxis(JoyAxis.TriggerRight);
 		LeftTrigger.AddJoyAxis(JoyAxis.TriggerLeft);
-		ChargeSling.AddMouseButton(MouseButton.Left);
+		ChargeSling.AddMouseButton(MouseButton.Right);
 		ChargeSling.AddAxisPos(RightTrigger.GetValue);
-		SpoonAttack.AddMouseButton(MouseButton.Right);
-		SpoonAttack.AddPhysicalKey(Key.Space);
-		Dodge.AddPhysicalKey(Key.Shift);
+		SpoonAttack.AddMouseButton(MouseButton.Left);
+		Dodge.AddPhysicalKey(Key.Space);
 		Dodge.AddJoyButton(JoyButton.A);
 		Dodge.AddJoyButton(JoyButton.LeftShoulder);
 		Heal.AddPhysicalKey(Key.Q);

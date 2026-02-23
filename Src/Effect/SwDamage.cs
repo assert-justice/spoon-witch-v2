@@ -1,7 +1,16 @@
+using Godot;
+
 namespace SW.Src.Effect;
 
-public readonly struct SwDamage
+[GlobalClass][Tool]
+public partial class SwDamage : Resource
 {
-    public readonly SwDamageType Type;
-    public readonly float Value;
+    [Export] public SwDamageType Type{get; private set;}
+    [Export] public float Value{get; private set;}
+    public SwDamage(){}
+    public SwDamage(SwDamageType type, float value)
+    {
+        Type = type;
+        Value = value;
+    }
 }

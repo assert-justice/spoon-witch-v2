@@ -1,43 +1,31 @@
+using System;
 using Godot;
+using SW.Src.Global;
 using SW.Src.Utils;
 
 namespace SW.Src.Actor.Player.Component;
 
-public class SwPlayerAnimator: ISwPoll
+public class SwPlayerAnimator(SwPlayer parent)
 {
-    private readonly SwPlayer Parent;
-    private readonly AnimatedSprite2D BodySprite;
-	private readonly AnimatedSprite2D SpoonSprite;
-	private readonly AnimatedSprite2D SlingSprite;
+    private readonly SwPlayer Parent = parent;
+    private readonly AnimatedSprite2D BodySprite = parent.GetNode<AnimatedSprite2D>("BodySprite");
+	private readonly AnimatedSprite2D SpoonSprite = parent.GetNode<AnimatedSprite2D>("SpoonPivot/SpoonSprite");
+	private readonly AnimatedSprite2D SlingSprite = parent.GetNode<AnimatedSprite2D>("SlingSprite");
+	private readonly CpuParticles2D SlingParticles = parent.GetNode<CpuParticles2D>("SlingParticles");
     private readonly string[] Facing = ["right", "down", "left", "up"];
-	private SwDelta<int> FacingIdx = new();
-    public SwPlayerAnimator(SwPlayer parent)
-    {
-        Parent = parent;
-        BodySprite = parent.GetNode<AnimatedSprite2D>("BodySprite");
-        SpoonSprite = parent.GetNode<AnimatedSprite2D>("SpoonSprite");
-        SlingSprite = parent.GetNode<AnimatedSprite2D>("SlingSprite");
-    }
-    public void Poll()
-    {
-        int facingIdx = Mathf.RoundToInt(Parent.GetLastVelocity().Angle() / (Mathf.Pi * 0.5f));
-		if (facingIdx < 0) facingIdx += 4;
-		FacingIdx.Value = facingIdx;
-    }
     private string GetFacing()
 	{
-		int facingIdx = FacingIdx.Value;
-		// handle image flipping
-		if(facingIdx == 2)
+        string dir = Facing[Parent.GetLastFacing4()];
+		if(dir == "left")
 		{
-			facingIdx = 0;
+			dir = "right";
 			BodySprite.FlipH = true;
 		}
 		else
 		{
 			BodySprite.FlipH = false;
 		}
-		return Facing[facingIdx];
+		return dir;
 	}
     public void PlayBodyAnim(string animName)
     {
@@ -51,10 +39,14 @@ public class SwPlayerAnimator: ISwPoll
     {
         PlayBodyAnimFaced($"{animName}{hands}");
     }
+    public void PlayBodyAnimDefault(int hands)
+    {
+        string animName = Parent.Controls.IsMoving() ? "run" : "idle";
+        PlayBodyAnimFaced($"{animName}{hands}");
+    }
 	public void PlaySpoonAnim()
 	{
 		SpoonSprite.Visible = true;
-        SpoonSprite.Rotation = Parent.GetLastVelocity().Angle() - Mathf.Pi * 0.5f;
         // Restart the animation if it is already playing
         if(SpoonSprite.IsPlaying()) SpoonSprite.Stop();
         SpoonSprite.Play();
@@ -63,13 +55,15 @@ public class SwPlayerAnimator: ISwPoll
     {
         SpoonSprite.Visible = false;
     }
-    public void PlaySlingAnim()
+    public void PlaySlingAnim(float speedMul = 1)
     {
         SlingSprite.Visible = true;
-        SlingSprite.Play();
+        SlingParticles.Emitting = speedMul == 1;
+        SlingSprite.Play(null, speedMul);
     }
-        public void HideSling()
+    public void HideSling()
     {
         SlingSprite.Visible = false;
+        SlingParticles.Emitting = false;
     }
 }
