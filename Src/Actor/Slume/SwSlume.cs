@@ -18,6 +18,7 @@ public partial class SwSlume : SwEnemy
 	[Export] public float MinWanderDistance = 300;
 	[Export] public float MaxWanderDistance = 500;
 	[Export] public float CloseEnough = 8;
+	[Export] public float FleeThreshold = 0.5f;
 	[Export] private SwState InitialState = SwState.Default;
 	public Vector2 DamageSourcePosition = Vector2.Zero;
 	public SwHurtbox Hurtbox;
@@ -28,6 +29,8 @@ public partial class SwSlume : SwEnemy
 		KnockedBack,
 		Wandering,
 		Chasing,
+		Seeking,
+		Fleeing,
 		Dead,
 	}
 	public SwStateMachine<SwSlume, SwState> StateMachine;
@@ -41,7 +44,10 @@ public partial class SwSlume : SwEnemy
 		StateMachine.AddState(new SwSlumeStateKnockedBack(this));
 		StateMachine.AddState(new SwSlumeStateWandering(this));
 		StateMachine.AddState(new SwSlumeStateChasing(this));
+		StateMachine.AddState(new SwSlumeStateSeeking(this));
+		StateMachine.AddState(new SwSlumeStateFleeing(this));
 		StateMachine.AddState(new SwSlumeStateDead(this));
+		StateMachine.LogStates = true;
 		Hurtbox = GetNode<SwHurtbox>("Hurtbox");
 		Hitbox = GetNode<CollisionShape2D>("Hitbox");
 	}
@@ -67,5 +73,9 @@ public partial class SwSlume : SwEnemy
 	public override void Die()
 	{
 		// We're handling dying in the knockback state
+	}
+	public bool ShouldFlee()
+	{
+		return CanSeePlayer() && (Health / MaxHealth < FleeThreshold);
 	}
 }

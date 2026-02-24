@@ -9,8 +9,10 @@ namespace SW.Src.Actor.Slume.State;
 public class SwSlumeStateKnockedBack(SwSlume parent) : SwStateMachine<SwSlume, SwState>.SwStateData(parent, SwState.KnockedBack)
 {
     private readonly SwClock KnockbackClock = new();
+    private SwState LastState = SwState.Default;
     public override void EnterState(SwState lastState)
     {
+        LastState = lastState;
         KnockbackClock.SetDuration(Parent.KnockBackTime);
         Parent.Animator.PlayBodyAnim("knockback");
         float damageValue = 0;
@@ -28,6 +30,8 @@ public class SwSlumeStateKnockedBack(SwSlume parent) : SwStateMachine<SwSlume, S
     public override void Tick(float dt)
     {
         if(KnockbackClock.IsRunning()) KnockbackClock.Tick(dt);
-        else Parent.StateMachine.QueueState(Parent.IsAlive() ? SwState.Default : SwState.Dead);
+        else if(!Parent.IsAlive()) Parent.StateMachine.QueueState(SwState.Dead);
+        else if(Parent.ShouldFlee()) Parent.StateMachine.QueueState(SwState.Fleeing);
+        else Parent.StateMachine.QueueState(LastState);
     }
 }

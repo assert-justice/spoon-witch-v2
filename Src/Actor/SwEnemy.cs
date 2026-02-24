@@ -6,8 +6,10 @@ namespace SW.Src.Actor;
 public abstract partial class SwEnemy : SwActor
 {
     [Export] private float SleepRadius = 10000;
-    [Export] private float SleepTickDelay = 10;
     private float SleepRadiusSquared;
+    [Export] private float VisionRadius = 1000;
+    private float VisionRadiusSquared;
+    [Export] private float SleepTickDelay = 10;
     private SwPlayer Player;
     private float TimeScale = 1;
     private SwClock SleepClock;
@@ -16,9 +18,15 @@ public abstract partial class SwEnemy : SwActor
     public override void _Ready()
     {
         SleepRadiusSquared = SleepRadius * SleepRadius;
+        VisionRadiusSquared = VisionRadius * VisionRadius;
         SleepClock = new(new(){});
         if(!IsAwake) SleepClock.GetTime();
         VisionRay = GetNode<RayCast2D>("RayCast2D");
+        if(TryGetPlayer(out var player))
+        {
+            VisionRay.TargetPosition = player.Position;
+            TargetPoint = player.Position;
+        }
         base._Ready();
     }
     public override void _PhysicsProcess(double delta)
@@ -49,7 +57,7 @@ public abstract partial class SwEnemy : SwActor
     public bool TryGetPlayer(out SwPlayer player)
     {
         player = Player;
-        if(Player is not null) return true;
+        if(Player is not null && IsInstanceValid(Player)) return true;
         var nodes = GetTree().GetNodesInGroup("Player");
         if(nodes.Count != 1) return false;
         if(nodes[0] is not SwPlayer p) return false;
@@ -80,16 +88,16 @@ public abstract partial class SwEnemy : SwActor
     {
         return DistanceToPlayerSquared() < SleepRadiusSquared;
     }
-    public bool CanSeePlayer()
+    public virtual bool CanSeePlayer()
     {
         var target = VisionRay.GetCollider();
-        return target is SwPlayer;
+        return target is SwPlayer p && (Position - p.Position).LengthSquared() < VisionRadiusSquared;
     }
-    public bool CanSeePlayer(out SwPlayer player)
+    public virtual bool CanSeePlayer(out SwPlayer player)
     {
         player = default;
         var target = VisionRay.GetCollider();
-        if(target is SwPlayer p)
+        if(target is SwPlayer p && (Position - p.Position).LengthSquared() < VisionRadiusSquared)
         {
             player = p;
             return true;

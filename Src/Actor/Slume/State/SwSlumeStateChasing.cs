@@ -21,7 +21,7 @@ public class SwSlumeStateChasing(SwSlume parent) : SwStateMachine<SwSlume, SwSta
         }
         else
         {
-            // Go to seeking state
+            Parent.StateMachine.QueueState(SwState.Seeking);
         }
     }
 }

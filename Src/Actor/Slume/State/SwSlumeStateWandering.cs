@@ -26,6 +26,8 @@ public class SwSlumeStateWandering(SwSlume parent) : SwStateMachine<SwSlume, SwS
     public override void Tick(float dt)
     {
         Parent.Animator.PlayDefault();
+        if(Parent.ShouldFlee()) Parent.StateMachine.QueueState(SwState.Fleeing);
+        else if(Parent.CanSeePlayer()) Parent.StateMachine.QueueState(SwState.Chasing);
         if(ShouldReset()) SetRandomTargetPoint();
         Parent.Velocity = Parent.DirectionToTargetPoint() * Parent.Speed * Parent.WanderSpeedMul;
     }
