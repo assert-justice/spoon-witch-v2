@@ -11,16 +11,19 @@ public abstract partial class SwEnemy : SwActor
     private SwPlayer Player;
     private float TimeScale = 1;
     private SwClock SleepClock;
+    private RayCast2D VisionRay;
     public override void _Ready()
     {
         SleepRadiusSquared = SleepRadius * SleepRadius;
         SleepClock = new(new(){});
         if(!IsAwake) SleepClock.GetTime();
+        VisionRay = GetNode<RayCast2D>("RayCast2D");
         base._Ready();
     }
     public override void _PhysicsProcess(double delta)
     {
         HandleSleep((float)delta);
+        if(IsAwake && TryGetPlayer(out var player)) VisionRay.TargetPosition = player.Position - Position;
         base._PhysicsProcess(delta);
     }
     private void HandleSleep(float dt)
@@ -66,5 +69,10 @@ public abstract partial class SwEnemy : SwActor
     public bool InSleepRadius()
     {
         return DistanceToPlayerSquared() < SleepRadiusSquared;
+    }
+    public bool CanSeePlayer()
+    {
+        var target = VisionRay.GetCollider();
+        return target is SwPlayer;
     }
 }

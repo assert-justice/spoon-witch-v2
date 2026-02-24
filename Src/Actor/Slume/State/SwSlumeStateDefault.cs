@@ -1,4 +1,3 @@
-using SW.Src.Global;
 using SW.Src.Utils;
 using static SW.Src.Actor.Slume.SwSlume;
 
@@ -14,6 +13,6 @@ public class SwSlumeStateDefault(SwSlume parent) : SwStateMachine<SwSlume, SwSta
     }
     public override void Tick(float dt)
     {
-        Parent.Animator.PlayBodyAnimFaced(Parent.Velocity.LengthSquared() > SwConstants.EPSILON ? "move" : "idle");
+        Parent.Animator.PlayDefault();
     }
 }

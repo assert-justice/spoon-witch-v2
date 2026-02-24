@@ -36,7 +36,7 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 		if(!IsAwake) return;
 		float dt = (float)delta;
 		HandleInvulnerability(dt);
-		if(Velocity.LengthSquared() > SwConstants.EPSILON) LastVelocity = Velocity;
+		if(IsMoving()) LastVelocity = Velocity;
 		foreach (var item in Tickers)
 		{
 			item.Tick(dt);
@@ -58,7 +58,10 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 		Visible = FlickerClock.GetProgress() > 0.5f;
 	}
 	public bool IsInvulnerable(){return InvulnerableClock.IsRunning();}
-	protected virtual void Sleep(){}
+	protected virtual void Sleep()
+	{
+		Velocity = Vector2.Zero;
+	}
 	protected virtual void Wake(){}
 	public bool IsAlive(){return Health > 0;}
 	public virtual void Cleanup()
@@ -91,6 +94,7 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 		const float mul = 4 / Mathf.Tau;
 		return Mathf.RoundToInt(GetLastAngle() * mul) % 4;
 	}
+	public bool IsMoving(){return Velocity.LengthSquared() > SwConstants.EPSILON;}
 	public virtual float Damage(SwDamage damage, Node2D source)
 	{
 		// Note, damage effects can *heal* you as well as hurt you depending on what your multiplier is.

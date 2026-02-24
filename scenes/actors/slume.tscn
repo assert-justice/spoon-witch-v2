@@ -391,3 +391,5 @@ script = ExtResource("9_4axoo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=718870090]
 shape = SubResource("CircleShape2D_107sd")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1802593202]

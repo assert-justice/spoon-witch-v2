@@ -1,4 +1,5 @@
 using Godot;
+using SW.Src.Global;
 
 namespace SW.Src.Actor.Slume.Component;
 
@@ -7,7 +8,6 @@ public class SwSlumeAnimator
     private readonly SwSlume Parent;
     private readonly AnimatedSprite2D Sprite;
     private readonly string[] Facing = ["right", "down", "left", "up"];
-	private int FacingIdx = 0;
     public SwSlumeAnimator(SwSlume parent)
     {
         Parent = parent;
@@ -34,6 +34,10 @@ public class SwSlumeAnimator
     public void PlayBodyAnimFaced(string animName)
     {
         PlayBodyAnim(animName + "_" + GetFacing());
+    }
+    public void PlayDefault()
+    {
+        PlayBodyAnimFaced(Parent.Velocity.LengthSquared() > SwConstants.EPSILON ? "move" : "idle");
     }
     public bool IsPlaying(){return Sprite.IsPlaying();}
 }

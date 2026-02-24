@@ -13,6 +13,10 @@ public partial class SwSlume : SwEnemy
 	[Export] public float Speed = 100;
 	[Export] public float KnockBackTime = 0.25f;
 	[Export] public float KnockBackBaseSpeed = 3;
+	[Export] public float GiveUpTime = 3;
+	[Export] public float MinWanderDistance = 300;
+	[Export] public float MaxWanderDistance = 500;
+	[Export] private SwState InitialState = SwState.Default;
 	public Vector2 DamageSourcePosition = Vector2.Zero;
 	public SwHurtbox Hurtbox;
 	public CollisionShape2D Hitbox;
@@ -20,6 +24,7 @@ public partial class SwSlume : SwEnemy
 	{
 		Default,
 		KnockedBack,
+		Wandering,
 		Dead,
 	}
 	public SwStateMachine<SwSlume, SwState> StateMachine;
@@ -28,9 +33,10 @@ public partial class SwSlume : SwEnemy
 	{
 		base._Ready();
 		Animator = new(this);
-		StateMachine = new(SwState.Default);
+		StateMachine = new(InitialState);
 		StateMachine.AddState(new SwSlumeStateDefault(this));
 		StateMachine.AddState(new SwSlumeStateKnockedBack(this));
+		StateMachine.AddState(new SwSlumeStateWandering(this));
 		StateMachine.AddState(new SwSlumeStateDead(this));
 		Hurtbox = GetNode<SwHurtbox>("Hurtbox");
 		Hitbox = GetNode<CollisionShape2D>("Hitbox");
