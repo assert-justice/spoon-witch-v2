@@ -12,6 +12,7 @@ public abstract partial class SwEnemy : SwActor
     private float TimeScale = 1;
     private SwClock SleepClock;
     private RayCast2D VisionRay;
+    public Vector2 TargetPoint = Vector2.Zero;
     public override void _Ready()
     {
         SleepRadiusSquared = SleepRadius * SleepRadius;
@@ -66,6 +67,15 @@ public abstract partial class SwEnemy : SwActor
         if(!TryGetPlayer(out var player)) return Mathf.Inf;
         return (Position - player.Position).LengthSquared();
     }
+    public bool IsPlayerInRadius(float radius)
+    {
+        return DistanceToPlayerSquared() < radius * radius;
+    }
+    public Vector2 DirectionToPlayer()
+    {
+        if(!TryGetPlayer(out var player)) return Vector2.Zero;
+        return (player.Position - Position).Normalized();
+    }
     public bool InSleepRadius()
     {
         return DistanceToPlayerSquared() < SleepRadiusSquared;
@@ -74,5 +84,21 @@ public abstract partial class SwEnemy : SwActor
     {
         var target = VisionRay.GetCollider();
         return target is SwPlayer;
+    }
+    public float DistanceToTargetPoint()
+    {
+        return (TargetPoint - Position).Length();
+    }
+    public float DistanceToTargetPointSquared()
+    {
+        return (TargetPoint - Position).LengthSquared();
+    }
+    public bool IsTargetPointInRadius(float radius)
+    {
+        return (TargetPoint - Position).LengthSquared() < radius * radius;
+    }
+    public Vector2 DirectionToTargetPoint()
+    {
+        return (TargetPoint - Position).Normalized();
     }
 }

@@ -10,12 +10,13 @@ namespace SW.Src.Actor.Slume;
 public partial class SwSlume : SwEnemy
 {
 	[Export] public float MaxHealth = 100;
-	[Export] public float Speed = 100;
+	[Export] public float Speed = 50;
 	[Export] public float KnockBackTime = 0.25f;
 	[Export] public float KnockBackBaseSpeed = 3;
 	[Export] public float GiveUpTime = 3;
 	[Export] public float MinWanderDistance = 300;
 	[Export] public float MaxWanderDistance = 500;
+	[Export] public float CloseEnough = 8;
 	[Export] private SwState InitialState = SwState.Default;
 	public Vector2 DamageSourcePosition = Vector2.Zero;
 	public SwHurtbox Hurtbox;
@@ -25,6 +26,7 @@ public partial class SwSlume : SwEnemy
 		Default,
 		KnockedBack,
 		Wandering,
+		Chasing,
 		Dead,
 	}
 	public SwStateMachine<SwSlume, SwState> StateMachine;
