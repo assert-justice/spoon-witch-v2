@@ -19,7 +19,7 @@ public class SwPlayerEvoker
     {
         Hurtbox.IsEnabled = true;
         SpoonPivot.Rotation = Parent.GetLastAngleRounded();
-        Hurtbox.Damages = [..Parent.SpoonDamages];
+        Hurtbox.DamageList = [..Parent.SpoonDamages];
     }
     public void EndSpoonAttack()
     {
@@ -30,6 +30,6 @@ public class SwPlayerEvoker
         var bullet = Parent.SlingBulletScene.Instantiate<SwProjectile>();
         bullet.Init(Parent.GetParent(), Parent.Controls.Aim() * Parent.SlingBulletSpeed, Parent.Position);
         Parent.Inventory.RemoveItems(Inventory.SwItemType.SlingBullet, 1);
-        bullet.Damages = [..Parent.SlingDamages];
+        bullet.DamageList = [..Parent.SlingDamages];
     }
 }

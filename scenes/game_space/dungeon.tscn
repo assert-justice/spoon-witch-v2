@@ -41,4 +41,4 @@ position = Vector2(309, 159)
 
 [node name="Slume" parent="." unique_id=483287388 instance=ExtResource("5_qcii0")]
 position = Vector2(505, 174)
-InitialState = 2
+InitialState = 3

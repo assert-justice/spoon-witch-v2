@@ -10,7 +10,8 @@ namespace SW.Src.Actor.Slume;
 public partial class SwSlume : SwEnemy
 {
 	[Export] public float MaxHealth = 100;
-	[Export] public float Speed = 50;
+	[Export] public float Speed = 75;
+	[Export] public float WanderSpeedMul = 0.5f;
 	[Export] public float KnockBackTime = 0.25f;
 	[Export] public float KnockBackBaseSpeed = 3;
 	[Export] public float GiveUpTime = 3;
@@ -39,6 +40,7 @@ public partial class SwSlume : SwEnemy
 		StateMachine.AddState(new SwSlumeStateDefault(this));
 		StateMachine.AddState(new SwSlumeStateKnockedBack(this));
 		StateMachine.AddState(new SwSlumeStateWandering(this));
+		StateMachine.AddState(new SwSlumeStateChasing(this));
 		StateMachine.AddState(new SwSlumeStateDead(this));
 		Hurtbox = GetNode<SwHurtbox>("Hurtbox");
 		Hitbox = GetNode<CollisionShape2D>("Hitbox");
@@ -58,7 +60,6 @@ public partial class SwSlume : SwEnemy
 		// if(StateMachine.IsInState(SwState.KnockedBack)) return 0;
 		float damageValue = base.Damage(damage, source);
 		if(damageValue == 0) return 0;
-		GD.Print(damage.Type, " ", damage.Value);
 		StateMachine.QueueStateUnchecked(SwState.KnockedBack);
 		DamageSourcePosition = source.Position;
 		return damageValue;

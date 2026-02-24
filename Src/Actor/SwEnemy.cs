@@ -46,7 +46,7 @@ public abstract partial class SwEnemy : SwActor
             SleepClock.Restart();
         }
     }
-    protected bool TryGetPlayer(out SwPlayer player)
+    public bool TryGetPlayer(out SwPlayer player)
     {
         player = Player;
         if(Player is not null) return true;
@@ -84,6 +84,17 @@ public abstract partial class SwEnemy : SwActor
     {
         var target = VisionRay.GetCollider();
         return target is SwPlayer;
+    }
+    public bool CanSeePlayer(out SwPlayer player)
+    {
+        player = default;
+        var target = VisionRay.GetCollider();
+        if(target is SwPlayer p)
+        {
+            player = p;
+            return true;
+        }
+        else return false;
     }
     public float DistanceToTargetPoint()
     {

@@ -27,6 +27,6 @@ public class SwSlumeStateWandering(SwSlume parent) : SwStateMachine<SwSlume, SwS
     {
         Parent.Animator.PlayDefault();
         if(ShouldReset()) SetRandomTargetPoint();
-        Parent.Velocity = Parent.DirectionToTargetPoint() * Parent.Speed;
+        Parent.Velocity = Parent.DirectionToTargetPoint() * Parent.Speed * Parent.WanderSpeedMul;
     }
 }
