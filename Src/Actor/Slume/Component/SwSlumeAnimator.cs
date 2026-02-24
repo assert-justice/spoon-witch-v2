@@ -13,26 +13,19 @@ public class SwSlumeAnimator
         Parent = parent;
         Sprite = parent.GetNode<AnimatedSprite2D>("Sprite");
     }
-    public void Poll()
-    {
-        int facingIdx = Mathf.RoundToInt(Parent.GetLastVelocity().Angle() / (Mathf.Pi * 0.5f));
-		if (facingIdx < 0) facingIdx += 4;
-		FacingIdx = facingIdx;
-    }
     private string GetFacing()
 	{
-		int facingIdx = FacingIdx;
-		// handle image flipping
-		if(facingIdx == 2)
+        string dir = Facing[Parent.GetLastFacing4()];
+		if(dir == "left")
 		{
-			facingIdx = 0;
+			dir = "right";
 			Sprite.FlipH = true;
 		}
 		else
 		{
 			Sprite.FlipH = false;
 		}
-		return Facing[facingIdx];
+		return dir;
 	}
     public void PlayBodyAnim(string animName)
     {
@@ -42,4 +35,5 @@ public class SwSlumeAnimator
     {
         PlayBodyAnim(animName + "_" + GetFacing());
     }
+    public bool IsPlaying(){return Sprite.IsPlaying();}
 }

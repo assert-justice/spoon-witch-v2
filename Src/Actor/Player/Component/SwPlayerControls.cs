@@ -28,7 +28,9 @@ public class SwPlayerControls : ISwPoll
     public Vector2 Aim()
     {
         if(!SwGlobal.WasLastInputKbm()) return InputManager.Aim.GetValue();
-        return (Parent.GetViewport().GetMousePosition() - Parent.Position).Normalized();
+        var viewport = Parent.GetViewport();
+        Vector2 center = viewport.GetVisibleRect().Size / 2;
+        return (Parent.GetViewport().GetMousePosition() - center).Normalized();
     }
     public bool JustAttacked(){return InputManager.SpoonAttack.IsJustPressed();}
     public bool JustCharged(){return InputManager.ChargeSling.IsJustPressed();}

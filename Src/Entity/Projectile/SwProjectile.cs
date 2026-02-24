@@ -12,6 +12,7 @@ public abstract partial class SwProjectile : SwHurtbox
     public override void _Ready()
     {
         base._Ready();
+        DamageSource ??= this;
     }
     public override void _PhysicsProcess(double delta)
     {

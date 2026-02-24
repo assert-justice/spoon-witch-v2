@@ -1,4 +1,3 @@
-using SW.Src.Global;
 using SW.Src.Utils;
 using static SW.Src.Actor.Slume.SwSlume;
 
@@ -10,10 +9,10 @@ public class SwSlumeStateDead(SwSlume parent) : SwStateMachine<SwSlume, SwState>
     {
         Parent.Animator.PlayBodyAnim("death");
     }
-    public override void ExitState(SwState lastState)
-    {
-    }
     public override void Tick(float dt)
     {
+        if(Parent.Animator.IsPlaying()) return;
+        if(Parent.DistanceToPlayerSquared() < 1000) return;
+        Parent.Cleanup();
     }
 }

@@ -5,12 +5,19 @@
 [ext_resource type="Texture2D" uid="uid://cyg2m4sejxy8a" path="res://assets/sprites/characters/belladonna/spoon/bella_spoon_d.png" id="2_0w4p8"]
 [ext_resource type="Texture2D" uid="uid://u60ugmktq6we" path="res://assets/sprites/characters/belladonna/idle/bella_idle_dr.png" id="2_7860b"]
 [ext_resource type="PackedScene" uid="uid://dtcta1g1110d3" path="res://scenes/projectiles/sling_bullet.tscn" id="2_kggx2"]
+[ext_resource type="Script" uid="uid://bm2wc78chtlea" path="res://Src/Effect/SwDamage.cs" id="3_c4rn8"]
 [ext_resource type="Script" uid="uid://bpjg1d3bfhdde" path="res://Src/Entity/SwHurtbox.cs" id="3_wl55n"]
 [ext_resource type="Texture2D" uid="uid://b7snbu72vmb5w" path="res://assets/sprites/characters/belladonna/idle/bella_idle_u.png" id="3_xx81n"]
 [ext_resource type="Texture2D" uid="uid://cwy41p3l5ayr8" path="res://assets/sprites/characters/belladonna/run/bella_run_d.png" id="4_0w4p8"]
 [ext_resource type="Texture2D" uid="uid://cw7ww6qu8t0ww" path="res://assets/sprites/characters/belladonna/run/bella_run_dr.png" id="5_wl55n"]
 [ext_resource type="Texture2D" uid="uid://beluggnt0jhei" path="res://assets/sprites/characters/belladonna/run/bella_run_u.png" id="6_kggx2"]
 [ext_resource type="Texture2D" uid="uid://dws1oebv0d83k" path="res://assets/sprites/characters/belladonna/sling/bella_sling.png" id="9_0w4p8"]
+
+[sub_resource type="Resource" id="Resource_ypltb"]
+script = ExtResource("3_c4rn8")
+Type = 1
+Value = 30.0
+metadata/_custom_type_script = "uid://bm2wc78chtlea"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wl55n"]
 atlas = ExtResource("2_0w4p8")
@@ -1208,6 +1215,7 @@ texture_filter = 1
 motion_mode = 1
 script = ExtResource("1_xx81n")
 SlingBulletScene = ExtResource("2_kggx2")
+SlingDamages = [SubResource("Resource_ypltb")]
 
 [node name="SpoonPivot" type="Node2D" parent="." unique_id=854999859]
 position = Vector2(0, 9)
@@ -1220,9 +1228,10 @@ sprite_frames = SubResource("SpriteFrames_asdc1")
 frame = 4
 frame_progress = 1.0
 
-[node name="Hurtbox" type="Area2D" parent="SpoonPivot" unique_id=2146228512]
+[node name="Hurtbox" type="Area2D" parent="SpoonPivot" unique_id=2146228512 node_paths=PackedStringArray("DamageSource")]
 position = Vector2(24, 0)
 script = ExtResource("3_wl55n")
+DamageSource = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpoonPivot/Hurtbox" unique_id=1671960283]
 shape = SubResource("RectangleShape2D_ypltb")

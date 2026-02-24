@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bpwouh81gtvma" path="res://assets/sprites/characters/enemies/slume/move/slume_move_d.png" id="5_fdp22"]
 [ext_resource type="Texture2D" uid="uid://je3hef33e0ox" path="res://assets/sprites/characters/enemies/slume/move/slume_move_dr.png" id="6_u4qxg"]
 [ext_resource type="Texture2D" uid="uid://b525082owvctp" path="res://assets/sprites/characters/enemies/slume/move/slume_move_u.png" id="7_sx6om"]
+[ext_resource type="Script" uid="uid://bpjg1d3bfhdde" path="res://Src/Entity/SwHurtbox.cs" id="9_4axoo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vf7sy"]
 radius = 10.049875
@@ -356,6 +357,9 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_107sd"]
+radius = 12.0
+
 [node name="Slume" type="CharacterBody2D" unique_id=483287388]
 texture_filter = 1
 motion_mode = 1
@@ -369,3 +373,9 @@ sprite_frames = SubResource("SpriteFrames_re5ys")
 animation = &"idle_down"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=910629453]
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=607728833]
+script = ExtResource("9_4axoo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=718870090]
+shape = SubResource("CircleShape2D_107sd")

@@ -1,6 +1,8 @@
+using Godot;
+
 namespace SW.Src.Effect;
 
 public interface ISwDamageable
 {
-    public abstract float Damage(SwDamage damage);
+    public abstract float Damage(SwDamage damage, Node2D source);
 }

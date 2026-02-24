@@ -3,7 +3,6 @@ using Godot;
 
 namespace SW.Src.GameSpace.DualGrid;
 
-[Tool]
 public partial class SwDualGridLayer : TileMapLayer
 {
     [Export] private int[] SolidCells{get=>Save(); set=>Load(value);}

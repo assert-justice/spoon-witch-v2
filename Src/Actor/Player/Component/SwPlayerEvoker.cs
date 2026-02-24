@@ -1,27 +1,35 @@
 using Godot;
+using SW.Src.Entity;
 using SW.Src.Entity.Projectile;
 
 namespace SW.Src.Actor.Player.Component;
 
-public class SwPlayerEvoker(SwPlayer parent)
+public class SwPlayerEvoker
 {
-    private readonly SwPlayer Parent = parent;
-    private readonly Node2D SpoonPivot = parent.GetNode<Node2D>("SpoonPivot");
-    private readonly Area2D Hurtbox = parent.GetNode<Area2D>("SpoonPivot/Hurtbox");
-    private readonly CollisionShape2D HurtboxCollision = parent.GetNode<CollisionShape2D>("SpoonPivot/Hurtbox/CollisionShape2D");
+    private readonly SwPlayer Parent;
+    private readonly Node2D SpoonPivot;
+    private readonly SwHurtbox Hurtbox;
+    public SwPlayerEvoker(SwPlayer parent)
+    {
+        Parent = parent;
+        SpoonPivot = parent.GetNode<Node2D>("SpoonPivot");
+        Hurtbox = parent.GetNode<SwHurtbox>("SpoonPivot/Hurtbox");
+    }
     public void StartSpoonAttack()
     {
-        HurtboxCollision.Disabled = false;
+        Hurtbox.IsEnabled = true;
         SpoonPivot.Rotation = Parent.GetLastAngleRounded();
+        Hurtbox.Damages = [..Parent.SpoonDamages];
     }
     public void EndSpoonAttack()
     {
-        HurtboxCollision.Disabled = true;
+        Hurtbox.IsEnabled = false;
     }
     public void FireSling()
     {
         var bullet = Parent.SlingBulletScene.Instantiate<SwSlingBullet>();
         bullet.Init(Parent.GetParent(), Parent.Controls.Aim() * Parent.SlingBulletSpeed, Parent.Position);
         Parent.Inventory.RemoveItems(Inventory.SwItemType.SlingBullet, 1);
+        bullet.Damages = [..Parent.SlingDamages];
     }
 }

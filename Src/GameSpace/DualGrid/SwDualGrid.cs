@@ -7,7 +7,6 @@ using SW.Src.Global;
 
 namespace SW.Src.GameSpace.DualGrid;
 
-[Tool]
 public partial class SwDualGrid : TileMapLayer
 {
 	[Export] private SwTerrainRes TerrainData;
@@ -28,8 +27,8 @@ public partial class SwDualGrid : TileMapLayer
 		}
 	}
 	[Export] private bool EraseMode = false;
-	[ExportToolButton("Clear")]
-	public Callable ClearAllButton => Callable.From(ClearAll);
+	// [ExportToolButton("Clear")]
+	// public Callable ClearAllButton => Callable.From(ClearAll);
 	private bool EditorEnabled = false;
 	// private bool EditorEnabled_ = false;
 	// [Export] private bool EditorEnabled{get=>EditorEnabled_; set
