@@ -58,4 +58,12 @@ public class SwStateMachine<TParent, TState>
 		while(StateQueue.TryDequeue(out var state)) SetState(state);
 		CurrentStateData.Tick(dt);
 	}
+	public bool TryGetState(out TState state)
+	{
+		state = default;
+		if(CurrentStateData is null) return false;
+		state = CurrentStateData.State;
+		return true;
+	}
+	public bool IsInState(TState state){return TryGetState(out var currentState) && SwStatic.IsEqual(state, currentState);}
 }

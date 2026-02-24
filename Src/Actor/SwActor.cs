@@ -8,10 +8,14 @@ using SW.Src.Utils;
 namespace SW.Src.Actor;
 public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 {
+	[Export] public float InvulnerableTime = 0.5f;
+	[Export] public float FlickersPerSecond = 8;
+	public SwClock InvulnerableClock;
+	public SwClock FlickerClock;
 	protected float Health;
 	private readonly List<ISwTick> Tickers = [];
 	protected readonly Dictionary<SwDamageType, float> DamageMultipliers = [];
-	protected readonly List<SwDamage> IncomingDamageQueue = [];
+	public readonly List<SwDamage> IncomingDamageQueue = [];
 	private bool IsAwake_ = true;
 	protected bool IsAwake{get=>IsAwake_; set
 		{
@@ -24,11 +28,14 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 	public override void _Ready()
 	{
 		Health = GetMaxHealth();
+		InvulnerableClock = new(new(){Duration=InvulnerableTime,IsPaused=true});
+		FlickerClock = new(new(){Duration=1/FlickersPerSecond,Repeats=true});
 	}
 	public override void _PhysicsProcess(double delta)
 	{
 		if(!IsAwake) return;
 		float dt = (float)delta;
+		HandleInvulnerability(dt);
 		if(Velocity.LengthSquared() > SwConstants.EPSILON) LastVelocity = Velocity;
 		foreach (var item in Tickers)
 		{
@@ -38,9 +45,22 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 		MoveAndSlide();
 		ApplyDamage();
 	}
+	private void HandleInvulnerability(float dt)
+	{
+		if(!InvulnerableClock.IsRunning()) return;
+		InvulnerableClock.Tick(dt);
+		if (!InvulnerableClock.IsRunning())
+		{
+			Visible = true;
+			return;
+		}
+		FlickerClock.Tick(dt);
+		Visible = FlickerClock.GetProgress() > 0.5f;
+	}
+	public bool IsInvulnerable(){return InvulnerableClock.IsRunning();}
 	protected virtual void Sleep(){}
 	protected virtual void Wake(){}
-	protected bool IsAlive(){return Health > 0;}
+	public bool IsAlive(){return Health > 0;}
 	public virtual void Cleanup()
 	{
 		QueueFree();
@@ -74,6 +94,7 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 	public virtual float Damage(SwDamage damage, Node2D source)
 	{
 		// Note, damage effects can *heal* you as well as hurt you depending on what your multiplier is.
+		if(IsInvulnerable()) return 0;
 		float value = damage.Value;
 		if(DamageMultipliers.TryGetValue(damage.Type, out float mul)) value *= mul;
 		if(value != 0) IncomingDamageQueue.Add(new(damage.Type, value));
@@ -83,6 +104,7 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 	protected abstract float GetMaxHealth();
 	protected virtual void ApplyDamage()
 	{
+		if(IncomingDamageQueue.Count == 0) return;
 		foreach (var damage in IncomingDamageQueue)
 		{
 			Health -= damage.Value;
@@ -94,5 +116,6 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 			else if(!IsAlive()) Die();
 		}
 		IncomingDamageQueue.Clear();
+		InvulnerableClock.Restart();
 	}
 }

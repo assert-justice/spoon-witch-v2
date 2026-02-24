@@ -6,7 +6,7 @@ using SW.Src.Timer;
 
 namespace SW.Src.Entity.Projectile;
 
-public abstract partial class SwProjectile : SwHurtbox
+public partial class SwProjectile : SwHurtbox
 {
     protected Vector2 Velocity = Vector2.Zero;
     public override void _Ready()

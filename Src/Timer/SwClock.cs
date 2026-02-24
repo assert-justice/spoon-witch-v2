@@ -1,9 +1,17 @@
 namespace SW.Src.Timer;
 
-public class SwClock(SwClockData clockData) : SwTimer(clockData)
+public class SwClock : SwTimer
 {
-    private float Duration = clockData.Duration;
+    private float Duration;
     private float Time = 0;
+    public SwClock() : base(new(){})
+    {
+        Duration = new SwClockData(){}.Duration;
+    }
+    public SwClock(SwClockData clockData) : base(clockData)
+    {
+        Duration = clockData.Duration;
+    }
 
     public float GetTime(){return Time;}
     public float GetDuration(){return Duration;}

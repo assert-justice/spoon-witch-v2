@@ -8,7 +8,8 @@ namespace SW.Src.Entity;
 public partial class SwHurtbox : Area2D
 {
     [Export] protected Node2D DamageSource;
-    public readonly HashSet<string> GroupWhitelist = [];
+    [Export] private string[] Whitelist;
+    public HashSet<string> GroupWhitelist = [];
     public List<SwDamage> Damages = [];
     private CollisionShape2D Collider;
     public bool IsEnabled{get=>!Collider.Disabled; set{Collider.Disabled = !value;}}
@@ -17,6 +18,7 @@ public partial class SwHurtbox : Area2D
         BodyEntered += OnBodyEntered;
         AreaEntered += OnAreaEntered;
         Collider = GetChild<CollisionShape2D>(0);
+        if(Whitelist is not null) GroupWhitelist = [..Whitelist];
     }
     private void OnAreaEntered(Area2D area)
     {

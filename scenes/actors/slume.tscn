@@ -137,6 +137,10 @@ region = Rect2(32, 64, 32, 32)
 atlas = ExtResource("4_107sd")
 region = Rect2(64, 64, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_4axoo"]
+atlas = ExtResource("1_ebxwb")
+region = Rect2(0, 0, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_y2vwy"]
 atlas = ExtResource("5_fdp22")
 region = Rect2(0, 0, 32, 32)
@@ -307,6 +311,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_4axoo")
+}],
+"loop": true,
+"name": &"knockback",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_y2vwy")
 }, {
 "duration": 1.0,
@@ -370,7 +382,7 @@ shape = SubResource("CircleShape2D_vf7sy")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1013048236]
 sprite_frames = SubResource("SpriteFrames_re5ys")
-animation = &"idle_down"
+animation = &"knockback"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=910629453]
 

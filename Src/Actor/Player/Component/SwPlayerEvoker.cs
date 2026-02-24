@@ -27,7 +27,7 @@ public class SwPlayerEvoker
     }
     public void FireSling()
     {
-        var bullet = Parent.SlingBulletScene.Instantiate<SwSlingBullet>();
+        var bullet = Parent.SlingBulletScene.Instantiate<SwProjectile>();
         bullet.Init(Parent.GetParent(), Parent.Controls.Aim() * Parent.SlingBulletSpeed, Parent.Position);
         Parent.Inventory.RemoveItems(Inventory.SwItemType.SlingBullet, 1);
         bullet.Damages = [..Parent.SlingDamages];

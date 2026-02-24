@@ -13,6 +13,12 @@
 [ext_resource type="Texture2D" uid="uid://beluggnt0jhei" path="res://assets/sprites/characters/belladonna/run/bella_run_u.png" id="6_kggx2"]
 [ext_resource type="Texture2D" uid="uid://dws1oebv0d83k" path="res://assets/sprites/characters/belladonna/sling/bella_sling.png" id="9_0w4p8"]
 
+[sub_resource type="Resource" id="Resource_c4rn8"]
+script = ExtResource("3_c4rn8")
+Type = 1
+Value = 50.0
+metadata/_custom_type_script = "uid://bm2wc78chtlea"
+
 [sub_resource type="Resource" id="Resource_ypltb"]
 script = ExtResource("3_c4rn8")
 Type = 1
@@ -1214,6 +1220,7 @@ size = Vector2(20, 26)
 texture_filter = 1
 motion_mode = 1
 script = ExtResource("1_xx81n")
+SpoonDamages = [SubResource("Resource_c4rn8")]
 SlingBulletScene = ExtResource("2_kggx2")
 SlingDamages = [SubResource("Resource_ypltb")]
 
@@ -1232,6 +1239,7 @@ frame_progress = 1.0
 position = Vector2(24, 0)
 script = ExtResource("3_wl55n")
 DamageSource = NodePath("../..")
+Whitelist = PackedStringArray("Player")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpoonPivot/Hurtbox" unique_id=1671960283]
 shape = SubResource("RectangleShape2D_ypltb")

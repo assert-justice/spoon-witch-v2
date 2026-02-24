@@ -8,11 +8,13 @@ public class SwSlumeStateDead(SwSlume parent) : SwStateMachine<SwSlume, SwState>
     public override void EnterState(SwState lastState)
     {
         Parent.Animator.PlayBodyAnim("death");
+        Parent.Hurtbox.IsEnabled = false;
+        Parent.Hitbox.Disabled = true;
     }
     public override void Tick(float dt)
     {
         if(Parent.Animator.IsPlaying()) return;
-        if(Parent.DistanceToPlayerSquared() < 1000) return;
+        if(Parent.InSleepRadius()) return;
         Parent.Cleanup();
     }
 }
