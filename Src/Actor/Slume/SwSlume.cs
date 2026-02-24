@@ -47,7 +47,6 @@ public partial class SwSlume : SwEnemy
 		StateMachine.AddState(new SwSlumeStateSeeking(this));
 		StateMachine.AddState(new SwSlumeStateFleeing(this));
 		StateMachine.AddState(new SwSlumeStateDead(this));
-		StateMachine.LogStates = true;
 		Hurtbox = GetNode<SwHurtbox>("Hurtbox");
 		Hitbox = GetNode<CollisionShape2D>("Hitbox");
 	}

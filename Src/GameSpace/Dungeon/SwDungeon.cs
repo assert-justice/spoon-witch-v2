@@ -11,5 +11,6 @@ public partial class SwDungeon : Node2D
 		Terrain = GetNode<SwDualGrid>("Terrain");
 		Terrain.SetRect(new(0,0,20,10), 0, 4);
 		Terrain.SetRect(new(1,1,18,8), 1, 0);
+		Terrain.SetRect(new(8,3,4,4), 2, 5);
 	}
 }

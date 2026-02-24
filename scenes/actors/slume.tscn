@@ -391,8 +391,6 @@ shape = SubResource("CircleShape2D_vf7sy")
 sprite_frames = SubResource("SpriteFrames_re5ys")
 animation = &"knockback"
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=910629453]
-
 [node name="Hurtbox" type="Area2D" parent="." unique_id=607728833 node_paths=PackedStringArray("DamageSource")]
 script = ExtResource("9_4axoo")
 DamageSource = NodePath("..")

@@ -37,9 +37,9 @@ TerrainData = ExtResource("3_bca5f")
 NumLayers = 4
 
 [node name="Player" parent="." unique_id=313462690 instance=ExtResource("4_micdf")]
-position = Vector2(309, 159)
+position = Vector2(56, 163)
 
 [node name="Slume" parent="." unique_id=483287388 instance=ExtResource("5_qcii0")]
-position = Vector2(505, 174)
+position = Vector2(604, 162)
 InitialState = 5
 VisionRadius = 300.0
