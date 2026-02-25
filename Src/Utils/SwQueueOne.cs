@@ -14,6 +14,7 @@ public class SwQueueOne<T>
         if (HasValue)
         {
             value = Value;
+            HasValue = false;
             return true;
         }
         value = default;

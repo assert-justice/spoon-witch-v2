@@ -10,7 +10,13 @@ public static class SwStatic
     {
         return EqualityComparer<T>.Default.Equals(a, b);
     }
-    public const float HALF_PI = Mathf.Pi * 0.5f;
+    public static bool TrySlice(string str, string start, out string slice)
+	{
+		slice = default;
+		if(!str.StartsWith(start)) return false;
+		slice = str[start.Length..].Trim();
+		return true;
+	}
     public static bool HasError{get; private set;} = false;
     private static readonly StringBuilder Sb = new();
     public static string Separator{get; set;} = "";

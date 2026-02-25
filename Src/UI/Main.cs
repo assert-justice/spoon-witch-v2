@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Godot;
-using SW.Src.Input;
+using SW.Src.Global;
 using SW.Src.Utils;
 
 namespace SW.Src.Ui;
@@ -17,8 +17,10 @@ public partial class Main : Control
 	}
 	private static readonly Queue<string> MessageQueue = new();
 	private readonly Dictionary<SwGameState, Action<SwGameState>> GameStates = [];
-	private readonly Queue<SwGameState> StateQueue = new();
+	// private readonly Queue<SwGameState> StateQueue = new();
+	private readonly SwQueueOne<SwGameState> StateQueue = new();
 	private SwGameState GameState = SwGameState.NoGame;
+	private SwGameState LastGameState = SwGameState.NoGame;
 	private Node2D GameHolder;
 	private SwMenuHolder MenuHolder;
 	public override void _Ready()
@@ -62,19 +64,14 @@ public partial class Main : Control
 				StateQueue.Enqueue(SwGameState.NoGame);
 				break;
 			default:
-				if(TrySlice(message, "set_ui:", out string menu))
+				StateQueue.Enqueue(SwGameState.InSubmenu);
+				if(SwStatic.TrySlice(message, "set_submenu:", out string menu))
 				{
 					MenuHolder.SetMenu(menu);
 				}
+				else SwStatic.LogError("Unexpected message:", message);
 				break;
 		}
-	}
-	private static bool TrySlice(string str, string start, out string slice)
-	{
-		slice = default;
-		if(!str.StartsWith(start)) return false;
-		slice = str[start.Length..].Trim();
-		return true;
 	}
 	private void OnEnterMainMenu(SwGameState lastStateId)
 	{

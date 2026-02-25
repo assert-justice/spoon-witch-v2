@@ -87,7 +87,7 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 	public float GetLastAngleRounded()
 	{
 		const float mul = 4 / Mathf.Tau;
-		return Mathf.Round(GetLastAngle() * mul) * SwStatic.HALF_PI;
+		return Mathf.Round(GetLastAngle() * mul) * SwConstants.HALF_PI;
 	}
 	public int GetLastFacing4()
 	{
