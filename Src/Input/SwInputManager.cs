@@ -146,6 +146,7 @@ public class SwInputManager
 		UiMove.AddPhysicalKeys(Key.Left, Key.Right, Key.Up, Key.Down);
 		UiMove.AddJoyAxes(JoyAxis.LeftX, JoyAxis.LeftY);
 		UiMove.AddJoyAxes(JoyAxis.RightX, JoyAxis.RightY);
+		UiMove.AddJoyButtons(JoyButton.DpadLeft, JoyButton.DpadRight, JoyButton.DpadUp, JoyButton.DpadDown);
 		UiLeft.AddAxisNeg(()=>UiMove.GetValue().X);
 		UiRight.AddAxisPos(()=>UiMove.GetValue().X);
 		UiUp.AddAxisNeg(()=>UiMove.GetValue().Y);

@@ -1,14 +1,33 @@
 using System.Collections.Generic;
 using Godot;
+using SW.Src.Utils;
 
 namespace SW.Src.Ui;
 
 public partial class SwMenuHolder : Control
 {
-    private readonly List<SwMenu> Menus = [];
+    private readonly List<SwMenu> MenuStack = [];
+    private readonly SwQueueOne<string> NextMenuQueue = new();
     public override void _Ready()
     {
-        Menus.Add(GetChild<SwMenu>(0));
+        MenuStack.Add(GetChild<SwMenu>(0));
+        SetMenuInternal();
+    }
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+        if(!NextMenuQueue.TryDequeue(out string menuName)) return;
+        for (int idx = 0; idx < MenuStack.Count; idx++)
+        {
+            var menu = MenuStack[idx];
+            if(menu.Name == menuName)
+            {
+                while(MenuStack.Count > idx + 1) Pop();
+                SetMenuInternal();
+                return;
+            }
+        }
+        MenuStack.Add(GetNode<SwMenu>(menuName));
         SetMenuInternal();
     }
     private void SetMenuInternal()
@@ -19,46 +38,35 @@ public partial class SwMenuHolder : Control
         {
             if(child is SwMenu menu)
             {
-                if(menu == top) menu.Focus();
-                else menu.Visible = false;
+                if(menu == top) menu.Wake();
+                else menu.Sleep();
             }
         }
     }
     private void Pop()
     {
         // Cannot back out of main menu
-        if(Menus.Count <= 1) return;
-        Menus.RemoveAt(Menus.Count-1);
+        if(MenuStack.Count <= 1) return;
+        MenuStack.RemoveAt(MenuStack.Count-1);
     }
     private SwMenu GetTop()
     {
-        return Menus[^1];
+        return MenuStack[^1];
     }
-    public void SetMenu(string menuName)
+    public void QueueMenu(string menuName)
     {
-        for (int idx = 0; idx < Menus.Count; idx++)
-        {
-            var menu = Menus[idx];
-            if(menu.Name == menuName)
-            {
-                while(Menus.Count > idx + 1) Pop();
-                SetMenuInternal();
-                return;
-            }
-        }
-        Menus.Add(GetNode<SwMenu>(menuName));
-        SetMenuInternal();
+        NextMenuQueue.Enqueue(menuName);
     }
     public void Back()
     {
         // Cannot back out of main menu
-        if(Menus.Count <= 1) return;
+        if(MenuStack.Count <= 1) return;
         Pop();
         SetMenuInternal();
     }
     public void ToMainMenu()
     {
-        while(Menus.Count > 1)Pop();
+        while(MenuStack.Count > 1)Pop();
         SetMenuInternal();
     }
 }

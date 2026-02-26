@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using SW.Src.Global;
+using SW.Src.Input;
 using SW.Src.Utils;
 
 namespace SW.Src.Ui;
@@ -67,7 +68,7 @@ public partial class Main : Control
 				StateQueue.Enqueue(SwGameState.InSubmenu);
 				if(SwStatic.TrySlice(message, "set_submenu:", out string menu))
 				{
-					MenuHolder.SetMenu(menu);
+					MenuHolder.QueueMenu(menu);
 				}
 				else SwStatic.LogError("Unexpected message:", message);
 				break;
@@ -91,7 +92,7 @@ public partial class Main : Control
 	{
 		// Pause game and show pause menu
 		Pause();
-		MenuHolder.SetMenu("Pause");
+		MenuHolder.QueueMenu("Pause");
 	}
 	private void OnEnterSubmenu(SwGameState lastStateId)
 	{
@@ -121,7 +122,7 @@ public partial class Main : Control
 	}
 	private void SetMenu(string menuName)
 	{
-		MenuHolder.SetMenu(menuName);
+		MenuHolder.QueueMenu(menuName);
 	}
 	public static void Message(string message){MessageQueue.Enqueue(message);}
 }
