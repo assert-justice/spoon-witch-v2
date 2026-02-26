@@ -26,7 +26,22 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SubViewport" type="SubViewport" parent="GameHolder" unique_id=1055604146]
+audio_listener_enable_2d = true
 size = Vector2i(640, 320)
+
+[node name="Hud" type="Control" parent="." unique_id=1360819217 groups=["Hud"]]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Hud" unique_id=561406053]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Health: 100 Ammo: 5"
 
 [node name="MenuHolder" type="Control" parent="." unique_id=181542438]
 layout_mode = 1

@@ -35,6 +35,7 @@ project/assembly_name="SW"
 
 Player=""
 Enemy=""
+Hud=""
 
 [input]
 

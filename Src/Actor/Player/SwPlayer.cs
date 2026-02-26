@@ -30,6 +30,8 @@ public partial class SwPlayer : SwActor
 	[Export] public float SlingDamageMul = 1;
 	[Export] public float SlingMovementSpeedMul = 0.5f;
 	[Export] public float SlingChargeTime = 0.75f;
+	// Misc nodes
+	private Label HudLabel;
 	// [Export] public float SlingRecoveryTime = 0.25f;
 	// [Export] public float SlingDefaultTime = 0.25f;
 	// Data
@@ -58,16 +60,25 @@ public partial class SwPlayer : SwActor
 		Controls = new(this);
 		Evoker = new(this);
 		Inventory.AddItems(SwItemType.SlingBullet, 5);
+		var hud = GetTree().GetNodesInGroup("Hud");
+		if(hud.Count == 1) HudLabel = hud[0].GetChild<Label>(0);
 		base._Ready();
 	}
 	protected override void Tick(float dt)
 	{
 		StateManager.Tick(dt);
 		Controls.Poll();
+		UpdateHud();
 		if(SwGlobal.GetInputManager().Pause.IsJustPressed()) Main.Message("pause");
 	}
 	protected override float GetMaxHealth()
 	{
 		return MaxHealth;
+	}
+	private void UpdateHud()
+	{
+		if(HudLabel is null) return;
+		string text = $"Health: {Health} Ammo: {Inventory.CountItems(SwItemType.SlingBullet)}";
+		HudLabel.Text = text;
 	}
 }

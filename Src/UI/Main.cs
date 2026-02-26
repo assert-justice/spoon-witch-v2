@@ -10,10 +10,12 @@ public partial class Main : Control
 	private static readonly Queue<string> MessageQueue = new();
 	private SubViewport GameHolder;
 	private SwMenuHolder MenuHolder;
+	private Control Hud;
 	public override void _Ready()
 	{
 		GameHolder = GetNode<SubViewport>("GameHolder/SubViewport");
 		MenuHolder = GetNode<SwMenuHolder>("MenuHolder");
+		Hud = GetNode<Control>("Hud");
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -29,28 +31,32 @@ public partial class Main : Control
 				break;
 			case "pause":
 				MenuHolder.Visible = true;
+				Hud.Visible = false;
 				SetMenu("Pause");
 				Pause();
 				break;
 			case "resume":
 				MenuHolder.Visible = false;
+				Hud.Visible = true;
 				Resume();
 				break;
 			case "restart":
 				MenuHolder.Visible = false;
+				Hud.Visible = true;
 				LaunchGame();
 				break;
 			case "launch":
+				Hud.Visible = true;
 				MenuHolder.Visible = false;
 				LaunchGame();
 				break;
 			case "main_menu":
+				Hud.Visible = false;
 				FreeGame();
 				MenuHolder.Visible = true;
 				SetMenu("MainMenu");
 				break;
 			case "options":
-				MenuHolder.Visible = true;
 				SetMenu("OptionsMenu");
 				break;
 			default:
