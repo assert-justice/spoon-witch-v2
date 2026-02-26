@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cyn0tp60nn324" path="res://Src/UI/Main.cs" id="1_0ay0p"]
 [ext_resource type="Script" uid="uid://bodvay0korirm" path="res://Src/UI/SwMenuHolder.cs" id="2_2p1s2"]
+[ext_resource type="PackedScene" uid="uid://df220aw2sa867" path="res://scenes/game_space/dungeon.tscn" id="2_vspwy"]
 [ext_resource type="Script" uid="uid://plunvbjmkx1j" path="res://Src/UI/SwMenu.cs" id="3_02nsg"]
 
 [node name="Main" type="Control" unique_id=910366092]
@@ -13,9 +14,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0ay0p")
+GameScene = ExtResource("2_vspwy")
 
-[node name="GameHolder" type="Node2D" parent="." unique_id=1731914424]
+[node name="GameHolder" type="SubViewportContainer" parent="." unique_id=1418073324]
 process_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="GameHolder" unique_id=1055604146]
+size = Vector2i(640, 320)
 
 [node name="MenuHolder" type="Control" parent="." unique_id=181542438]
 layout_mode = 1
@@ -110,3 +121,43 @@ horizontal_alignment = 1
 [node name="Back" type="Button" parent="MenuHolder/Credits/VBox" unique_id=1735595558]
 layout_mode = 2
 text = "Back"
+
+[node name="Pause" type="HBoxContainer" parent="MenuHolder" unique_id=752058347]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_02nsg")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/Pause" unique_id=461836249]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MenuHolder/Pause/VBox" unique_id=299651492]
+layout_mode = 2
+text = "Pause"
+horizontal_alignment = 1
+
+[node name="Resume" type="Button" parent="MenuHolder/Pause/VBox" unique_id=1680188652]
+layout_mode = 2
+text = "Resume"
+
+[node name="Restart" type="Button" parent="MenuHolder/Pause/VBox" unique_id=751522386]
+layout_mode = 2
+text = "Restart"
+
+[node name="MainMenu" type="Button" parent="MenuHolder/Pause/VBox" unique_id=1645786942]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Options" type="Button" parent="MenuHolder/Pause/VBox" unique_id=537416109]
+layout_mode = 2
+text = "Options"
+
+[node name="Quit" type="Button" parent="MenuHolder/Pause/VBox" unique_id=1597851424]
+layout_mode = 2
+text = "Quit"

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using SW.Src.Global;
@@ -13,9 +14,14 @@ public partial class SwMenu : Control
     public override void _Ready()
     {
         MenuHolder = GetParent<SwMenuHolder>();
-        if(GetNodeOrNull<Button>("VBox/Back") is Button back) back.Pressed += MenuHolder.Back;
-        if(GetNodeOrNull<Button>("VBox/Quit") is Button quit) quit.Pressed += ()=>Main.Message("quit");
-        if(GetNodeOrNull<Button>("VBox/Credits") is Button credits) credits.Pressed += ()=>MenuHolder.QueueMenu("Credits");
+        AttachButton("VBox/Embark", ()=>Main.Message("launch"));
+        AttachButton("VBox/Back", MenuHolder.Back);
+        AttachButton("VBox/Quit", ()=>Main.Message("quit"));
+        AttachButton("VBox/Resume", ()=>Main.Message("resume"));
+        AttachButton("VBox/Restart", ()=>Main.Message("restart"));
+        AttachButton("VBox/MainMenu", ()=>Main.Message("main_menu"));
+        AttachButton("VBox/Options", ()=>Main.Message("options"));
+        AttachButton("VBox/Credits", ()=>MenuHolder.QueueMenu("Credits"));
         GetFocusPoints(this);
     }
     public override void _PhysicsProcess(double delta)
@@ -78,5 +84,9 @@ public partial class SwMenu : Control
     {
         IsAwake = false;
         Visible = false;
+    }
+    public void AttachButton(string nodePath, Action action)
+    {
+        if(GetNodeOrNull<Button>(nodePath) is Button button) button.Pressed += action;
     }
 }

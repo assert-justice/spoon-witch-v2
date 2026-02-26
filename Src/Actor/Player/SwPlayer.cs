@@ -1,7 +1,9 @@
 using Godot;
 using SW.Src.Actor.Player.Component;
 using SW.Src.Effect;
+using SW.Src.Global;
 using SW.Src.Inventory;
+using SW.Src.Ui;
 
 namespace SW.Src.Actor.Player;
 
@@ -62,6 +64,7 @@ public partial class SwPlayer : SwActor
 	{
 		StateManager.Tick(dt);
 		Controls.Poll();
+		if(SwGlobal.GetInputManager().Pause.IsJustPressed()) Main.Message("pause");
 	}
 	protected override float GetMaxHealth()
 	{
