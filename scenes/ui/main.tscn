@@ -26,10 +26,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SubViewport" type="SubViewport" parent="GameHolder" unique_id=1055604146]
+handle_input_locally = false
 audio_listener_enable_2d = true
 size = Vector2i(640, 320)
+render_target_update_mode = 4
 
 [node name="Hud" type="Control" parent="." unique_id=1360819217 groups=["Hud"]]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

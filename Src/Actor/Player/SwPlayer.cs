@@ -81,4 +81,13 @@ public partial class SwPlayer : SwActor
 		string text = $"Health: {Health} Ammo: {Inventory.CountItems(SwItemType.SlingBullet)}";
 		HudLabel.Text = text;
 	}
+	public void AddItems(SwItemType itemType, float quantity, string itemName = null)
+	{
+		Inventory.AddItems(itemType, quantity);
+		// Send pickup message to hud
+		itemName ??= itemType.ToString();
+		string verb = quantity > 0 ? "Added" : "Removed";
+		string message = $"{verb} {quantity} {itemName}";
+		SwStatic.Log(message);
+	}
 }

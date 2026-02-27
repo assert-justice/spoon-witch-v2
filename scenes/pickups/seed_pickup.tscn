@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://buobd167x4xsv"]
+
+[ext_resource type="Script" uid="uid://lbgjnu3bcmrs" path="res://Src/Entity/SwPickup.cs" id="1_aiu2l"]
+[ext_resource type="Texture2D" uid="uid://cf2or4m3cuf64" path="res://assets/sprites/projectiles/sling_ammo.png" id="2_5miuj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5miuj"]
+size = Vector2(32, 32)
+
+[node name="SeedPickup" type="Area2D" unique_id=57875623]
+script = ExtResource("1_aiu2l")
+ItemName = "seed"
+PluralItemName = "seeds"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1524810725]
+shape = SubResource("RectangleShape2D_5miuj")
+
+[node name="SlingAmmo" type="Sprite2D" parent="." unique_id=1647239218]
+position = Vector2(-8, 7)
+texture = ExtResource("2_5miuj")
+
+[node name="SlingAmmo2" type="Sprite2D" parent="." unique_id=793463700]
+position = Vector2(7, 5)
+texture = ExtResource("2_5miuj")
+
+[node name="SlingAmmo3" type="Sprite2D" parent="." unique_id=634420771]
+position = Vector2(-5, -4)
+texture = ExtResource("2_5miuj")
+
+[node name="SlingAmmo4" type="Sprite2D" parent="." unique_id=1210610484]
+position = Vector2(-1, 6)
+texture = ExtResource("2_5miuj")
+
+[node name="SlingAmmo5" type="Sprite2D" parent="." unique_id=1069993838]
+position = Vector2(6, -8)
+texture = ExtResource("2_5miuj")

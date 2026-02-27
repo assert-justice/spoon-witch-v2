@@ -102,7 +102,6 @@ public partial class SwDualGrid : TileMapLayer
 	}
 	private void PushLayer(int numNewLayers = 1)
 	{
-		SwStatic.Log($"pushing {numNewLayers} layers");
 		int currentNumLayers = GetNumLayers();
 		for (int idx = 0; idx < currentNumLayers; idx++)
 		{
@@ -122,7 +121,6 @@ public partial class SwDualGrid : TileMapLayer
 	}
 	private void PopLayer(int numRemovedLayers = 1)
 	{
-		SwStatic.Log($"popping {numRemovedLayers} layers");
 		int numLayers = GetNumLayers();
 		for (int layerIdx = 0; layerIdx < numRemovedLayers; layerIdx++)
 		{
