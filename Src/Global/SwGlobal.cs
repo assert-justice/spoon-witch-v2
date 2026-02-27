@@ -30,6 +30,7 @@ public partial class SwGlobal : Node
         Global = this;
         InputManager = new();
         InputManager.BindDefaults();
+        ProcessMode = ProcessModeEnum.Always;
     }
     public override void _PhysicsProcess(double delta)
     {

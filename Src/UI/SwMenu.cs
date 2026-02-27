@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using SW.Src.Global;
+using SW.Src.Input;
 
 namespace SW.Src.Ui;
 
@@ -9,6 +10,7 @@ public partial class SwMenu : Control
 {
     private SwMenuHolder MenuHolder;
     private readonly List<Control> FocusPoints = [];
+    private SwInputManager InputManager;
     private int FocusIdx = 0;
     private bool IsAwake = false;
     public override void _Ready()
@@ -23,12 +25,12 @@ public partial class SwMenu : Control
         AttachButton("VBox/Options", ()=>Main.Message("options"));
         AttachButton("VBox/Credits", ()=>MenuHolder.QueueMenu("Credits"));
         GetFocusPoints(this);
+        InputManager = SwGlobal.GetInputManager();
     }
     public override void _PhysicsProcess(double delta)
     {
         if(!IsAwake) return;
-        var im = SwGlobal.GetInputManager();
-        if(im.UiConfirm.IsJustPressed())
+        if(InputManager.UiConfirm.IsJustPressed())
         {
             Control fp = FocusPoints[FocusIdx];
             if(fp is Button button)
@@ -36,21 +38,20 @@ public partial class SwMenu : Control
                 button.EmitSignal("pressed");
             }
         }
-        else if(im.UiCancel.IsJustPressed()) MenuHolder.Back();
-        else if (im.UiDown.IsJustPressed())
-        {
-            
-            FocusIdx++;
-            if(FocusIdx >= FocusPoints.Count) FocusIdx = 0;
-            FocusPoints[FocusIdx].GrabFocus();
-        }
-        else if (im.UiDown.IsJustPressed())
+        else if(InputManager.UiCancel.IsJustPressed()) MenuHolder.Back();
+        else if (InputManager.UiDown.IsJustPressed())
         {
             FocusIdx++;
             if(FocusIdx >= FocusPoints.Count) FocusIdx = 0;
             FocusPoints[FocusIdx].GrabFocus();
         }
-        else if (im.UiUp.IsJustPressed())
+        else if (InputManager.UiDown.IsJustPressed())
+        {
+            FocusIdx++;
+            if(FocusIdx >= FocusPoints.Count) FocusIdx = 0;
+            FocusPoints[FocusIdx].GrabFocus();
+        }
+        else if (InputManager.UiUp.IsJustPressed())
         {
             FocusIdx--;
             if(FocusIdx < 0) FocusIdx = FocusPoints.Count - 1;
