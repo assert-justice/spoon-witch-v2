@@ -17,6 +17,13 @@ public static class SwStatic
 		slice = str[start.Length..].Trim();
 		return true;
 	}
+    public static void FreeChildren(Node node)
+    {
+        foreach (var child in node.GetChildren())
+        {
+            child.QueueFree();
+        }
+    }
     public static bool HasError{get; private set;} = false;
     private static readonly StringBuilder Sb = new();
     public static string Separator{get; set;} = "";

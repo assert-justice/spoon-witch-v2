@@ -65,28 +65,27 @@ public partial class SwMenu : Control
             {
                 if(control.FocusMode != FocusModeEnum.None)
                 {
-                    // control.GrabFocus();
-                    // return;
                     FocusPoints.Add(control);
                 }
                 GetFocusPoints(control);
             }
         }
     }
-    public void Wake()
+    private void AttachButton(string nodePath, Action action)
+    {
+        if(GetNodeOrNull<Button>(nodePath) is Button button) button.Pressed += action;
+    }
+    protected virtual bool ShouldPauseOnWake(){return true;}
+    public virtual void Wake()
     {
         IsAwake = true;
         Visible = true;
+        GetTree().Paused = ShouldPauseOnWake();
         if(FocusPoints.Count > FocusIdx) FocusPoints[FocusIdx].GrabFocus();
-        // GetFocus(this);
     }
-    public void Sleep()
+    public virtual void Sleep()
     {
         IsAwake = false;
         Visible = false;
-    }
-    public void AttachButton(string nodePath, Action action)
-    {
-        if(GetNodeOrNull<Button>(nodePath) is Button button) button.Pressed += action;
     }
 }

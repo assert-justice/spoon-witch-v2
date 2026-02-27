@@ -10,12 +10,11 @@ public partial class Main : Control
 	private static readonly Queue<string> MessageQueue = new();
 	private SubViewport GameHolder;
 	private SwMenuHolder MenuHolder;
-	private Control Hud;
+	private Control SubmenuHolder;
 	public override void _Ready()
 	{
 		GameHolder = GetNode<SubViewport>("GameHolder/SubViewport");
 		MenuHolder = GetNode<SwMenuHolder>("MenuHolder");
-		Hud = GetNode<Control>("Hud");
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -30,62 +29,41 @@ public partial class Main : Control
 				GetTree().Quit();
 				break;
 			case "pause":
-				MenuHolder.Visible = true;
-				Hud.Visible = false;
 				SetMenu("Pause");
-				Pause();
 				break;
 			case "resume":
-				MenuHolder.Visible = false;
-				Hud.Visible = true;
-				Resume();
+				SetMenu("Hud");
 				break;
 			case "restart":
-				MenuHolder.Visible = false;
-				Hud.Visible = true;
 				LaunchGame();
+				SetMenu("Hud");
 				break;
 			case "launch":
-				Hud.Visible = true;
-				MenuHolder.Visible = false;
 				LaunchGame();
+				SetMenu("Hud");
 				break;
 			case "main_menu":
-				Hud.Visible = false;
 				FreeGame();
-				MenuHolder.Visible = true;
 				SetMenu("MainMenu");
 				break;
 			case "options":
 				SetMenu("OptionsMenu");
 				break;
 			default:
-				if(SwStatic.TrySlice(message, "set_submenu:", out string menu))
-				{
-					MenuHolder.QueueMenu(menu);
-				}
-				else SwStatic.LogError("Unexpected message:", message);
+				// if(SwStatic.TrySlice(message, "set_submenu:", out string menu))
+				// {
+				// 	MenuHolder.QueueMenu(menu);
+				// }
+				// else 
+				SwStatic.LogError("Unexpected message:", message);
 				break;
 		}
-	}
-	private void Pause()
-	{
-		GetTree().Paused = true;
-	}
-	private void Resume()
-	{
-		GetTree().Paused = false;
-	}
-	private bool InGame()
-	{
-		return GameHolder.GetChildCount() != 0;
 	}
 	private void LaunchGame()
 	{
 		FreeGame();
 		var game = GameScene.Instantiate();
 		GameHolder.AddChild(game);
-		Resume();
 	}
 	private void FreeGame()
 	{
@@ -96,4 +74,8 @@ public partial class Main : Control
 		MenuHolder.QueueMenu(menuName);
 	}
 	public static void Message(string message){MessageQueue.Enqueue(message);}
+	private bool InGame()
+	{
+		return GameHolder.GetChildCount() != 0;
+	}
 }

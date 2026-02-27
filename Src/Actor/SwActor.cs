@@ -78,6 +78,7 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 	{
 		return AddTicker(new SwClock(clockData));
 	}
+	public float GetHealth(){return Health;}
 	public Vector2 GetLastVelocity(){return LastVelocity;}
 	public float GetLastAngle()
 	{

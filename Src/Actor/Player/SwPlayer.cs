@@ -52,6 +52,7 @@ public partial class SwPlayer : SwActor
 	public SwPlayerControls Controls{get; private set;}
 	public SwPlayerAnimator Animator{get; private set;}
 	public SwPlayerEvoker Evoker{get; private set;}
+	public SwPlayerHud Hud{get; private set;}
 	// Overrides
 	public override void _Ready()
 	{
@@ -59,28 +60,29 @@ public partial class SwPlayer : SwActor
 		StateManager = new(this);
 		Controls = new(this);
 		Evoker = new(this);
+		BindComponents();
 		Inventory.AddItems(SwItemType.SlingBullet, 5);
-		var hud = GetTree().GetNodesInGroup("Hud");
-		if(hud.Count == 1) HudLabel = hud[0].GetChild<Label>(0);
+		// var hud = GetTree().GetNodesInGroup("Hud");
+		// if(hud.Count == 1) HudLabel = hud[0].GetChild<Label>(0);
 		base._Ready();
 	}
 	protected override void Tick(float dt)
 	{
 		StateManager.Tick(dt);
 		Controls.Poll();
-		UpdateHud();
+		Hud.Tick(dt);
 		if(SwGlobal.GetInputManager().Pause.IsJustPressed()) Main.Message("pause");
 	}
 	protected override float GetMaxHealth()
 	{
 		return MaxHealth;
 	}
-	private void UpdateHud()
-	{
-		if(HudLabel is null) return;
-		string text = $"Health: {Health} Ammo: {Inventory.CountItems(SwItemType.SlingBullet)}";
-		HudLabel.Text = text;
-	}
+	// private void UpdateHud()
+	// {
+	// 	if(HudLabel is null) return;
+	// 	string text = $"Health: {Health} Ammo: {Inventory.CountItems(SwItemType.SlingBullet)}";
+	// 	HudLabel.Text = text;
+	// }
 	public void AddItems(SwItemType itemType, float quantity, string itemName = null)
 	{
 		Inventory.AddItems(itemType, quantity);
@@ -88,6 +90,7 @@ public partial class SwPlayer : SwActor
 		itemName ??= itemType.ToString();
 		string verb = quantity > 0 ? "Added" : "Removed";
 		string message = $"{verb} {quantity} {itemName}";
-		SwStatic.Log(message);
+		// SwStatic.Log(message);
+		Hud.AddMessage(message);
 	}
 }
