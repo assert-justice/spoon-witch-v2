@@ -6,13 +6,10 @@ namespace SW.Src.Actor.Slume.State;
 
 public class SwSlumeStateSeeking(SwSlume parent) : SwStateMachine<SwSlume, SwState>.SwStateData(parent, SwState.Seeking)
 {
-    SwClock GiveUpClock = new(new(){Duration=parent.GiveUpTime});
+    private readonly SwClock GiveUpClock = new(new(){Duration=parent.GiveUpTime});
     public override void EnterState(SwState lastState)
     {
         GiveUpClock.Restart();
-    }
-    public override void ExitState(SwState lastState)
-    {
     }
     public override void Tick(float dt)
     {

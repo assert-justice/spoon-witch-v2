@@ -31,6 +31,8 @@ public partial class SwPlayer : SwActor
 	[Export] public float SlingDamageMul = 1;
 	[Export] public float SlingMovementSpeedMul = 0.5f;
 	[Export] public float SlingChargeTime = 0.75f;
+	[ExportGroup("Inventory")]
+	[Export] private SwInventoryRes[] StartingInventory = [];
 	// [Export] public float SlingRecoveryTime = 0.25f;
 	// [Export] public float SlingDefaultTime = 0.25f;
 	// Data
@@ -60,7 +62,7 @@ public partial class SwPlayer : SwActor
 		Controls = new(this);
 		Evoker = new(this);
 		BindComponents();
-		Inventory.AddItems(SwItemType.SlingBullet, 5);
+		Inventory.SetSlots(StartingInventory);
 		base._Ready();
 	}
 	protected override void Tick(float dt)
@@ -82,13 +84,16 @@ public partial class SwPlayer : SwActor
 	{
 		return MaxHealth;
 	}
-	public void AddItems(SwItemType itemType, float quantity, string itemName = null)
+	public bool TryAddItems(SwItemType itemType, ref float count, string itemName = null)
 	{
-		Inventory.AddItems(itemType, quantity);
+		float startCount = count;
+		if(!Inventory.Slots.TryGetValue(itemType, out var slot)) return false;
+		if(!slot.TryAddItems(ref count)) return false;
 		// Send pickup message to hud
 		itemName ??= itemType.ToString();
-		string verb = quantity > 0 ? "Added" : "Removed";
-		string message = $"{verb} {quantity} {itemName}";
+		string verb = startCount > 0 ? "Added" : "Removed";
+		string message = $"{verb} {startCount - count} {itemName}";
 		Hud.AddMessage(message);
+		return true;
 	}
 }

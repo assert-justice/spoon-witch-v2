@@ -1,15 +1,16 @@
 [gd_scene format=3 uid="uid://buobd167x4xsv"]
 
-[ext_resource type="Script" uid="uid://lbgjnu3bcmrs" path="res://Src/Entity/SwPickup.cs" id="1_aiu2l"]
+[ext_resource type="Script" uid="uid://ercqfgyxq7rj" path="res://Src/Entity/Pickup/SwSlingBulletPickup.cs" id="1_5miuj"]
 [ext_resource type="Texture2D" uid="uid://cf2or4m3cuf64" path="res://assets/sprites/projectiles/sling_ammo.png" id="2_5miuj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5miuj"]
 size = Vector2(32, 32)
 
 [node name="SeedPickup" type="Area2D" unique_id=57875623]
-script = ExtResource("1_aiu2l")
+script = ExtResource("1_5miuj")
 ItemName = "seed"
 PluralItemName = "seeds"
+Quantity = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1524810725]
 shape = SubResource("RectangleShape2D_5miuj")

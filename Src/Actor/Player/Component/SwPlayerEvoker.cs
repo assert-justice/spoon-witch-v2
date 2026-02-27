@@ -1,6 +1,7 @@
 using Godot;
 using SW.Src.Entity;
 using SW.Src.Entity.Projectile;
+using SW.Src.Global;
 
 namespace SW.Src.Actor.Player.Component;
 
@@ -27,9 +28,19 @@ public class SwPlayerEvoker
     }
     public void FireSling()
     {
+        if(!Parent.Inventory.Slots.TryGetValue(Inventory.SwItemType.SlingBullet, out var slot))
+        {
+            SwStatic.LogError("Should be unreachable");
+            return;
+        }
+        float count = 1;
+        if(!slot.TryRemoveItems(ref count))
+        {
+            SwStatic.LogError("Should be unreachable", count);
+            return;
+        }
         var bullet = Parent.SlingBulletScene.Instantiate<SwProjectile>();
         bullet.Init(Parent.GetParent(), Parent.Controls.Aim() * Parent.SlingBulletSpeed, Parent.Position);
-        Parent.Inventory.RemoveItems(Inventory.SwItemType.SlingBullet, 1);
         bullet.DamageList = [..Parent.SlingDamages];
     }
 }

@@ -5,7 +5,7 @@ using SW.Src.Global;
 
 namespace SW.Src.Utils;
 
-public partial class SwDirtyDb
+public partial class SwDirtyDb : ISwIsDirty
 {
     private string DbPath;
     private int Hash = 0;

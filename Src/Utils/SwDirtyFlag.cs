@@ -1,9 +1,9 @@
 namespace SW.Src.Utils;
 
-public struct SwDirtyFlag(bool isDirty = true)
+public class SwDirtyFlag(bool isDirty = true) : ISwIsDirty
 {
     private bool IsDirty_ = isDirty;
-    public readonly bool IsDirty(){return IsDirty_;}
+    public bool IsDirty(){return IsDirty_;}
     public void SetDirty(){IsDirty_ = true;}
     public void Clean(){IsDirty_ = false;}
 }

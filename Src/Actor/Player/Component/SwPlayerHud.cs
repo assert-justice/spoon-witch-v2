@@ -21,10 +21,9 @@ public class SwPlayerHud : SwComponent<SwPlayer, SwPlayerHud.PlayerHudApi>
     public override void Tick(float dt)
     {
         if(Hud is null) return;
-        Hud.SetHealth(Api.GetHealth());
-        Hud.SetAmmo(Api.GetAmmo());
+        Hud.UpdatePlayer(Parent);
     }
-    public void AddMessage(string message, float duration = 1)
+    public void AddMessage(string message, float duration = 2)
     {
         if(Hud is null) return;
         Hud.AddMessage(message, duration);

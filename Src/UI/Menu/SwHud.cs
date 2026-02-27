@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
+using SW.Src.Actor.Player;
 using SW.Src.Global;
 using SW.Src.Utils;
 
@@ -11,29 +13,38 @@ public partial class SwHud : SwMenu
     [Export] private int MaxVisibleMessages = 5;
     private readonly Queue<(string,float)> MessageQueue = new();
     private readonly Queue<Action<SwHud>> DrawQueue = new();
-    private Label TextLabel;
+    private Label HealthLabel;
+    private Label AmmoLabel;
+    private Label RootLabel;
     private VBoxContainer MessageContainer;
-    private SwDirtyWrapper<float> PlayerHealth = new(100);
-    private SwDirtyWrapper<float> PlayerAmmo = new(5);
+    private readonly SwDirtyWrapper<float> PlayerHealth = new(100);
+    private readonly SwDirtyWrapper<float> PlayerMaxHealth = new(100);
+    private readonly SwDirtyWrapper<float> PlayerRoots = new(100);
+    private readonly SwDirtyWrapper<float> PlayerMaxRoots = new(100);
+    private readonly SwDirtyWrapper<float> PlayerAmmo = new(5);
+    private readonly SwDirtyWrapper<float> PlayerMaxAmmo = new(5);
     public override void _Ready()
     {
-        TextLabel = GetNode<Label>("VBox/Text");
+        HealthLabel = GetNode<Label>("VBox/HBox/Health");
+        AmmoLabel = GetNode<Label>("VBox/HBox/Ammo");
+        RootLabel = GetNode<Label>("VBox/HBox/Roots");
         MessageContainer = GetNode<VBoxContainer>("VBox/Messages");
         SwStatic.FreeChildren(MessageContainer);
     }
     public override void _PhysicsProcess(double delta)
     {
-        if(PlayerHealth.IsDirty() || PlayerAmmo.IsDirty()) SetText();
+        if(PlayerHealth.IsDirty() || PlayerMaxHealth.IsDirty()) 
+            HealthLabel.Text = $"Health: {PlayerHealth.Value}/{PlayerMaxHealth.Value}";
+        if(PlayerAmmo.IsDirty() || PlayerMaxAmmo.IsDirty()) 
+            AmmoLabel.Text = $"Ammo: {PlayerAmmo.Value}/{PlayerMaxAmmo.Value}";
+        if(PlayerRoots.IsDirty() || PlayerMaxRoots.IsDirty()) 
+            RootLabel.Text = $"Roots: {PlayerRoots.Value}/{PlayerMaxRoots.Value}";
         UpdateMessages();
         // Deliberately does not call base physics process method
     }
     public override void _Draw()
     {
         while(DrawQueue.TryDequeue(out var action)) action(this);
-    }
-    private void SetText()
-    {
-        TextLabel.Text = $"Health: {PlayerHealth.Value} Ammo: {PlayerAmmo.Value}";
     }
     private void UpdateMessages()
     {
@@ -51,8 +62,21 @@ public partial class SwHud : SwMenu
     {
         return false;
     }
-    public void SetHealth(float health){PlayerHealth.Value = health;}
-    public void SetAmmo(float ammo){PlayerAmmo.Value = ammo;}
+    public void UpdatePlayer(SwPlayer player)
+    {
+        PlayerHealth.Value = player.GetHealth();
+        PlayerMaxHealth.Value = player.MaxHealth;
+        if(player.Inventory.Slots.TryGetValue(Inventory.SwItemType.SlingBullet, out var ammoSlot))
+        {
+            PlayerAmmo.Value = ammoSlot.Quantity;
+            PlayerMaxAmmo.Value = ammoSlot.Capacity;
+        }
+        if(player.Inventory.Slots.TryGetValue(Inventory.SwItemType.Root, out var rootSlot))
+        {
+            PlayerRoots.Value = rootSlot.Quantity;
+            PlayerMaxRoots.Value = rootSlot.Capacity;
+        }
+    }
     public void AddMessage(string message, float duration = 1)
     {
         MessageQueue.Enqueue((message, duration));

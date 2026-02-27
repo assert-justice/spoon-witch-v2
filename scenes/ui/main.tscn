@@ -167,7 +167,6 @@ layout_mode = 2
 text = "Quit"
 
 [node name="Hud" type="HBoxContainer" parent="MenuHolder" unique_id=269682189 groups=["Hud"]]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -179,9 +178,28 @@ script = ExtResource("5_7n028")
 [node name="VBox" type="VBoxContainer" parent="MenuHolder/Hud" unique_id=196462009]
 layout_mode = 2
 
-[node name="Text" type="Label" parent="MenuHolder/Hud/VBox" unique_id=696996745]
+[node name="HBox" type="HBoxContainer" parent="MenuHolder/Hud/VBox" unique_id=383093858]
 layout_mode = 2
-text = "Pause"
+
+[node name="Health" type="Label" parent="MenuHolder/Hud/VBox/HBox" unique_id=696996745]
+layout_mode = 2
+text = "Health"
+
+[node name="Pad" type="Label" parent="MenuHolder/Hud/VBox/HBox" unique_id=1249226877]
+layout_mode = 2
+text = "---"
+
+[node name="Ammo" type="Label" parent="MenuHolder/Hud/VBox/HBox" unique_id=1670458026]
+layout_mode = 2
+text = "Ammo"
+
+[node name="Pad2" type="Label" parent="MenuHolder/Hud/VBox/HBox" unique_id=1954094813]
+layout_mode = 2
+text = "---"
+
+[node name="Roots" type="Label" parent="MenuHolder/Hud/VBox/HBox" unique_id=357095965]
+layout_mode = 2
+text = "Roots"
 
 [node name="Messages" type="VBoxContainer" parent="MenuHolder/Hud/VBox" unique_id=1572130743]
 layout_mode = 2
@@ -192,4 +210,4 @@ text = "- Message Here"
 
 [node name="Label2" type="Label" parent="MenuHolder/Hud/VBox/Messages" unique_id=326133734]
 layout_mode = 2
-text = "- Another essage Here"
+text = "- Another Message Here"
