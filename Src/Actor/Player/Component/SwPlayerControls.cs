@@ -38,4 +38,5 @@ public class SwPlayerControls : ISwPoll
     public bool IsChargingJustReleased(){return InputManager.ChargeSling.IsJustReleased();}
     public bool JustDodged(){return InputManager.Dodge.IsJustPressed();}
     public bool JustUsedItem(){return InputManager.UseItem.IsJustPressed();}
+    public bool JustHealed(){return InputManager.Heal.IsJustPressed();}
 }

@@ -1,3 +1,4 @@
+using Godot;
 using SW.Src.Actor.Player.State;
 using SW.Src.Inventory;
 using SW.Src.Timer;
@@ -44,6 +45,11 @@ public class SwPlayerStateManager
 	{
 		if(Parent.Controls.JustAttacked()) Parent.StateManager.QueueState(SwState.Attacking);
 		else if(Parent.Controls.IsCharging() && Parent.Inventory.CountItems(SwItemType.SlingBullet) > 0) Parent.StateManager.QueueState(SwState.SlingCharging);
+		else if(Parent.Controls.JustHealed() && Parent.Evoker.CanHeal())
+		{
+			QueueState(SwState.UsingItem);
+			Parent.Evoker.Heal();
+		}
 	}
     public void Tick(float dt)
     {

@@ -21,7 +21,7 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 	private DebugDrawCallbacks DrawCallbacks;
 	public SwClock InvulnerableClock;
 	public SwClock FlickerClock;
-	protected float Health;
+	public float Health;
 	private readonly List<ISwTick> Tickers = [];
 	protected readonly Dictionary<SwDamageType, float> DamageMultipliers = [];
 	public readonly List<SwDamage> IncomingDamageQueue = [];

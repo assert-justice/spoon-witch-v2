@@ -1287,3 +1287,18 @@ initial_velocity_max = 50.0
 scale_amount_min = 2.5
 scale_amount_max = 2.5
 color = Color(0.3177043, 0.2503467, 0.097432755, 1)
+
+[node name="HealingParticles" type="CPUParticles2D" parent="." unique_id=484863582]
+emitting = false
+amount = 100
+lifetime = 0.5
+explosiveness = 1.0
+lifetime_randomness = 1.0
+local_coords = true
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 50.0
+scale_amount_min = 2.5
+scale_amount_max = 2.5
+color = Color(0.53951395, 0.9822832, 1.540184e-06, 1)

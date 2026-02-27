@@ -2,6 +2,7 @@ using Godot;
 using SW.Src.Entity;
 using SW.Src.Entity.Projectile;
 using SW.Src.Global;
+using SW.Src.Inventory;
 
 namespace SW.Src.Actor.Player.Component;
 
@@ -42,5 +43,25 @@ public class SwPlayerEvoker
         var bullet = Parent.SlingBulletScene.Instantiate<SwProjectile>();
         bullet.Init(Parent.GetParent(), Parent.Controls.Aim() * Parent.SlingBulletSpeed, Parent.Position);
         bullet.DamageList = [..Parent.SlingDamages];
+    }
+    public void Heal()
+    {
+        float count = 1;
+        if(!Parent.Inventory.Slots.TryGetValue(SwItemType.Root, out var slot))
+        {
+            GD.PushError("Should be unreachable");
+            return;
+        }
+        if(!slot.TryRemoveItems(ref count))
+        {
+            GD.PushError("Should be unreachable");
+            return;
+        }
+        Parent.Health += Parent.HealAmount;
+        if(Parent.Health > Parent.MaxHealth) Parent.Health = Parent.MaxHealth;
+    }
+    public bool CanHeal()
+    {
+        return Parent.Inventory.CountItems(SwItemType.Root) > 1 && Parent.Health < Parent.MaxHealth;
     }
 }

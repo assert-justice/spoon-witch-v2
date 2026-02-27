@@ -12,6 +12,9 @@ public partial class SwPlayer : SwActor
 {
 	[ExportGroup("Health")]
 	[Export] public float MaxHealth = 100;
+	[Export] public float HealAmount = 30;
+	[Export] public float HealTime = 1;
+	[Export] public float HealMovementSpeedMul = 0.25f;
 	[Export] public SwDamage[] DamageResistances = [];
 	[ExportGroup("Movement")]
 	[Export] public float Speed = 300;
@@ -72,13 +75,13 @@ public partial class SwPlayer : SwActor
 		Hud.Tick(dt);
 		if(SwGlobal.GetInputManager().Pause.IsJustPressed()) Main.Message("pause");
 	}
-	protected override void DebugDraw(DebugDrawCallbacks drawCallbacks)
-	{
-		Color color = Colors.Red;
-		color.A = 0.5f;
-		Vector2 boxSize = new(32, 32);
-		drawCallbacks.DrawRect(new(Position - boxSize * 0.5f, boxSize), color);
-	}
+	// protected override void DebugDraw(DebugDrawCallbacks drawCallbacks)
+	// {
+	// 	Color color = Colors.Red;
+	// 	color.A = 0.5f;
+	// 	Vector2 boxSize = new(32, 32);
+	// 	drawCallbacks.DrawRect(new(Position - boxSize * 0.5f, boxSize), color);
+	// }
 
 	protected override float GetMaxHealth()
 	{

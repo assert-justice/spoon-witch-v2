@@ -12,6 +12,7 @@ public class SwPlayerAnimator(SwPlayer parent)
 	private readonly AnimatedSprite2D SpoonSprite = parent.GetNode<AnimatedSprite2D>("SpoonPivot/SpoonSprite");
 	private readonly AnimatedSprite2D SlingSprite = parent.GetNode<AnimatedSprite2D>("SlingSprite");
 	private readonly CpuParticles2D SlingParticles = parent.GetNode<CpuParticles2D>("SlingParticles");
+    private readonly CpuParticles2D HealingParticles = parent.GetNode<CpuParticles2D>("HealingParticles");
     private readonly string[] Facing = ["right", "down", "left", "up"];
     private string GetFacing()
 	{
@@ -65,5 +66,13 @@ public class SwPlayerAnimator(SwPlayer parent)
     {
         SlingSprite.Visible = false;
         SlingParticles.Emitting = false;
+    }
+    public void PlayItemAnim()
+    {
+        HealingParticles.Emitting = true;
+    }
+    public void StopItemAnim()
+    {
+        HealingParticles.Emitting = false;
     }
 }
