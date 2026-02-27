@@ -76,4 +76,11 @@ public partial class SwHud : SwMenu
         }
         AddDrawCommand(fn);
     }
+    public void AddDrawText(Vector2 position, string text, Color color)
+    {
+        void fn(SwHud hud){
+            hud.DrawString(ThemeDB.FallbackFont, position, text, HorizontalAlignment.Left, -1, 16, color);
+        }
+        AddDrawCommand(fn);
+    }
 }

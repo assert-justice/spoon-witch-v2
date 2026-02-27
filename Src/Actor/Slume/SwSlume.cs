@@ -60,18 +60,17 @@ public partial class SwSlume : SwEnemy
 	{
 		return MaxHealth;
 	}
-	protected override void DebugDraw(Action<Rect2, Color> drawRect, Action<Vector2, Vector2, Color> drawLine)
+	protected override void DebugDraw(DebugDrawCallbacks drawCallbacks)
 	{
 		if(!TryGetPlayer(out var player)) return;
 		Color color = CanSeePlayer() ? Colors.Red : Colors.Green;
 		color.A = 0.5f;
-		drawLine(Position, player.Position, color);
+		drawCallbacks.DrawLine(Position, player.Position, color);
+		if(StateMachine.TryGetState(out var state)) drawCallbacks.DrawText(Position, state.ToString(), color);
 	}
 
 	public override float Damage(SwDamage damage, Node2D source)
 	{
-		// Slume cannot be harmed in knockback state
-		// if(StateMachine.IsInState(SwState.KnockedBack)) return 0;
 		float damageValue = base.Damage(damage, source);
 		if(damageValue == 0) return 0;
 		StateMachine.QueueStateUnchecked(SwState.KnockedBack);

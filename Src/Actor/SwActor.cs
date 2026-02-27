@@ -15,8 +15,10 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 	[Export] public float FlickersPerSecond = 8;
 	[Export] private bool DebugDrawEnabled = false;
 	// private SwHud Hud;
-	private Action<Rect2, Color> DebugDrawRect;
-	private Action<Vector2, Vector2, Color> DebugDrawLine;
+	// private Action<Rect2, Color> DebugDrawRect;
+	// private Action<Vector2, Vector2, Color> DebugDrawLine;
+	// private Action<Vector2, string, Color> DebugDrawText;
+	private DebugDrawCallbacks DrawCallbacks;
 	public SwClock InvulnerableClock;
 	public SwClock FlickerClock;
 	protected float Health;
@@ -32,6 +34,12 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 		}
 	}
 	private Vector2 LastVelocity = Vector2.Down;
+	protected record class DebugDrawCallbacks
+	{
+		public required Action<Rect2, Color> DrawRect{get; init;}
+		public required Action<Vector2, Vector2, Color> DrawLine{get; init;}
+		public required Action<Vector2, string, Color> DrawText{get; init;}
+	}
 	public override void _Ready()
 	{
 		Health = GetMaxHealth();
@@ -49,8 +57,17 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 				var trans = GetViewportTransform().Inverse();
 				hud.AddDrawLine(from * trans, to * trans, color);
 			}
-			DebugDrawRect = drawRect;
-			DebugDrawLine = drawLine;
+			void drawText(Vector2 position, string text, Color color)
+			{
+				var trans = GetViewportTransform().Inverse();
+				hud.AddDrawText(position * trans, text, color);
+			}
+			DrawCallbacks = new()
+			{
+				DrawRect = drawRect,
+				DrawLine = drawLine,
+				DrawText = drawText,
+			};
 		}
 	}
 	public override void _PhysicsProcess(double delta)
@@ -64,7 +81,7 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 			item.Tick(dt);
 		}
 		Tick(dt);
-		if(DebugDrawEnabled)DebugDraw(DebugDrawRect, DebugDrawLine);
+		if(DebugDrawEnabled)DebugDraw(DrawCallbacks);
 		MoveAndSlide();
 		// LateTick(dt);
 		ApplyDamage();
@@ -94,7 +111,7 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 	}
 	protected virtual void Tick(float dt){}
 	// protected virtual void LateTick(float dt){}
-	protected virtual void DebugDraw(Action<Rect2, Color> drawRect, Action<Vector2, Vector2, Color> drawLine){}
+	protected virtual void DebugDraw(DebugDrawCallbacks drawCallbacks){}
 	protected T AddTicker<T>(T ticker) where T : ISwTick
 	{
 		Tickers.Add(ticker);

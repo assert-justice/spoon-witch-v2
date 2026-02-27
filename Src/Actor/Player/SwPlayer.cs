@@ -70,12 +70,12 @@ public partial class SwPlayer : SwActor
 		Hud.Tick(dt);
 		if(SwGlobal.GetInputManager().Pause.IsJustPressed()) Main.Message("pause");
 	}
-	protected override void DebugDraw(Action<Rect2, Color> drawRect, Action<Vector2, Vector2, Color> drawLine)
+	protected override void DebugDraw(DebugDrawCallbacks drawCallbacks)
 	{
 		Color color = Colors.Red;
 		color.A = 0.5f;
 		Vector2 boxSize = new(32, 32);
-		drawRect(new(Position - boxSize * 0.5f, boxSize), color);
+		drawCallbacks.DrawRect(new(Position - boxSize * 0.5f, boxSize), color);
 	}
 
 	protected override float GetMaxHealth()
