@@ -11,14 +11,14 @@ public class SwFs
     public virtual bool FileExists(string path)
     {
         return FileAccess.FileExists(path) | 
-        FileAccess.FileExists("res://" + path) | 
-        FileAccess.FileExists("user://" + path);
+        FileAccess.FileExists("user://" + path) | 
+        FileAccess.FileExists("res://" + path);
     }
     public virtual bool DirectoryExists(string path)
     {
         return DirAccess.DirExistsAbsolute(path) | 
-        DirAccess.DirExistsAbsolute("res://" + path) | 
-        DirAccess.DirExistsAbsolute("user://" + path);
+        DirAccess.DirExistsAbsolute("user://" + path) | 
+        DirAccess.DirExistsAbsolute("res://" + path);
     }
     public virtual bool TryReadFile(string path, out string contents)
     {
@@ -118,18 +118,18 @@ public class SwFs
     {
         resolvedPath = path;
         if(FileAccess.FileExists(resolvedPath)) return true;
-        resolvedPath = "res://" + path;
-        if(FileAccess.FileExists(resolvedPath)) return true;
         resolvedPath = "user://" + path;
+        if(FileAccess.FileExists(resolvedPath)) return true;
+        resolvedPath = "res://" + path;
         return FileAccess.FileExists(resolvedPath);
     }
     protected virtual bool TryResolveDirPath(string path, out string resolvedPath)
     {
         resolvedPath = path;
         if(DirAccess.DirExistsAbsolute(resolvedPath)) return true;
-        resolvedPath = "res://" + path;
-        if(DirAccess.DirExistsAbsolute(resolvedPath)) return true;
         resolvedPath = "user://" + path;
+        if(DirAccess.DirExistsAbsolute(resolvedPath)) return true;
+        resolvedPath = "res://" + path;
         return DirAccess.DirExistsAbsolute(resolvedPath);
     }
 }

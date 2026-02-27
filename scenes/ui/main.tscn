@@ -78,7 +78,6 @@ layout_mode = 2
 text = "Quit"
 
 [node name="OptionsMenu" type="HBoxContainer" parent="MenuHolder" unique_id=1139717682]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -97,9 +96,146 @@ layout_mode = 2
 text = "Options"
 horizontal_alignment = 1
 
+[node name="Fullscreen" type="CheckBox" parent="MenuHolder/OptionsMenu/VBox" unique_id=613830937]
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="Audio" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=456206967]
+layout_mode = 2
+text = "Audio"
+
+[node name="Accessibility" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=360409152]
+layout_mode = 2
+text = "accessibility"
+
 [node name="Back" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=1398029019]
 layout_mode = 2
 text = "Back"
+
+[node name="AccessibilityMenu" type="HBoxContainer" parent="MenuHolder" unique_id=1148833607]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_02nsg")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/AccessibilityMenu" unique_id=420138296]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MenuHolder/AccessibilityMenu/VBox" unique_id=568629887]
+layout_mode = 2
+text = "Accessibility"
+horizontal_alignment = 1
+
+[node name="DamageTaken" type="PanelContainer" parent="MenuHolder/AccessibilityMenu/VBox" unique_id=1306820267]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/AccessibilityMenu/VBox/DamageTaken" unique_id=836487075]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuHolder/AccessibilityMenu/VBox/DamageTaken/VBoxContainer" unique_id=270601889]
+layout_mode = 2
+text = "Damage Taken x1"
+
+[node name="HSlider" type="HSlider" parent="MenuHolder/AccessibilityMenu/VBox/DamageTaken/VBoxContainer" unique_id=1542772518]
+layout_mode = 2
+max_value = 200.0
+step = 5.0
+value = 100.0
+
+[node name="DamageDealt" type="PanelContainer" parent="MenuHolder/AccessibilityMenu/VBox" unique_id=1850728169]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/AccessibilityMenu/VBox/DamageDealt" unique_id=1035251096]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuHolder/AccessibilityMenu/VBox/DamageDealt/VBoxContainer" unique_id=536477221]
+layout_mode = 2
+text = "Damage Dealt x1"
+
+[node name="HSlider" type="HSlider" parent="MenuHolder/AccessibilityMenu/VBox/DamageDealt/VBoxContainer" unique_id=140380335]
+layout_mode = 2
+max_value = 200.0
+step = 5.0
+value = 100.0
+
+[node name="Back" type="Button" parent="MenuHolder/AccessibilityMenu/VBox" unique_id=1782414142]
+layout_mode = 2
+text = "Back"
+
+[node name="AudioMenu" type="HBoxContainer" parent="MenuHolder" unique_id=258028866]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_02nsg")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/AudioMenu" unique_id=884041299]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MenuHolder/AudioMenu/VBox" unique_id=1728772816]
+layout_mode = 2
+text = "Options"
+horizontal_alignment = 1
+
+[node name="Back" type="Button" parent="MenuHolder/AudioMenu/VBox" unique_id=895797879]
+layout_mode = 2
+text = "Back"
+
+[node name="MainVolume" type="PanelContainer" parent="MenuHolder/AudioMenu/VBox" unique_id=1478852774]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/AudioMenu/VBox/MainVolume" unique_id=1932356401]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuHolder/AudioMenu/VBox/MainVolume/VBoxContainer" unique_id=2119873512]
+layout_mode = 2
+text = "Main Volume: 50%"
+
+[node name="HSlider" type="HSlider" parent="MenuHolder/AudioMenu/VBox/MainVolume/VBoxContainer" unique_id=1232121458]
+layout_mode = 2
+step = 5.0
+value = 50.0
+
+[node name="MusicVolume" type="PanelContainer" parent="MenuHolder/AudioMenu/VBox" unique_id=117097957]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/AudioMenu/VBox/MusicVolume" unique_id=1219183355]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuHolder/AudioMenu/VBox/MusicVolume/VBoxContainer" unique_id=289840977]
+layout_mode = 2
+text = "Music Volume: 50%"
+
+[node name="HSlider" type="HSlider" parent="MenuHolder/AudioMenu/VBox/MusicVolume/VBoxContainer" unique_id=529908885]
+layout_mode = 2
+step = 5.0
+value = 50.0
+
+[node name="SfxVolume" type="PanelContainer" parent="MenuHolder/AudioMenu/VBox" unique_id=495561437]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/AudioMenu/VBox/SfxVolume" unique_id=1653563779]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuHolder/AudioMenu/VBox/SfxVolume/VBoxContainer" unique_id=1512118576]
+layout_mode = 2
+text = "Sfx Volume: 50%"
+
+[node name="HSlider" type="HSlider" parent="MenuHolder/AudioMenu/VBox/SfxVolume/VBoxContainer" unique_id=798180099]
+layout_mode = 2
+step = 5.0
+value = 50.0
 
 [node name="Credits" type="HBoxContainer" parent="MenuHolder" unique_id=1662060385]
 visible = false
@@ -167,6 +303,7 @@ layout_mode = 2
 text = "Quit"
 
 [node name="Hud" type="HBoxContainer" parent="MenuHolder" unique_id=269682189 groups=["Hud"]]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

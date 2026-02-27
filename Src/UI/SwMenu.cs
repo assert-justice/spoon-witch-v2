@@ -24,39 +24,66 @@ public partial class SwMenu : Control
         AttachButton("VBox/MainMenu", ()=>Main.Message("main_menu"));
         AttachButton("VBox/Options", ()=>Main.Message("options"));
         AttachButton("VBox/Credits", ()=>MenuHolder.QueueMenu("Credits"));
+        AttachButton("VBox/Audio", ()=>MenuHolder.QueueMenu("AudioMenu"));
+        AttachButton("VBox/Accessibility", ()=>MenuHolder.QueueMenu("AccessibilityMenu"));
         GetFocusPoints(this);
         InputManager = SwGlobal.GetInputManager();
     }
     public override void _PhysicsProcess(double delta)
     {
         if(!IsAwake) return;
+        if(!TryGetCurrentFocus(out var fp)) return;
         if(InputManager.UiConfirm.IsJustPressed())
         {
-            Control fp = FocusPoints[FocusIdx];
-            if(fp is Button button)
+            // This is *dumb*
+            if(fp is CheckBox checkBox)
+            {
+                checkBox.ButtonPressed = !checkBox.ButtonPressed;
+            }
+            else if(fp is Button button)
             {
                 button.EmitSignal("pressed");
             }
         }
         else if(InputManager.UiCancel.IsJustPressed()) MenuHolder.Back();
-        else if (InputManager.UiDown.IsJustPressed())
+        else if (InputManager.UiDown.IsJustPressed()) IncFocus();
+        else if (InputManager.UiUp.IsJustPressed()) DecFocus();
+        else if (InputManager.UiLeft.IsJustPressed())
         {
-            FocusIdx++;
-            if(FocusIdx >= FocusPoints.Count) FocusIdx = 0;
-            FocusPoints[FocusIdx].GrabFocus();
+            if(fp is HSlider slider)
+            {
+                slider.Value += slider.Step;
+            }
         }
-        else if (InputManager.UiDown.IsJustPressed())
+        else if (InputManager.UiRight.IsJustPressed())
         {
-            FocusIdx++;
-            if(FocusIdx >= FocusPoints.Count) FocusIdx = 0;
-            FocusPoints[FocusIdx].GrabFocus();
+            if(fp is HSlider slider)
+            {
+                slider.Value -= slider.Step;
+            }
         }
-        else if (InputManager.UiUp.IsJustPressed())
+    }
+    private bool TryGetCurrentFocus(out Control focusPoint)
+    {
+        if(FocusPoints.Count > FocusIdx)
         {
-            FocusIdx--;
-            if(FocusIdx < 0) FocusIdx = FocusPoints.Count - 1;
-            FocusPoints[FocusIdx].GrabFocus();
+            focusPoint = FocusPoints[FocusIdx];
+            return true;
         }
+        focusPoint = default;
+        return false;
+    }
+    private void IncFocus()
+    {
+        FocusIdx++;
+        if(FocusIdx >= FocusPoints.Count) FocusIdx = 0;
+        if(TryGetCurrentFocus(out var focus)) focus.GrabFocus();
+    }
+    private void DecFocus()
+    {
+        FocusIdx--;
+        if(FocusIdx < 0) FocusIdx = FocusPoints.Count - 1;
+        if(TryGetCurrentFocus(out var focus)) focus.GrabFocus();
     }
     private void GetFocusPoints(Control parent)
     {
@@ -82,7 +109,8 @@ public partial class SwMenu : Control
         IsAwake = true;
         Visible = true;
         GetTree().Paused = ShouldPauseOnWake();
-        if(FocusPoints.Count > FocusIdx) FocusPoints[FocusIdx].GrabFocus();
+        if(TryGetCurrentFocus(out var focus)) focus.GrabFocus();
+        // if(FocusPoints.Count > FocusIdx) FocusPoints[FocusIdx].GrabFocus();
     }
     public virtual void Sleep()
     {
