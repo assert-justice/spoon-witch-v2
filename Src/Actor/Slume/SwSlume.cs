@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using SW.Src.Actor.Slume.Component;
 using SW.Src.Actor.Slume.State;
@@ -59,6 +60,14 @@ public partial class SwSlume : SwEnemy
 	{
 		return MaxHealth;
 	}
+	protected override void DebugDraw(Action<Rect2, Color> drawRect, Action<Vector2, Vector2, Color> drawLine)
+	{
+		if(!TryGetPlayer(out var player)) return;
+		Color color = CanSeePlayer() ? Colors.Red : Colors.Green;
+		color.A = 0.5f;
+		drawLine(Position, player.Position, color);
+	}
+
 	public override float Damage(SwDamage damage, Node2D source)
 	{
 		// Slume cannot be harmed in knockback state

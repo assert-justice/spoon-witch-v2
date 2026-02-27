@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using SW.Src.Actor.Player.Component;
 using SW.Src.Effect;
@@ -30,8 +31,6 @@ public partial class SwPlayer : SwActor
 	[Export] public float SlingDamageMul = 1;
 	[Export] public float SlingMovementSpeedMul = 0.5f;
 	[Export] public float SlingChargeTime = 0.75f;
-	// Misc nodes
-	private Label HudLabel;
 	// [Export] public float SlingRecoveryTime = 0.25f;
 	// [Export] public float SlingDefaultTime = 0.25f;
 	// Data
@@ -62,8 +61,6 @@ public partial class SwPlayer : SwActor
 		Evoker = new(this);
 		BindComponents();
 		Inventory.AddItems(SwItemType.SlingBullet, 5);
-		// var hud = GetTree().GetNodesInGroup("Hud");
-		// if(hud.Count == 1) HudLabel = hud[0].GetChild<Label>(0);
 		base._Ready();
 	}
 	protected override void Tick(float dt)
@@ -73,16 +70,18 @@ public partial class SwPlayer : SwActor
 		Hud.Tick(dt);
 		if(SwGlobal.GetInputManager().Pause.IsJustPressed()) Main.Message("pause");
 	}
+	protected override void DebugDraw(Action<Rect2, Color> drawRect, Action<Vector2, Vector2, Color> drawLine)
+	{
+		Color color = Colors.Red;
+		color.A = 0.5f;
+		Vector2 boxSize = new(32, 32);
+		drawRect(new(Position - boxSize * 0.5f, boxSize), color);
+	}
+
 	protected override float GetMaxHealth()
 	{
 		return MaxHealth;
 	}
-	// private void UpdateHud()
-	// {
-	// 	if(HudLabel is null) return;
-	// 	string text = $"Health: {Health} Ammo: {Inventory.CountItems(SwItemType.SlingBullet)}";
-	// 	HudLabel.Text = text;
-	// }
 	public void AddItems(SwItemType itemType, float quantity, string itemName = null)
 	{
 		Inventory.AddItems(itemType, quantity);
@@ -90,7 +89,6 @@ public partial class SwPlayer : SwActor
 		itemName ??= itemType.ToString();
 		string verb = quantity > 0 ? "Added" : "Removed";
 		string message = $"{verb} {quantity} {itemName}";
-		// SwStatic.Log(message);
 		Hud.AddMessage(message);
 	}
 }

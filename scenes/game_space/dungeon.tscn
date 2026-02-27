@@ -39,11 +39,13 @@ NumLayers = 4
 
 [node name="Player" parent="." unique_id=313462690 instance=ExtResource("4_micdf")]
 position = Vector2(56, 163)
+DebugDrawEnabled = true
 
 [node name="Slume" parent="." unique_id=483287388 instance=ExtResource("5_qcii0")]
 position = Vector2(604, 162)
 InitialState = 5
 VisionRadius = 300.0
+DebugDrawEnabled = true
 
 [node name="SeedPickup" parent="." unique_id=57875623 instance=ExtResource("6_mkh0v")]
 position = Vector2(86, 265)

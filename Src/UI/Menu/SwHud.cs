@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using SW.Src.Global;
@@ -9,6 +10,7 @@ public partial class SwHud : SwMenu
 {
     [Export] private int MaxVisibleMessages = 5;
     private readonly Queue<(string,float)> MessageQueue = new();
+    private readonly Queue<Action<SwHud>> DrawQueue = new();
     private Label TextLabel;
     private VBoxContainer MessageContainer;
     private SwDirtyWrapper<float> PlayerHealth = new(100);
@@ -24,6 +26,10 @@ public partial class SwHud : SwMenu
         if(PlayerHealth.IsDirty() || PlayerAmmo.IsDirty()) SetText();
         UpdateMessages();
         // Deliberately does not call base physics process method
+    }
+    public override void _Draw()
+    {
+        while(DrawQueue.TryDequeue(out var action)) action(this);
     }
     private void SetText()
     {
@@ -50,5 +56,24 @@ public partial class SwHud : SwMenu
     public void AddMessage(string message, float duration = 1)
     {
         MessageQueue.Enqueue((message, duration));
+    }
+    public void AddDrawCommand(Action<SwHud> action)
+    {
+        DrawQueue.Enqueue(action);
+        QueueRedraw();
+    }
+    public void AddDrawRect(Rect2 rect, Color color)
+    {
+        void fn(SwHud hud){
+            hud.DrawRect(rect, color);
+        }
+        AddDrawCommand(fn);
+    }
+    public void AddDrawLine(Vector2 from, Vector2 to, Color color)
+    {
+        void fn(SwHud hud){
+            hud.DrawLine(from, to, color);
+        }
+        AddDrawCommand(fn);
     }
 }

@@ -1,22 +1,22 @@
 using System;
+using Godot;
 using SW.Src.Entity;
+using SW.Src.Ui;
 using SW.Src.Ui.Menu;
 
 namespace SW.Src.Actor.Player.Component;
 
-public class SwPlayerHud : SwComponent<SwPlayer, SwPlayerHud.HudApi>
+public class SwPlayerHud : SwComponent<SwPlayer, SwPlayerHud.PlayerHudApi>
 {
-    public record class HudApi
+    public record class PlayerHudApi
     {
         public required Func<float> GetHealth{get; init;}
         public required Func<float> GetAmmo{get; init;}
     }
     private readonly SwHud Hud;
-    public SwPlayerHud(SwPlayer parent, HudApi api) : base(parent, api)
+    public SwPlayerHud(SwPlayer parent, PlayerHudApi api) : base(parent, api)
     {
-        var nodes = parent.GetTree().GetNodesInGroup("Hud");
-        if(nodes.Count == 0) return;
-        Hud = nodes[0] as SwHud;
+        Main.TryGetHud(out Hud);
     }
     public override void Tick(float dt)
     {
@@ -26,6 +26,7 @@ public class SwPlayerHud : SwComponent<SwPlayer, SwPlayerHud.HudApi>
     }
     public void AddMessage(string message, float duration = 1)
     {
+        if(Hud is null) return;
         Hud.AddMessage(message, duration);
     }
 }

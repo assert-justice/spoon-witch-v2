@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using SW.Src.Effect;
 using SW.Src.Global;
 using SW.Src.Timer;
+using SW.Src.Ui;
+using SW.Src.Ui.Menu;
 using SW.Src.Utils;
 
 namespace SW.Src.Actor;
@@ -10,6 +13,10 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 {
 	[Export] public float InvulnerableTime = 0.5f;
 	[Export] public float FlickersPerSecond = 8;
+	[Export] private bool DebugDrawEnabled = false;
+	// private SwHud Hud;
+	private Action<Rect2, Color> DebugDrawRect;
+	private Action<Vector2, Vector2, Color> DebugDrawLine;
 	public SwClock InvulnerableClock;
 	public SwClock FlickerClock;
 	protected float Health;
@@ -30,6 +37,21 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 		Health = GetMaxHealth();
 		InvulnerableClock = new(new(){Duration=InvulnerableTime,IsPaused=true});
 		FlickerClock = new(new(){Duration=1/FlickersPerSecond,Repeats=true});
+		if(DebugDrawEnabled && Main.TryGetHud(out var hud))
+		{
+			void drawRect(Rect2 rect, Color color)
+			{
+				var trans = GetViewportTransform().Inverse();
+				hud.AddDrawRect(rect * trans, color);
+			}
+			void drawLine(Vector2 from, Vector2 to, Color color)
+			{
+				var trans = GetViewportTransform().Inverse();
+				hud.AddDrawLine(from * trans, to * trans, color);
+			}
+			DebugDrawRect = drawRect;
+			DebugDrawLine = drawLine;
+		}
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -42,7 +64,9 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 			item.Tick(dt);
 		}
 		Tick(dt);
+		if(DebugDrawEnabled)DebugDraw(DebugDrawRect, DebugDrawLine);
 		MoveAndSlide();
+		// LateTick(dt);
 		ApplyDamage();
 	}
 	private void HandleInvulnerability(float dt)
@@ -69,6 +93,8 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 		QueueFree();
 	}
 	protected virtual void Tick(float dt){}
+	// protected virtual void LateTick(float dt){}
+	protected virtual void DebugDraw(Action<Rect2, Color> drawRect, Action<Vector2, Vector2, Color> drawLine){}
 	protected T AddTicker<T>(T ticker) where T : ISwTick
 	{
 		Tickers.Add(ticker);
