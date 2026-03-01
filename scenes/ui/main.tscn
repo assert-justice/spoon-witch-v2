@@ -286,6 +286,7 @@ stream = ExtResource("8_yiij1")
 bus = &"Sfx"
 
 [node name="Credits" type="HBoxContainer" parent="MenuHolder" unique_id=658276914]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -365,7 +366,6 @@ layout_mode = 2
 text = "Quit"
 
 [node name="GameOver" type="HBoxContainer" parent="MenuHolder" unique_id=1446578973]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

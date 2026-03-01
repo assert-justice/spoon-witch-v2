@@ -148,13 +148,15 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 		if(value != 0) IncomingDamageQueue.Add(new(damage.Type, value));
 		return value;
 	}
-	public virtual void Die(){Cleanup();}
+	public virtual void Die(){}
 	protected abstract float GetMaxHealth();
-	protected virtual void ApplyDamage()
+	protected virtual float ApplyDamage()
 	{
-		if(IncomingDamageQueue.Count == 0) return;
+		if(IncomingDamageQueue.Count == 0) return 0;
+		float totalDamage = 0;
 		foreach (var damage in IncomingDamageQueue)
 		{
+			totalDamage += damage.Value;
 			Health -= damage.Value;
 			float maxHealth = GetMaxHealth();
 			if(Health > maxHealth)
@@ -165,5 +167,6 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 		}
 		IncomingDamageQueue.Clear();
 		InvulnerableClock.Restart();
+		return totalDamage;
 	}
 }

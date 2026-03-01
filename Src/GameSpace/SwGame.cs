@@ -34,7 +34,7 @@ public partial class SwGame : Node2D
     }
     public override void _PhysicsProcess(double delta)
     {
-        if(!TryGetPlayer(out _)) Main.Message("game_over"); //StateMachine.QueueState(GameState.GameOver);
+        if(!TryGetPlayer(out var player) || player.IsDeadDead) Main.Message("game_over"); //StateMachine.QueueState(GameState.GameOver);
         GetEnemies();
         StateMachine.Tick((float)delta);
     }

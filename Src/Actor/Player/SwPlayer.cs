@@ -38,6 +38,7 @@ public partial class SwPlayer : SwActor
 	[Export] private SwInventoryRes[] StartingInventory = [];
 	// Data
 	public SwInventory Inventory = new();
+	public bool IsDeadDead = false;
 	// State management
 	public enum SwState
 	{
@@ -48,6 +49,7 @@ public partial class SwPlayer : SwActor
 		SlingCharged,
 		UsingItem,
 		InSubmenu,
+		Dying,
 	}
 	// Components
 	public SwPlayerStateManager StateManager{get; private set;}
@@ -76,25 +78,22 @@ public partial class SwPlayer : SwActor
 		Hud.Tick(dt);
 		if(SwGlobal.GetInputManager().Pause.IsJustPressed()) Main.Message("pause");
 	}
-	// protected override void DebugDraw(DebugDrawCallbacks drawCallbacks)
-	// {
-	// 	Color color = Colors.Red;
-	// 	color.A = 0.5f;
-	// 	Vector2 boxSize = new(32, 32);
-	// 	drawCallbacks.DrawRect(new(Position - boxSize * 0.5f, boxSize), color);
-	// }
-	public override float Damage(SwDamage damage, Node2D source)
+	protected override float ApplyDamage()
 	{
-		float val = base.Damage(damage, source);
-		if(val > 0) AudioManager.PlayHitSound();
-		return val;
+		float totalDamage = base.ApplyDamage();
+		if(totalDamage > 0 && IsAlive()) AudioManager.PlayHitSound();
+		return totalDamage;
 	}
-
 
 	protected override float GetMaxHealth()
 	{
 		return MaxHealth;
 	}
+	public override void Die()
+	{
+		StateManager.QueueState(SwState.Dying);
+	}
+
 	public bool TryAddItems(SwItemType itemType, ref float count, string itemName = null)
 	{
 		float startCount = count;

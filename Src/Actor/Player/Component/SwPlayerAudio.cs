@@ -7,6 +7,7 @@ public class SwPlayerAudio
 {
     private readonly SwPlayer Parent;
     private readonly AudioStreamPlayer2D WalkSound;
+    private readonly AudioStreamPlayer2D DeathSound;
     private readonly SwMultiSound SpoonSounds;
     private readonly SwMultiSound HitSounds;
     private readonly SwMultiSound SlingSounds;
@@ -14,6 +15,7 @@ public class SwPlayerAudio
     {
         Parent = parent;
         WalkSound = Parent.GetNode<AudioStreamPlayer2D>("Audio/WalkSound");
+        DeathSound = Parent.GetNode<AudioStreamPlayer2D>("Audio/DeathSound");
         SpoonSounds = Parent.GetNode<SwMultiSound>("Audio/SpoonSounds");
         HitSounds = Parent.GetNode<SwMultiSound>("Audio/HitSounds");
         SlingSounds = Parent.GetNode<SwMultiSound>("Audio/SlingSounds");
@@ -43,5 +45,13 @@ public class SwPlayerAudio
     public void PlaySlingFireSound()
     {
         SlingSounds.Play(2);
+    }
+    public void PlayDeathSound()
+    {
+        DeathSound.Play();
+    }
+    public bool IsDeathSoundPlaying()
+    {
+        return DeathSound.Playing;
     }
 }

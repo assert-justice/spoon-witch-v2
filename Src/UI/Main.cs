@@ -60,7 +60,7 @@ public partial class Main : Control
 				SetMenu("MainMenu");
 				break;
 			case "game_over":
-				SetMenu("MainMenu");
+				SetMenu("GameOver");
 				break;
 			case "options":
 				SetMenu("OptionsMenu");

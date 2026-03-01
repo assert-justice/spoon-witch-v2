@@ -77,10 +77,6 @@ public partial class SwSlume : SwEnemy
 		DamageSourcePosition = source.Position;
 		return damageValue;
 	}
-	public override void Die()
-	{
-		// We're handling dying in the knockback state
-	}
 	public bool ShouldFlee()
 	{
 		return CanSeePlayer() && (Health / MaxHealth < FleeThreshold);
