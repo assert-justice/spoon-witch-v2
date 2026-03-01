@@ -393,6 +393,7 @@ animation = &"knockback"
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=607728833 node_paths=PackedStringArray("DamageSource")]
 script = ExtResource("9_4axoo")
+DamageEvent = 1
 DamageSource = NodePath("..")
 Damages = Array[Object]([SubResource("Resource_fdp22")])
 

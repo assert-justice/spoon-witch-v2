@@ -7,21 +7,38 @@ namespace SW.Src.Entity;
 
 public partial class SwHurtbox : Area2D
 {
+    public enum SwHurtboxDamageEvent
+    {
+        OnEnter,
+        OnRemain,
+    }
+    [Export] private SwHurtboxDamageEvent DamageEvent = SwHurtboxDamageEvent.OnEnter;
     [Export] protected Node2D DamageSource;
     [Export] private string[] Whitelist;
     [Export] private SwDamage[] Damages;
     public HashSet<string> GroupWhitelist = [];
+    public HashSet<Node2D> TargetsInArea = [];
     public List<SwDamage> DamageList = [];
     private CollisionShape2D Collider;
     public bool IsEnabled{get=>!Collider.Disabled; set{Collider.Disabled = !value;}}
     public override void _Ready()
     {
         BodyEntered += OnBodyEntered;
-        AreaEntered += OnAreaEntered;
+        AreaEntered += OnBodyEntered;
+        BodyExited += OnNodeExitedInternal;
+        AreaExited += OnNodeExitedInternal;
         Collider = GetChild<CollisionShape2D>(0);
-        if(DamageSource is null) DamageSource = this;
+        DamageSource ??= this;
         if(Whitelist is not null) GroupWhitelist = [..Whitelist];
         if(Damages is not null) DamageList = [..Damages];
+    }
+    public override void _PhysicsProcess(double delta)
+    {
+        if(DamageEvent != SwHurtboxDamageEvent.OnRemain) return;
+        foreach (var target in TargetsInArea)
+        {
+            OnTargetInArea(target);
+        }
     }
     private void OnAreaEntered(Area2D area)
     {
@@ -33,11 +50,21 @@ public partial class SwHurtbox : Area2D
     }
     private void OnNodeEnteredInternal(Node2D node)
     {
-        if(IsTarget(node)) OnNodeEntered(node);
+        if(!IsTarget(node)) return;
+        TargetsInArea.Add(node);
+        OnNodeEntered(node);
+    }
+    private void OnNodeExitedInternal(Node2D node)
+    {
+        TargetsInArea.Remove(node);
     }
     protected virtual void OnNodeEntered(Node2D node)
     {
-        if(node is ISwDamageable damageable) DoDamage(damageable);
+        if(DamageEvent == SwHurtboxDamageEvent.OnEnter && node is ISwDamageable damageable) DoDamage(damageable);
+    }
+    protected virtual void OnTargetInArea(Node2D target)
+    {
+        if(target is ISwDamageable damageable) DoDamage(damageable);
     }
     protected virtual void DoDamage(ISwDamageable damageable)
     {
