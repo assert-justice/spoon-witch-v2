@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dj38kfpdwtn17"
+path="res://.godot/imported/SW Combat Theme (soft synth).mp3-e66458bdde44cc6f62551406ff6df3ff.mp3str"
+
+[deps]
+
+source_file="res://assets/music/SW Combat Theme (soft synth).mp3"
+dest_files=["res://.godot/imported/SW Combat Theme (soft synth).mp3-e66458bdde44cc6f62551406ff6df3ff.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

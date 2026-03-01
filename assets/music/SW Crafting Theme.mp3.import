@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bqdqrwl5kvjqn"
+path="res://.godot/imported/SW Crafting Theme.mp3-49f2e5fb901272c4cb3ff38843a1f3ad.mp3str"
+
+[deps]
+
+source_file="res://assets/music/SW Crafting Theme.mp3"
+dest_files=["res://.godot/imported/SW Crafting Theme.mp3-49f2e5fb901272c4cb3ff38843a1f3ad.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
