@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bvjli38wl8i6f"
+path="res://.godot/imported/SW SFX Slime Swing 2.mp3-8bbeafdc73d464f1b515a1247d36a845.mp3str"
+
+[deps]
+
+source_file="res://assets/sfx/slume/SW SFX Slime Swing 2.mp3"
+dest_files=["res://.godot/imported/SW SFX Slime Swing 2.mp3-8bbeafdc73d464f1b515a1247d36a845.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://3jkfa4ibrtrk"
+path="res://.godot/imported/SW SFX Knight Walk.mp3-deb8f0c9744f858c474b137c9b88b6ad.mp3str"
+
+[deps]
+
+source_file="res://assets/sfx/knight/SW SFX Knight Walk.mp3"
+dest_files=["res://.godot/imported/SW SFX Knight Walk.mp3-deb8f0c9744f858c474b137c9b88b6ad.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

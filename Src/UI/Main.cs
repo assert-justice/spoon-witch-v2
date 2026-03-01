@@ -8,15 +8,19 @@ namespace SW.Src.Ui;
 public partial class Main : Control
 {
 	[Export] private PackedScene GameScene;
+	[Export] private AudioStream[] MusicTracks = [];
 	private static readonly Queue<string> MessageQueue = new();
 	private static Main Instance;
 	private SubViewport GameHolder;
 	private SwMenuHolder MenuHolder;
 	private Control SubmenuHolder;
+	private AudioStreamPlayer MusicPlayer;
 	public override void _Ready()
 	{
 		GameHolder = GetNode<SubViewport>("GameHolder/SubViewport");
 		MenuHolder = GetNode<SwMenuHolder>("MenuHolder");
+		MusicPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+		QueueMusic(0);
 		Instance = this;
 	}
 	public override void _PhysicsProcess(double delta)
@@ -52,12 +56,13 @@ public partial class Main : Control
 				SetMenu("OptionsMenu");
 				break;
 			default:
-				// if(SwStatic.TrySlice(message, "set_submenu:", out string menu))
-				// {
-				// 	MenuHolder.QueueMenu(menu);
-				// }
-				// else 
-				SwStatic.LogError("Unexpected message:", message);
+				if(SwStatic.TrySlice(message, "set_music:", out string trackIdxStr))
+				{
+					if(!int.TryParse(trackIdxStr, out int trackIdx)) SwStatic.LogError($"Invalid audio track string '{trackIdxStr}'");
+					else if(trackIdx < 0 || trackIdx >= MusicTracks.Length) SwStatic.LogError($"Invalid audio track idx '{trackIdx}'");
+					else QueueMusic(trackIdx);
+				}
+				else SwStatic.LogError("Unexpected message:", message);
 				break;
 		}
 	}
@@ -78,6 +83,12 @@ public partial class Main : Control
 	private bool InGame()
 	{
 		return GameHolder.GetChildCount() != 0;
+	}
+	private void QueueMusic(int trackIdx)
+	{
+		var track = MusicTracks[trackIdx];
+		MusicPlayer.Stream = track;
+		MusicPlayer.Play();
 	}
 	public static void Message(string message){MessageQueue.Enqueue(message);}
 	public static bool TryGetHud(out SwHud hud)

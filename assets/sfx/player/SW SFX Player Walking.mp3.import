@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://r4s6nn5ihlmy"
+path="res://.godot/imported/SW SFX Player Walking.mp3-575fdea0adf159ccbcc5f3988a8d4627.mp3str"
+
+[deps]
+
+source_file="res://assets/sfx/player/SW SFX Player Walking.mp3"
+dest_files=["res://.godot/imported/SW SFX Player Walking.mp3-575fdea0adf159ccbcc5f3988a8d4627.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

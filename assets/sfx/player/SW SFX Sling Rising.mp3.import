@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b173fn46lqxy1"
+path="res://.godot/imported/SW SFX Sling Rising.mp3-e7f2b32a25dbb6c48453b67c93f30afe.mp3str"
+
+[deps]
+
+source_file="res://assets/sfx/player/SW SFX Sling Rising.mp3"
+dest_files=["res://.godot/imported/SW SFX Sling Rising.mp3-e7f2b32a25dbb6c48453b67c93f30afe.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

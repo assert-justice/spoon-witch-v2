@@ -14,14 +14,14 @@ public partial class SwNamedHScroll : Control, ISwUiNode
     {
         Slider = GetNode<HSlider>("VBoxContainer/HSlider");
         TextLabel = GetNode<Label>("VBoxContainer/Label");
-        OnChangeFn = (_) => {GD.Print("on change called");};
-        Slider.ValueChanged += OnValueChanged;
+        Slider.DragEnded += OnValueChanged;
     }
-    private void OnValueChanged(double v)
+    private void OnValueChanged(bool changed)
     {
-        float value = (float)v;
+        if(!changed) return;
+        float value = (float)Slider.Value;
         UpdateLabel(value);
-        if(TryGetOnChangeFn(out var onChangeFn)) onChangeFn(value);
+        if(TryGetOnChangeFn(out var onChangeFn)) onChangeFn(value * 0.01f);
     }
 
     private bool TryGetOnWakeFn(out Func<float> onWakeFn)

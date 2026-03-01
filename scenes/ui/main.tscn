@@ -4,10 +4,13 @@
 [ext_resource type="Script" uid="uid://bodvay0korirm" path="res://Src/UI/SwMenuHolder.cs" id="2_2p1s2"]
 [ext_resource type="PackedScene" uid="uid://df220aw2sa867" path="res://scenes/game_space/dungeon.tscn" id="2_vspwy"]
 [ext_resource type="Script" uid="uid://plunvbjmkx1j" path="res://Src/UI/SwMenu.cs" id="3_02nsg"]
+[ext_resource type="AudioStream" uid="uid://cn55rjglbiyoe" path="res://assets/music/SW Main Theme.mp3" id="3_t1dln"]
 [ext_resource type="Script" uid="uid://bssl7xlyrsare" path="res://Src/UI/Menu/SwHud.cs" id="5_7n028"]
 [ext_resource type="Script" uid="uid://gqegyi82qsg4" path="res://Src/UI/Menu/SwOptionsMenu.cs" id="5_aain1"]
 [ext_resource type="Script" uid="uid://b53d7tc1tx42m" path="res://Src/UI/SwNamedHScroll.cs" id="5_jvuow"]
 [ext_resource type="Script" uid="uid://dwq5qcfn58pr2" path="res://Src/UI/SwCheckBox.cs" id="6_f8067"]
+[ext_resource type="Script" uid="uid://caojwd4iekped" path="res://Src/UI/Menu/SwAudioMenu.cs" id="8_dpyut"]
+[ext_resource type="AudioStream" uid="uid://b32ll64nblx0q" path="res://assets/sfx/player/SW SFX Spoon Swing 1.mp3" id="8_yiij1"]
 
 [node name="Main" type="Control" unique_id=910366092]
 process_mode = 3
@@ -19,6 +22,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0ay0p")
 GameScene = ExtResource("2_vspwy")
+MusicTracks = [ExtResource("3_t1dln")]
 
 [node name="GameHolder" type="SubViewportContainer" parent="." unique_id=1418073324]
 process_mode = 1
@@ -207,7 +211,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
-script = ExtResource("3_02nsg")
+script = ExtResource("8_dpyut")
 
 [node name="VBox" type="VBoxContainer" parent="MenuHolder/AudioMenu" unique_id=884041299]
 layout_mode = 2
@@ -225,6 +229,7 @@ text = "Back"
 [node name="MainVolume" type="PanelContainer" parent="MenuHolder/AudioMenu/VBox" unique_id=1478852774]
 layout_mode = 2
 script = ExtResource("5_jvuow")
+DisplayName = "Main Volume"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/AudioMenu/VBox/MainVolume" unique_id=1932356401]
 layout_mode = 2
@@ -241,6 +246,7 @@ value = 50.0
 [node name="MusicVolume" type="PanelContainer" parent="MenuHolder/AudioMenu/VBox" unique_id=117097957]
 layout_mode = 2
 script = ExtResource("5_jvuow")
+DisplayName = "Music Volume"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/AudioMenu/VBox/MusicVolume" unique_id=1219183355]
 layout_mode = 2
@@ -257,6 +263,7 @@ value = 50.0
 [node name="SfxVolume" type="PanelContainer" parent="MenuHolder/AudioMenu/VBox" unique_id=495561437]
 layout_mode = 2
 script = ExtResource("5_jvuow")
+DisplayName = "Sfx Volume"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/AudioMenu/VBox/SfxVolume" unique_id=1653563779]
 layout_mode = 2
@@ -269,6 +276,10 @@ text = "Sfx Volume: 50%"
 layout_mode = 2
 step = 5.0
 value = 50.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MenuHolder/AudioMenu" unique_id=399086490]
+stream = ExtResource("8_yiij1")
+bus = &"Sfx"
 
 [node name="Credits" type="HBoxContainer" parent="MenuHolder" unique_id=1662060385]
 visible = false
@@ -381,3 +392,6 @@ text = "- Message Here"
 [node name="Label2" type="Label" parent="MenuHolder/Hud/VBox/Messages" unique_id=326133734]
 layout_mode = 2
 text = "- Another Message Here"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2062631309]
+bus = &"Music"

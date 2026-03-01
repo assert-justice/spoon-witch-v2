@@ -37,16 +37,19 @@ public partial class SwGlobal : Node
     }
     public enum AudioBus
     {
-        Master,
+        Main,
         Music,
         Sfx,
     }
     public static float GetVolume(AudioBus audioBus)
     {
-        return AudioServer.GetBusVolumeLinear((int)audioBus);
+        float volume = AudioServer.GetBusVolumeLinear((int)audioBus);
+        SwStatic.Log($"get volume {audioBus}: {volume}");
+        return volume;
     }
     public static void SetVolume(AudioBus audioBus, float value)
     {
+        SwStatic.Log($"set {audioBus}: {value}");
         AudioServer.SetBusVolumeLinear((int)audioBus, value);
     }
     public override void _Ready()
@@ -56,7 +59,7 @@ public partial class SwGlobal : Node
         InputManager.BindDefaults();
         ProcessMode = ProcessModeEnum.Always;
         SetFullscreen(Settings.Fullscreen);
-        SetVolume(AudioBus.Master, Settings.MainVolume);
+        SetVolume(AudioBus.Main, Settings.MainVolume);
         SetVolume(AudioBus.Music, Settings.MusicVolume);
         SetVolume(AudioBus.Sfx, Settings.SfxVolume);
     }
