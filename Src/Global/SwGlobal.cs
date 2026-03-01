@@ -25,16 +25,44 @@ public partial class SwGlobal : Node
     {
         return LastInputEvent is InputEventJoypadButton || LastInputEvent is InputEventJoypadMotion;
     }
+    public static bool IsFullscreen()
+    {
+        return DisplayServer.WindowGetMode() == DisplayServer.WindowMode.Fullscreen;
+    }
+    public static void SetFullscreen(bool isFullscreen)
+    {
+        GD.Print(isFullscreen);
+        DisplayServer.WindowSetMode(isFullscreen ? DisplayServer.WindowMode.Fullscreen : DisplayServer.WindowMode.Windowed);
+        GetSettings().Fullscreen = isFullscreen;
+    }
+    public enum AudioBus
+    {
+        Master,
+        Music,
+        Sfx,
+    }
+    public static float GetVolume(AudioBus audioBus)
+    {
+        return AudioServer.GetBusVolumeLinear((int)audioBus);
+    }
+    public static void SetVolume(AudioBus audioBus, float value)
+    {
+        AudioServer.SetBusVolumeLinear((int)audioBus, value);
+    }
     public override void _Ready()
     {
         Global = this;
         InputManager = new();
         InputManager.BindDefaults();
         ProcessMode = ProcessModeEnum.Always;
+        SetFullscreen(Settings.Fullscreen);
+        SetVolume(AudioBus.Master, Settings.MainVolume);
+        SetVolume(AudioBus.Music, Settings.MusicVolume);
+        SetVolume(AudioBus.Sfx, Settings.SfxVolume);
     }
     public override void _PhysicsProcess(double delta)
     {
-        Delta = (float) delta;
+        Delta = (float) delta * Settings.GameSpeed;
         InputManager.Tick(Delta);
     }
     public override void _Input(InputEvent inputEvent)

@@ -38,8 +38,8 @@ public partial class SwMenuHolder : Control
         {
             if(child is SwMenu menu)
             {
-                if(menu == top) menu.Wake();
-                else menu.Sleep();
+                if(menu == top) menu.OnWake();
+                else menu.OnSleep();
             }
         }
     }

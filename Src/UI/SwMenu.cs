@@ -6,10 +6,11 @@ using SW.Src.Input;
 
 namespace SW.Src.Ui;
 
-public partial class SwMenu : Control
+public partial class SwMenu : Control, ISwUiNode
 {
     private SwMenuHolder MenuHolder;
     private readonly List<Control> FocusPoints = [];
+    private readonly List<ISwUiNode> UiNodes = [];
     private SwInputManager InputManager;
     private int FocusIdx = 0;
     private bool IsAwake = false;
@@ -73,17 +74,21 @@ public partial class SwMenu : Control
         focusPoint = default;
         return false;
     }
+    private void SetFocus()
+    {
+        if(TryGetCurrentFocus(out var focus)) focus.GrabFocus();
+    }
     private void IncFocus()
     {
         FocusIdx++;
         if(FocusIdx >= FocusPoints.Count) FocusIdx = 0;
-        if(TryGetCurrentFocus(out var focus)) focus.GrabFocus();
+        SetFocus();
     }
     private void DecFocus()
     {
         FocusIdx--;
         if(FocusIdx < 0) FocusIdx = FocusPoints.Count - 1;
-        if(TryGetCurrentFocus(out var focus)) focus.GrabFocus();
+        SetFocus();
     }
     private void GetFocusPoints(Control parent)
     {
@@ -95,6 +100,10 @@ public partial class SwMenu : Control
                 {
                     FocusPoints.Add(control);
                 }
+                if(control is ISwUiNode uiNode)
+                {
+                    UiNodes.Add(uiNode);
+                }
                 GetFocusPoints(control);
             }
         }
@@ -104,16 +113,24 @@ public partial class SwMenu : Control
         if(GetNodeOrNull<Button>(nodePath) is Button button) button.Pressed += action;
     }
     protected virtual bool ShouldPauseOnWake(){return true;}
-    public virtual void Wake()
+    public virtual void OnWake()
     {
+        foreach (var uiNode in UiNodes)
+        {
+            uiNode.OnWake();
+        }
         IsAwake = true;
         Visible = true;
         GetTree().Paused = ShouldPauseOnWake();
-        if(TryGetCurrentFocus(out var focus)) focus.GrabFocus();
+        SetFocus();
         // if(FocusPoints.Count > FocusIdx) FocusPoints[FocusIdx].GrabFocus();
     }
-    public virtual void Sleep()
+    public virtual void OnSleep()
     {
+        foreach (var uiNode in UiNodes)
+        {
+            uiNode.OnSleep();
+        }
         IsAwake = false;
         Visible = false;
     }

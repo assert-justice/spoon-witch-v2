@@ -5,9 +5,10 @@ namespace SW.Src.Global;
 public class SwSettings
 {
     private const string Path = "settings/game_settings.json";
-    public float MainVolume = 1;
-    public float MusicVolume = 1;
-    public float SfxVolume = 1;
+    public bool Fullscreen = false;
+    public float MainVolume = 0.5f;
+    public float MusicVolume = 0.5f;
+    public float SfxVolume = 0.5f;
     // public float VoiceVolume = 1;
     public bool PauseOnSubmenu = false;
     public float GameSpeed = 1;
