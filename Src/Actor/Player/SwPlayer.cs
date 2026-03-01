@@ -36,8 +36,6 @@ public partial class SwPlayer : SwActor
 	[Export] public float SlingChargeTime = 0.75f;
 	[ExportGroup("Inventory")]
 	[Export] private SwInventoryRes[] StartingInventory = [];
-	// [Export] public float SlingRecoveryTime = 0.25f;
-	// [Export] public float SlingDefaultTime = 0.25f;
 	// Data
 	public SwInventory Inventory = new();
 	// State management
@@ -57,6 +55,7 @@ public partial class SwPlayer : SwActor
 	public SwPlayerAnimator Animator{get; private set;}
 	public SwPlayerEvoker Evoker{get; private set;}
 	public SwPlayerHud Hud{get; private set;}
+	public SwPlayerAudio AudioManager{get; private set;}
 	// Overrides
 	public override void _Ready()
 	{
@@ -64,14 +63,16 @@ public partial class SwPlayer : SwActor
 		StateManager = new(this);
 		Controls = new(this);
 		Evoker = new(this);
+		AudioManager = new(this);
 		BindComponents();
 		Inventory.SetSlots(StartingInventory);
 		base._Ready();
 	}
 	protected override void Tick(float dt)
 	{
-		StateManager.Tick(dt);
+		AudioManager.Tick(dt);
 		Controls.Poll();
+		StateManager.Tick(dt);
 		Hud.Tick(dt);
 		if(SwGlobal.GetInputManager().Pause.IsJustPressed()) Main.Message("pause");
 	}
@@ -82,6 +83,13 @@ public partial class SwPlayer : SwActor
 	// 	Vector2 boxSize = new(32, 32);
 	// 	drawCallbacks.DrawRect(new(Position - boxSize * 0.5f, boxSize), color);
 	// }
+	public override float Damage(SwDamage damage, Node2D source)
+	{
+		float val = base.Damage(damage, source);
+		if(val > 0) AudioManager.PlayHitSound();
+		return val;
+	}
+
 
 	protected override float GetMaxHealth()
 	{

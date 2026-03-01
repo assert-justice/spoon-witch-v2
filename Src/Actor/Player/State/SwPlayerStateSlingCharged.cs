@@ -9,6 +9,7 @@ public class SwPlayerStateSlingCharged(SwPlayer parent) :
     public override void EnterState(SwState lastState)
     {
         Parent.Animator.PlaySlingAnim();
+        Parent.AudioManager.PlaySlingChargedSound();
     }
     public override void ExitState(SwState lastState)
     {
@@ -22,6 +23,7 @@ public class SwPlayerStateSlingCharged(SwPlayer parent) :
         {
             // Fire!
             Parent.Evoker.FireSling();
+            Parent.AudioManager.PlaySlingFireSound();
             Parent.StateManager.QueueState(SwState.Default);
         }
         else if (Parent.Controls.IsChargingJustReleased())

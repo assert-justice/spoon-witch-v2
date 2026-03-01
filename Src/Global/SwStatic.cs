@@ -24,6 +24,20 @@ public static class SwStatic
             child.QueueFree();
         }
     }
+    public static bool TryChooseRandom<T>(IReadOnlyList<T> values, out T value)
+    {
+        value = default;
+        if(values.Count == 0) return false;
+        int idx = Mathf.FloorToInt(GD.Randf() * values.Count);
+        value = values[idx];
+        return true;
+    }
+    public static T ChooseRandom<T>(IReadOnlyList<T> values, string errorMessage)
+    {
+        if(TryChooseRandom(values, out T value)) return value;
+        LogError(errorMessage);
+        return default;
+    }
     public static bool HasError{get; private set;} = false;
     private static readonly StringBuilder Sb = new();
     public static string Separator{get; set;} = "";

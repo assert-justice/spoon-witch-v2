@@ -13,6 +13,18 @@
 [ext_resource type="Texture2D" uid="uid://cw7ww6qu8t0ww" path="res://assets/sprites/characters/belladonna/run/bella_run_dr.png" id="5_wl55n"]
 [ext_resource type="Texture2D" uid="uid://beluggnt0jhei" path="res://assets/sprites/characters/belladonna/run/bella_run_u.png" id="6_kggx2"]
 [ext_resource type="Texture2D" uid="uid://dws1oebv0d83k" path="res://assets/sprites/characters/belladonna/sling/bella_sling.png" id="9_0w4p8"]
+[ext_resource type="AudioStream" uid="uid://r4s6nn5ihlmy" path="res://assets/sfx/player/SW SFX Player Walking.mp3" id="14_nmlhc"]
+[ext_resource type="Script" uid="uid://c4fr6dw1kvbay" path="res://Src/Entity/SwMultiSound.cs" id="15_h5w3c"]
+[ext_resource type="AudioStream" uid="uid://b32ll64nblx0q" path="res://assets/sfx/player/SW SFX Spoon Swing 1.mp3" id="16_dferu"]
+[ext_resource type="AudioStream" uid="uid://meqedakwed0h" path="res://assets/sfx/player/SW SFX Spoon Swing 2.mp3" id="17_t62v4"]
+[ext_resource type="AudioStream" uid="uid://dkeekm27rjh7l" path="res://assets/sfx/player/SW SFX Player Hit 1.wav" id="18_6a6mx"]
+[ext_resource type="AudioStream" uid="uid://76vm4rhclgdf" path="res://assets/sfx/player/SW SFX Player Hit 2.mp3" id="19_j3wsw"]
+[ext_resource type="AudioStream" uid="uid://d3evmgymolwag" path="res://assets/sfx/player/SW SFX Player Hit 3.mp3" id="20_ds2sr"]
+[ext_resource type="AudioStream" uid="uid://wwn6tbdg47ms" path="res://assets/sfx/player/SW SFX Player Hit 4.mp3" id="21_6xqls"]
+[ext_resource type="AudioStream" uid="uid://bu5mvwtoi3foa" path="res://assets/sfx/player/SW SFX Player Hit 5.mp3" id="22_3hvrq"]
+[ext_resource type="AudioStream" uid="uid://b173fn46lqxy1" path="res://assets/sfx/player/SW SFX Sling Rising.mp3" id="23_6xqls"]
+[ext_resource type="AudioStream" uid="uid://bqinyjecuv215" path="res://assets/sfx/player/SW SFX Sling Holding.mp3" id="24_3hvrq"]
+[ext_resource type="AudioStream" uid="uid://dhtjksmmx3k0u" path="res://assets/sfx/player/SW SFX Sling Launching.mp3" id="25_bwi5y"]
 
 [sub_resource type="Resource" id="Resource_c4rn8"]
 script = ExtResource("3_c4rn8")
@@ -1302,3 +1314,23 @@ initial_velocity_max = 50.0
 scale_amount_min = 2.5
 scale_amount_max = 2.5
 color = Color(0.53951395, 0.9822832, 1.540184e-06, 1)
+
+[node name="Audio" type="Node2D" parent="." unique_id=985742839]
+
+[node name="AudioListener2D" type="AudioListener2D" parent="Audio" unique_id=1091282840]
+current = true
+
+[node name="WalkSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=1102222889]
+stream = ExtResource("14_nmlhc")
+
+[node name="SpoonSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=1097801684]
+script = ExtResource("15_h5w3c")
+Streams = [ExtResource("16_dferu"), ExtResource("17_t62v4")]
+
+[node name="HitSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=2059829304]
+script = ExtResource("15_h5w3c")
+Streams = [ExtResource("18_6a6mx"), ExtResource("19_j3wsw"), ExtResource("20_ds2sr"), ExtResource("21_6xqls"), ExtResource("22_3hvrq")]
+
+[node name="SlingSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=1937007982]
+script = ExtResource("15_h5w3c")
+Streams = [ExtResource("23_6xqls"), ExtResource("24_3hvrq"), ExtResource("25_bwi5y")]

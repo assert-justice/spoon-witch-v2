@@ -15,6 +15,7 @@ public class SwPlayerStateSlingCharging : SwStateMachine<SwPlayer, SwState>.SwSt
     public override void EnterState(SwState lastState)
     {
         ChargeClock.Restart();
+        Parent.AudioManager.PlaySlingChargingSound();
     }
     public override void ExitState(SwState lastState)
     {

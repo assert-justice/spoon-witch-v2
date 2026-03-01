@@ -31,7 +31,6 @@ public partial class SwGame : Node2D
         StateMachine.AddState(new SwGameStateDefault(this));
         StateMachine.AddState(new SwGameStateCombat(this));
         StateMachine.AddState(new SwGameStateGameOver(this));
-        StateMachine.LogStates = true;
     }
     public override void _PhysicsProcess(double delta)
     {

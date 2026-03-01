@@ -36,6 +36,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SubViewport" type="SubViewport" parent="GameHolder" unique_id=1055604146]
+disable_3d = true
 handle_input_locally = false
 audio_listener_enable_2d = true
 size = Vector2i(640, 320)
@@ -284,8 +285,7 @@ value = 50.0
 stream = ExtResource("8_yiij1")
 bus = &"Sfx"
 
-[node name="Credits" type="HBoxContainer" parent="MenuHolder" unique_id=1662060385]
-visible = false
+[node name="Credits" type="HBoxContainer" parent="MenuHolder" unique_id=658276914]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -301,11 +301,26 @@ alignment = 1
 
 [node name="Title" type="Label" parent="MenuHolder/Credits/VBox" unique_id=402105626]
 layout_mode = 2
-text = "A Game made by
+text = "A Game By
 Spoon Witch Coven"
 horizontal_alignment = 1
 
-[node name="Back" type="Button" parent="MenuHolder/Credits/VBox" unique_id=1735595558]
+[node name="Body" type="Label" parent="MenuHolder/Credits/VBox" unique_id=1070838515]
+layout_mode = 2
+text = "GOLEM PINK - Music and sound effects
+Jade J. Laidlaw / Starfishness - Art
+Riley / etmm - Programming"
+
+[node name="Body2" type="Label" parent="MenuHolder/Credits/VBox" unique_id=2085337731]
+layout_mode = 2
+text = "Thanks for Playing!"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuHolder/Credits/VBox" unique_id=520244098]
+layout_mode = 2
+alignment = 1
+
+[node name="Back" type="Button" parent="MenuHolder/Credits/VBox/HBoxContainer" unique_id=1735595558]
 layout_mode = 2
 text = "Back"
 
@@ -350,6 +365,7 @@ layout_mode = 2
 text = "Quit"
 
 [node name="GameOver" type="HBoxContainer" parent="MenuHolder" unique_id=1446578973]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

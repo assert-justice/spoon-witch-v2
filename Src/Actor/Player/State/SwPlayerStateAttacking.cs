@@ -10,6 +10,7 @@ public class SwPlayerStateAttacking(SwPlayer parent) :
     {
         Parent.Evoker.StartSpoonAttack();
         Parent.Animator.PlaySpoonAnim();
+        Parent.AudioManager.PlaySpoonSound();
         Parent.StateManager.SetLockout(0.25f, 0.25f);
     }
     public override void ExitState(SwState lastState)

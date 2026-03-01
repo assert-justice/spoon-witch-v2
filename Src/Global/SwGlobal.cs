@@ -44,12 +44,10 @@ public partial class SwGlobal : Node
     {
         float volume = AudioServer.GetBusVolumeLinear((int)audioBus);
         if(audioBus == AudioBus.Sfx) volume /= SwConstants.MUSIC_MUL;
-        SwStatic.Log($"get volume {audioBus}: {volume}");
         return volume;
     }
     public static void SetVolume(AudioBus audioBus, float value)
     {
-        SwStatic.Log($"set {audioBus}: {value}");
         if(audioBus == AudioBus.Sfx) value *= SwConstants.MUSIC_MUL;
         AudioServer.SetBusVolumeLinear((int)audioBus, value);
     }
