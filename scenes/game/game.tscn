@@ -1,4 +1,10 @@
 [gd_scene format=3 uid="uid://fdoinf8478wj"]
 
+[ext_resource type="Script" uid="uid://o8d5hmiffayi" path="res://Src/GameSpace/SwGame.cs" id="1_sul5r"]
+[ext_resource type="PackedScene" uid="uid://df220aw2sa867" path="res://scenes/game_space/dungeon.tscn" id="2_7h61r"]
+
 [node name="Game" type="Node2D" unique_id=1798723077]
 texture_filter = 1
+script = ExtResource("1_sul5r")
+
+[node name="Dungeon" parent="." unique_id=630593261 instance=ExtResource("2_7h61r")]

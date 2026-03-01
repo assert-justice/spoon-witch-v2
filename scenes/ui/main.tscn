@@ -2,9 +2,11 @@
 
 [ext_resource type="Script" uid="uid://cyn0tp60nn324" path="res://Src/UI/Main.cs" id="1_0ay0p"]
 [ext_resource type="Script" uid="uid://bodvay0korirm" path="res://Src/UI/SwMenuHolder.cs" id="2_2p1s2"]
-[ext_resource type="PackedScene" uid="uid://df220aw2sa867" path="res://scenes/game_space/dungeon.tscn" id="2_vspwy"]
+[ext_resource type="PackedScene" uid="uid://fdoinf8478wj" path="res://scenes/game/game.tscn" id="2_t1dln"]
 [ext_resource type="Script" uid="uid://plunvbjmkx1j" path="res://Src/UI/SwMenu.cs" id="3_02nsg"]
 [ext_resource type="AudioStream" uid="uid://cn55rjglbiyoe" path="res://assets/music/SW Main Theme.mp3" id="3_t1dln"]
+[ext_resource type="AudioStream" uid="uid://c8bnr2nyi1tus" path="res://assets/music/SW Beach Theme.mp3" id="4_x68jn"]
+[ext_resource type="AudioStream" uid="uid://csd2svyxqk18p" path="res://assets/music/SW Combat Theme (hard synth).mp3" id="5_6ic3k"]
 [ext_resource type="Script" uid="uid://bssl7xlyrsare" path="res://Src/UI/Menu/SwHud.cs" id="5_7n028"]
 [ext_resource type="Script" uid="uid://gqegyi82qsg4" path="res://Src/UI/Menu/SwOptionsMenu.cs" id="5_aain1"]
 [ext_resource type="Script" uid="uid://b53d7tc1tx42m" path="res://Src/UI/SwNamedHScroll.cs" id="5_jvuow"]
@@ -21,8 +23,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0ay0p")
-GameScene = ExtResource("2_vspwy")
-MusicTracks = [ExtResource("3_t1dln")]
+GameScene = ExtResource("2_t1dln")
+MusicTracks = [ExtResource("3_t1dln"), ExtResource("4_x68jn"), ExtResource("5_6ic3k")]
 
 [node name="GameHolder" type="SubViewportContainer" parent="." unique_id=1418073324]
 process_mode = 1
@@ -122,6 +124,7 @@ layout_mode = 2
 text = "Back"
 
 [node name="AccessibilityMenu" type="HBoxContainer" parent="MenuHolder" unique_id=1148833607]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -343,6 +346,37 @@ layout_mode = 2
 text = "Options"
 
 [node name="Quit" type="Button" parent="MenuHolder/Pause/VBox" unique_id=1597851424]
+layout_mode = 2
+text = "Quit"
+
+[node name="GameOver" type="HBoxContainer" parent="MenuHolder" unique_id=1446578973]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_02nsg")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/GameOver" unique_id=924341214]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MenuHolder/GameOver/VBox" unique_id=52084839]
+layout_mode = 2
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="Restart" type="Button" parent="MenuHolder/GameOver/VBox" unique_id=159407835]
+layout_mode = 2
+text = "Restart"
+
+[node name="MainMenu" type="Button" parent="MenuHolder/GameOver/VBox" unique_id=468449470]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Quit" type="Button" parent="MenuHolder/GameOver/VBox" unique_id=134543301]
 layout_mode = 2
 text = "Quit"
 

@@ -10,6 +10,7 @@ public partial class Main : Control
 	[Export] private PackedScene GameScene;
 	[Export] private AudioStream[] MusicTracks = [];
 	private static readonly Queue<string> MessageQueue = new();
+	private readonly Dictionary<string, AudioStream> MusicLookup = [];
 	private static Main Instance;
 	private SubViewport GameHolder;
 	private SwMenuHolder MenuHolder;
@@ -20,7 +21,13 @@ public partial class Main : Control
 		GameHolder = GetNode<SubViewport>("GameHolder/SubViewport");
 		MenuHolder = GetNode<SwMenuHolder>("MenuHolder");
 		MusicPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
-		QueueMusic(0);
+		foreach (var track in MusicTracks)
+		{
+			var path = track.ResourcePath.Split('/');
+			path = path[^1].Split('.');
+			MusicLookup.Add(path[0], track);
+		}
+		QueueMusic(MusicTracks[0]);
 		Instance = this;
 	}
 	public override void _PhysicsProcess(double delta)
@@ -52,15 +59,19 @@ public partial class Main : Control
 				FreeGame();
 				SetMenu("MainMenu");
 				break;
+			case "game_over":
+				SetMenu("MainMenu");
+				break;
 			case "options":
 				SetMenu("OptionsMenu");
 				break;
 			default:
-				if(SwStatic.TrySlice(message, "set_music:", out string trackIdxStr))
+				if(SwStatic.TrySlice(message, "queue_music:", out string trackId))
 				{
-					if(!int.TryParse(trackIdxStr, out int trackIdx)) SwStatic.LogError($"Invalid audio track string '{trackIdxStr}'");
+					if(MusicLookup.TryGetValue(trackId, out var track)) QueueMusic(track);
+					else if(!int.TryParse(trackId, out int trackIdx)) SwStatic.LogError($"Invalid audio track string '{trackId}'");
 					else if(trackIdx < 0 || trackIdx >= MusicTracks.Length) SwStatic.LogError($"Invalid audio track idx '{trackIdx}'");
-					else QueueMusic(trackIdx);
+					else QueueMusic(MusicTracks[trackIdx]);
 				}
 				else SwStatic.LogError("Unexpected message:", message);
 				break;
@@ -84,9 +95,8 @@ public partial class Main : Control
 	{
 		return GameHolder.GetChildCount() != 0;
 	}
-	private void QueueMusic(int trackIdx)
+	private void QueueMusic(AudioStream track)
 	{
-		var track = MusicTracks[trackIdx];
 		MusicPlayer.Stream = track;
 		MusicPlayer.Play();
 	}

@@ -31,7 +31,6 @@ public partial class SwGlobal : Node
     }
     public static void SetFullscreen(bool isFullscreen)
     {
-        GD.Print(isFullscreen);
         DisplayServer.WindowSetMode(isFullscreen ? DisplayServer.WindowMode.Fullscreen : DisplayServer.WindowMode.Windowed);
         GetSettings().Fullscreen = isFullscreen;
     }
@@ -44,12 +43,14 @@ public partial class SwGlobal : Node
     public static float GetVolume(AudioBus audioBus)
     {
         float volume = AudioServer.GetBusVolumeLinear((int)audioBus);
+        if(audioBus == AudioBus.Sfx) volume /= SwConstants.MUSIC_MUL;
         SwStatic.Log($"get volume {audioBus}: {volume}");
         return volume;
     }
     public static void SetVolume(AudioBus audioBus, float value)
     {
         SwStatic.Log($"set {audioBus}: {value}");
+        if(audioBus == AudioBus.Sfx) value *= SwConstants.MUSIC_MUL;
         AudioServer.SetBusVolumeLinear((int)audioBus, value);
     }
     public override void _Ready()
