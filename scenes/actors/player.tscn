@@ -1323,18 +1323,23 @@ current = true
 
 [node name="WalkSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=1102222889]
 stream = ExtResource("14_nmlhc")
+bus = &"Sfx"
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=1339174820]
 stream = ExtResource("15_3hvrq")
+bus = &"Sfx"
 
 [node name="SpoonSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=1097801684]
+bus = &"Sfx"
 script = ExtResource("15_h5w3c")
 Streams = [ExtResource("16_dferu"), ExtResource("17_t62v4")]
 
 [node name="HitSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=2059829304]
+bus = &"Sfx"
 script = ExtResource("15_h5w3c")
 Streams = [ExtResource("18_6a6mx"), ExtResource("19_j3wsw"), ExtResource("20_ds2sr"), ExtResource("21_6xqls"), ExtResource("22_3hvrq")]
 
 [node name="SlingSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=1937007982]
+bus = &"Sfx"
 script = ExtResource("15_h5w3c")
 Streams = [ExtResource("23_6xqls"), ExtResource("24_3hvrq"), ExtResource("25_bwi5y")]

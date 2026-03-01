@@ -14,6 +14,7 @@ public class SwPlayerStateSlingCharged(SwPlayer parent) :
     public override void ExitState(SwState lastState)
     {
         Parent.Animator.HideSling();
+        Parent.AudioManager.StopSlingSound();
     }
     public override void Tick(float dt)
     {

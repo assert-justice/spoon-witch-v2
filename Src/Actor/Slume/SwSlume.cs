@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using SW.Src.Actor.Player;
 using SW.Src.Actor.Slume.Component;
 using SW.Src.Actor.Slume.State;
 using SW.Src.Effect;
@@ -36,10 +37,12 @@ public partial class SwSlume : SwEnemy
 	}
 	public SwStateMachine<SwSlume, SwState> StateMachine;
 	public SwSlumeAnimator Animator{get; private set;}
+	public SwSlumeAudio AudioManager{get; private set;}
 	public override void _Ready()
 	{
 		base._Ready();
 		Animator = new(this);
+		AudioManager = new(this);
 		StateMachine = new(InitialState);
 		StateMachine.AddState(new SwSlumeStateDefault(this));
 		StateMachine.AddState(new SwSlumeStateKnockedBack(this));
@@ -49,11 +52,13 @@ public partial class SwSlume : SwEnemy
 		StateMachine.AddState(new SwSlumeStateFleeing(this));
 		StateMachine.AddState(new SwSlumeStateDead(this));
 		Hurtbox = GetNode<SwHurtbox>("Hurtbox");
+		Hurtbox.OnDamageFn = AudioManager.PlayAttackSound;
 		Hitbox = GetNode<CollisionShape2D>("Hitbox");
 	}
 	protected override void Tick(float dt)
 	{
 		base.Tick(dt);
+		AudioManager.Tick(dt);
 		StateMachine.Tick(dt);
 	}
 	protected override float GetMaxHealth()
@@ -77,6 +82,15 @@ public partial class SwSlume : SwEnemy
 		DamageSourcePosition = source.Position;
 		return damageValue;
 	}
+	protected override float ApplyDamage()
+	{
+		float damageValue = base.ApplyDamage();
+		if(damageValue == 0) return 0;
+		if(IsAlive()) AudioManager.PlayHitSound();
+		else AudioManager.PlayDeathSound();
+		return damageValue;
+	}
+
 	public bool ShouldFlee()
 	{
 		return CanSeePlayer() && (Health / MaxHealth < FleeThreshold);

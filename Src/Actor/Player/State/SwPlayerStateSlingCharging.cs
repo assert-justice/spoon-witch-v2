@@ -20,6 +20,7 @@ public class SwPlayerStateSlingCharging : SwStateMachine<SwPlayer, SwState>.SwSt
     public override void ExitState(SwState lastState)
     {
         Parent.Animator.HideSling();
+        Parent.AudioManager.StopSlingSound();
     }
     public override void Tick(float dt)
     {

@@ -21,6 +21,7 @@ public partial class SwHurtbox : Area2D
     public List<SwDamage> DamageList = [];
     private CollisionShape2D Collider;
     public bool IsEnabled{get=>!Collider.Disabled; set{Collider.Disabled = !value;}}
+    public Action OnDamageFn = ()=>{};
     public override void _Ready()
     {
         BodyEntered += OnBodyEntered;
@@ -72,6 +73,7 @@ public partial class SwHurtbox : Area2D
         {
             damageable.Damage(damage, DamageSource);
         }
+        OnDamageFn();
     }
     protected virtual bool IsTarget(Node2D node)
     {

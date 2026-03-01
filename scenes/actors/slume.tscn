@@ -10,6 +10,12 @@
 [ext_resource type="Texture2D" uid="uid://b525082owvctp" path="res://assets/sprites/characters/enemies/slume/move/slume_move_u.png" id="7_sx6om"]
 [ext_resource type="Script" uid="uid://bpjg1d3bfhdde" path="res://Src/Entity/SwHurtbox.cs" id="9_4axoo"]
 [ext_resource type="Script" uid="uid://bm2wc78chtlea" path="res://Src/Effect/SwDamage.cs" id="10_107sd"]
+[ext_resource type="AudioStream" uid="uid://d23a0wlaxyqec" path="res://assets/sfx/slume/SW SFX Slime Walk.mp3" id="11_ydiqi"]
+[ext_resource type="AudioStream" uid="uid://chtukypb8rsd1" path="res://assets/sfx/slume/SW SFX Slime Hit.mp3" id="12_mj2pl"]
+[ext_resource type="Script" uid="uid://c4fr6dw1kvbay" path="res://Src/Entity/SwMultiSound.cs" id="13_8nr63"]
+[ext_resource type="AudioStream" uid="uid://b1wq3n3xyh7ra" path="res://assets/sfx/slume/SW SFX Slime Kill.mp3" id="13_mj2pl"]
+[ext_resource type="AudioStream" uid="uid://fbhu5wpyvn3s" path="res://assets/sfx/slume/SW SFX Slime Swing 1.mp3" id="14_64c6x"]
+[ext_resource type="AudioStream" uid="uid://bvjli38wl8i6f" path="res://assets/sfx/slume/SW SFX Slime Swing 2.mp3" id="15_712yy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vf7sy"]
 radius = 10.049875
@@ -401,3 +407,19 @@ Damages = Array[Object]([SubResource("Resource_fdp22")])
 shape = SubResource("CircleShape2D_107sd")
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=1802593202]
+
+[node name="Audio" type="Node2D" parent="." unique_id=1446829811]
+
+[node name="WalkSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=122913752]
+stream = ExtResource("11_ydiqi")
+bus = &"Sfx"
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=2027774483]
+stream = ExtResource("12_mj2pl")
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=711493116]
+stream = ExtResource("13_mj2pl")
+
+[node name="AttackSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=371086357]
+script = ExtResource("13_8nr63")
+Streams = [ExtResource("14_64c6x"), ExtResource("15_712yy")]

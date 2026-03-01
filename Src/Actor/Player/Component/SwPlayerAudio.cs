@@ -42,6 +42,10 @@ public class SwPlayerAudio
     {
         SlingSounds.Play(1);
     }
+    public void StopSlingSound()
+    {
+        SlingSounds.Stop();
+    }
     public void PlaySlingFireSound()
     {
         SlingSounds.Play(2);

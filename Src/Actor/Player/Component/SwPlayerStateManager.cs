@@ -29,7 +29,6 @@ public class SwPlayerStateManager
 		StateMachine.AddState(new SwPlayerStateInSubmenu(Parent));
 		StateMachine.AddState(new SwPlayerStateUsingItem(Parent));
 		StateMachine.AddState(new SwPlayerStateDying(Parent));
-		StateMachine.LogStates = true;
 		RecoveryClock = new(new()
 		{
 			Duration = 0, 
