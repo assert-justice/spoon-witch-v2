@@ -15,6 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://b32ll64nblx0q" path="res://assets/sfx/player/SW SFX Spoon Swing 1.mp3" id="8_yiij1"]
 [ext_resource type="Script" uid="uid://dv0ij3mey0ayl" path="res://Src/UI/Menu/SwAccessibilityMenu.cs" id="10_xbw52"]
 [ext_resource type="Script" uid="uid://cjewdhbwowc60" path="res://Src/UI/Menu/SwDebugMenu.cs" id="11_gph5m"]
+[ext_resource type="AudioStream" uid="uid://bski3ue1sxflo" path="res://assets/sfx/player/SW SFX Player Death.mp3" id="15_qmqn8"]
 
 [node name="Main" type="Control" unique_id=910366092]
 process_mode = 3
@@ -357,13 +358,35 @@ layout_mode = 2
 step = 5.0
 value = 50.0
 
+[node name="VoiceVolume" type="PanelContainer" parent="MenuHolder/AudioMenu/VBox" unique_id=957821652]
+visible = false
+layout_mode = 2
+script = ExtResource("5_jvuow")
+DisplayName = "Voice Volume"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/AudioMenu/VBox/VoiceVolume" unique_id=2026457236]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuHolder/AudioMenu/VBox/VoiceVolume/VBoxContainer" unique_id=407320293]
+layout_mode = 2
+text = "Voice Volume: 50%"
+
+[node name="HSlider" type="HSlider" parent="MenuHolder/AudioMenu/VBox/VoiceVolume/VBoxContainer" unique_id=1939317092]
+layout_mode = 2
+step = 5.0
+value = 50.0
+
 [node name="Back" type="Button" parent="MenuHolder/AudioMenu/VBox" unique_id=895797879]
 layout_mode = 2
 text = "Back"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MenuHolder/AudioMenu" unique_id=399086490]
+[node name="SfxPlayer" type="AudioStreamPlayer" parent="MenuHolder/AudioMenu" unique_id=399086490]
 stream = ExtResource("8_yiij1")
 bus = &"Sfx"
+
+[node name="VoicePlayer" type="AudioStreamPlayer" parent="MenuHolder/AudioMenu" unique_id=1931482163]
+stream = ExtResource("15_qmqn8")
+bus = &"Voice"
 
 [node name="Credits" type="HBoxContainer" parent="MenuHolder" unique_id=658276914]
 visible = false

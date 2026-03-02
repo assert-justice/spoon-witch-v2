@@ -32,13 +32,14 @@ public partial class SwGlobal : Node
     public static void SetFullscreen(bool isFullscreen)
     {
         DisplayServer.WindowSetMode(isFullscreen ? DisplayServer.WindowMode.Fullscreen : DisplayServer.WindowMode.Windowed);
-        GetSettings().Fullscreen = isFullscreen;
+        GetSettings().InitialFullscreen = isFullscreen;
     }
     public enum AudioBus
     {
         Main,
         Music,
         Sfx,
+        Voice,
     }
     public static float GetVolume(AudioBus audioBus)
     {
@@ -54,13 +55,15 @@ public partial class SwGlobal : Node
     public override void _Ready()
     {
         Global = this;
+        Settings.TryLoad();
         InputManager = new();
         InputManager.BindDefaults();
         ProcessMode = ProcessModeEnum.Always;
-        SetFullscreen(Settings.Fullscreen);
-        SetVolume(AudioBus.Main, Settings.MainVolume);
-        SetVolume(AudioBus.Music, Settings.MusicVolume);
-        SetVolume(AudioBus.Sfx, Settings.SfxVolume);
+        SetFullscreen(Settings.InitialFullscreen);
+        SetVolume(AudioBus.Main, Settings.InitialMainVolume);
+        SetVolume(AudioBus.Music, Settings.InitialMusicVolume);
+        SetVolume(AudioBus.Sfx, Settings.InitialSfxVolume);
+        SetVolume(AudioBus.Voice, Settings.InitialVoiceVolume);
     }
     public override void _PhysicsProcess(double delta)
     {

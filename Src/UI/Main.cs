@@ -39,6 +39,7 @@ public partial class Main : Control
 		switch (message)
 		{
 			case "quit":
+				SwGlobal.GetSettings().Save();
 				GetTree().Quit();
 				break;
 			case "pause":

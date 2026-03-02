@@ -8,6 +8,7 @@ namespace SW.Src.Utils;
 
 public class SwFs
 {
+    public bool LogErrors = false;
     public virtual bool FileExists(string path)
     {
         return FileAccess.FileExists(path) | 
@@ -25,13 +26,13 @@ public class SwFs
         contents = default;
         if(!TryResolveFilePath(path, out string resolvedPath))
         {
-            SwStatic.LogError($"Could not find file at path '{path}'");
+            if(LogErrors) SwStatic.LogError($"Could not find file at path '{path}'");
 			return false;
         }
         using var file = FileAccess.Open(resolvedPath, FileAccess.ModeFlags.Read);
 		if(file is null)
 		{
-			SwStatic.LogError($"Could not open file at path '{path}'");
+			if(LogErrors) SwStatic.LogError($"Could not open file at path '{path}'");
 			return false;
 		}
 		contents = file.GetAsText();
@@ -48,7 +49,7 @@ public class SwFs
         }
         catch(Exception e)
         {
-            SwStatic.LogError($"Error parsing json at path '{path}': {e}");
+            if(LogErrors) SwStatic.LogError($"Error parsing json at path '{path}': {e}");
 			return false;
         }
     }
@@ -57,12 +58,17 @@ public class SwFs
         try
         {
             using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+            if(file is null)
+            {
+                if(LogErrors) SwStatic.LogError($"Unable to open file at path '{path}'");
+                return false;
+            }
             file.StoreString(contents);
             return true;
         }
         catch(Exception e)
         {
-            SwStatic.LogError($"Error writing to file at path '{path}': {e}");
+            if(LogErrors) SwStatic.LogError($"Error writing to file at path '{path}': {e}");
             return false;
         }
     }
@@ -71,7 +77,7 @@ public class SwFs
         using var dir = DirAccess.Open(path);
 		if(dir is null)
 		{
-			SwStatic.LogError($"Failed to open directory at path '{path}'.");
+			if(LogErrors) SwStatic.LogError($"Failed to open directory at path '{path}'.");
 			return [];
 		}
 		List<string> filenames = [];
@@ -95,7 +101,7 @@ public class SwFs
         using var dir = DirAccess.Open(path);
 		if(dir is null)
 		{
-			SwStatic.LogError($"Failed to open directory at path '{path}'.");
+			if(LogErrors) SwStatic.LogError($"Failed to open directory at path '{path}'.");
 			return [];
 		}
 		List<string> filenames = [];
