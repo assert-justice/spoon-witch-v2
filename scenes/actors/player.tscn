@@ -1347,3 +1347,8 @@ Streams = [ExtResource("18_6a6mx"), ExtResource("19_j3wsw"), ExtResource("20_ds2
 bus = &"Sfx"
 script = ExtResource("15_h5w3c")
 Streams = [ExtResource("23_6xqls"), ExtResource("24_3hvrq"), ExtResource("25_bwi5y")]
+
+[node name="SlingFireSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=1839041456]
+bus = &"Sfx"
+script = ExtResource("15_h5w3c")
+Streams = [ExtResource("25_bwi5y")]

@@ -11,6 +11,7 @@ public class SwPlayerAudio
     private readonly SwMultiSound SpoonSounds;
     private readonly SwMultiSound HitSounds;
     private readonly SwMultiSound SlingSounds;
+    private readonly SwMultiSound SlingFireSound;
     public SwPlayerAudio(SwPlayer parent)
     {
         Parent = parent;
@@ -19,6 +20,7 @@ public class SwPlayerAudio
         SpoonSounds = Parent.GetNode<SwMultiSound>("Audio/SpoonSounds");
         HitSounds = Parent.GetNode<SwMultiSound>("Audio/HitSounds");
         SlingSounds = Parent.GetNode<SwMultiSound>("Audio/SlingSounds");
+        SlingFireSound = Parent.GetNode<SwMultiSound>("Audio/SlingFireSound");
     }
     public void Tick(float dt)
     {
@@ -48,7 +50,7 @@ public class SwPlayerAudio
     }
     public void PlaySlingFireSound()
     {
-        SlingSounds.Play(2);
+        SlingFireSound.Play(0);
     }
     public void PlayDeathSound()
     {

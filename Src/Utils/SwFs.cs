@@ -38,10 +38,37 @@ public class SwFs
 		contents = file.GetAsText();
         return true;
     }
+    public virtual bool TryReadFileRaw(string path, out string contents)
+    {
+        contents = default;
+        using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+		if(file is null)
+		{
+			if(LogErrors) SwStatic.LogError($"Could not open file at path '{path}'");
+			return false;
+		}
+		contents = file.GetAsText();
+        return true;
+    }
     public virtual bool TryReadJson(string path, out JsonNode jsonNode)
     {
         jsonNode = default;
         if(!TryReadFile(path, out string contents)) return false;
+        try
+        {
+            jsonNode = JsonNode.Parse(contents);
+            return true;
+        }
+        catch(Exception e)
+        {
+            if(LogErrors) SwStatic.LogError($"Error parsing json at path '{path}': {e}");
+			return false;
+        }
+    }
+    public virtual bool TryReadJsonRaw(string path, out JsonNode jsonNode)
+    {
+        jsonNode = default;
+        if(!TryReadFileRaw(path, out string contents)) return false;
         try
         {
             jsonNode = JsonNode.Parse(contents);
