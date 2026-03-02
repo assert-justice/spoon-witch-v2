@@ -2,6 +2,7 @@ using Godot;
 using SW.Src.Actor.Knight.Component;
 using SW.Src.Actor.Knight.State;
 using SW.Src.Effect;
+using SW.Src.Global;
 using SW.Src.Timer;
 using SW.Src.Utils;
 
@@ -70,6 +71,8 @@ public partial class SwKnight : SwEnemy
 	}
 	protected override void Tick(float dt)
 	{
+		if(SwGlobal.GetSettings().CreativeMode) StateMachine.QueueState(SwState.Default);
+		else if(StateMachine.IsInState(SwState.Default)) StateMachine.QueueState(SwState.Wandering);
 		base.Tick(dt);
 		ChargeRecoveryClock.Tick(dt);
 		AttackCooldownClock.Tick(dt);

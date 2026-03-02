@@ -414,12 +414,18 @@ shape = SubResource("CircleShape2D_107sd")
 [node name="WalkSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=122913752]
 stream = ExtResource("11_ydiqi")
 bus = &"Sfx"
+script = ExtResource("13_8nr63")
+Streams = [ExtResource("11_ydiqi")]
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=2027774483]
 stream = ExtResource("12_mj2pl")
+script = ExtResource("13_8nr63")
+Streams = [ExtResource("12_mj2pl")]
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=711493116]
 stream = ExtResource("13_mj2pl")
+script = ExtResource("13_8nr63")
+Streams = [ExtResource("13_mj2pl")]
 
 [node name="AttackSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=371086357]
 script = ExtResource("13_8nr63")

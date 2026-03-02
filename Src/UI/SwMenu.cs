@@ -54,14 +54,14 @@ public partial class SwMenu : Control, ISwUiNode
         {
             if(fp is HSlider slider)
             {
-                slider.Value += slider.Step;
+                slider.Value -= slider.Step;
             }
         }
         else if (InputManager.UiRight.IsJustPressed())
         {
             if(fp is HSlider slider)
             {
-                slider.Value -= slider.Step;
+                slider.Value += slider.Step;
             }
         }
     }

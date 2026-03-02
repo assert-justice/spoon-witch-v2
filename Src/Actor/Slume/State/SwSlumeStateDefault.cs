@@ -1,3 +1,4 @@
+using Godot;
 using SW.Src.Utils;
 using static SW.Src.Actor.Slume.SwSlume;
 
@@ -7,6 +8,7 @@ public class SwSlumeStateDefault(SwSlume parent) : SwStateMachine<SwSlume, SwSta
 {
     public override void EnterState(SwState lastState)
     {
+        Parent.Velocity = Vector2.Zero;
     }
     public override void ExitState(SwState lastState)
     {

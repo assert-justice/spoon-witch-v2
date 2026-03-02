@@ -7,6 +7,9 @@ namespace SW.Src.Entity;
 public partial class SwMultiSound : AudioStreamPlayer2D
 {
 	[Export] private AudioStream[] Streams = [];
+	[Export] public bool RandomizePitch = true;
+	[Export] public float MinPitchShift = 1;
+	[Export] public float MaxPitchShift = 1;
 	private readonly Queue<AudioStream> StreamList = [];
 	private readonly List<AudioStream> TempStreams = [];
 	private bool TryGetShuffled(out AudioStream audioStream)
@@ -46,6 +49,17 @@ public partial class SwMultiSound : AudioStreamPlayer2D
 	private void Play(AudioStream audioStream)
 	{
 		Stream = audioStream;
+		if (RandomizePitch)
+		{
+			float minPitch = Mathf.Min(MinPitchShift, SwGlobal.GetSettings().MinPitchShift);
+			float maxPitch = Mathf.Max(MaxPitchShift, SwGlobal.GetSettings().MaxPitchShift);
+			float pitch = GD.Randf() * (maxPitch - minPitch) + minPitch;
+			PitchScale = pitch;
+		}
+		else
+		{
+			PitchScale = 1;
+		}
 		Play();
 	}
 	public int GetSoundsCount(){return Streams.Length;}

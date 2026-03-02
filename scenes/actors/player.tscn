@@ -1324,10 +1324,14 @@ current = true
 [node name="WalkSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=1102222889]
 stream = ExtResource("14_nmlhc")
 bus = &"Sfx"
+script = ExtResource("15_h5w3c")
+Streams = [ExtResource("14_nmlhc")]
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=1339174820]
 stream = ExtResource("15_3hvrq")
 bus = &"Sfx"
+script = ExtResource("15_h5w3c")
+Streams = [ExtResource("15_3hvrq")]
 
 [node name="SpoonSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=1097801684]
 bus = &"Sfx"

@@ -340,7 +340,6 @@ animations = [{
 [node name="Knight" type="CharacterBody2D" unique_id=1206254036 groups=["Enemy"]]
 texture_filter = 1
 script = ExtResource("1_t8xe0")
-Speed = 30.0
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=2032764580]
 shape = SubResource("RectangleShape2D_t8xe0")
@@ -370,12 +369,18 @@ animation = &"knockback"
 
 [node name="WalkSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=296745851]
 stream = ExtResource("6_1lgou")
+script = ExtResource("6_5lyfx")
+Streams = [ExtResource("6_1lgou")]
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=2031293196]
 stream = ExtResource("7_4dyib")
+script = ExtResource("6_5lyfx")
+Streams = [ExtResource("7_4dyib")]
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=123265182]
 stream = ExtResource("8_h3b88")
+script = ExtResource("6_5lyfx")
+Streams = [ExtResource("8_h3b88")]
 
 [node name="AttackSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=1996104874]
 script = ExtResource("6_5lyfx")

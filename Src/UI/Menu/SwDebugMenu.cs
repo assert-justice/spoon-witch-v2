@@ -7,6 +7,7 @@ public partial class SwDebugMenu : SwMenu
     private SwNamedHScroll MaxPitchShift;
     private SwNamedHScroll MinPitchShift;
     private SwCheckBox DebugDraw;
+    private SwCheckBox CreativeMode;
     public override void _Ready()
     {
         base._Ready();
@@ -19,5 +20,8 @@ public partial class SwDebugMenu : SwMenu
         DebugDraw = GetNode<SwCheckBox>("VBox/DebugDraw");
         DebugDraw.SetOnWakeFn(()=>SwGlobal.GetSettings().DebugDraw);
         DebugDraw.SetOnChangeFn((value) =>SwGlobal.GetSettings().DebugDraw = value);
+        CreativeMode = GetNode<SwCheckBox>("VBox/CreativeMode");
+        CreativeMode.SetOnWakeFn(()=>SwGlobal.GetSettings().CreativeMode);
+        CreativeMode.SetOnChangeFn((value) =>SwGlobal.GetSettings().CreativeMode = value);
     }
 }

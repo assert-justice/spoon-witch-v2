@@ -48,10 +48,8 @@ position = Vector2(86, 265)
 [node name="Knight" parent="." unique_id=1206254036 instance=ExtResource("6_v8et7")]
 position = Vector2(552, 239)
 motion_mode = 1
-InitialState = 3
 DebugDrawEnabled = true
 
 [node name="Slume" parent="." unique_id=483287388 instance=ExtResource("5_qcii0")]
 position = Vector2(559, 45)
-InitialState = 2
 DebugDrawEnabled = true

@@ -277,6 +277,11 @@ layout_mode = 2
 text = "Debug Draw"
 script = ExtResource("6_f8067")
 
+[node name="CreativeMode" type="CheckBox" parent="MenuHolder/DebugMenu/VBox" unique_id=515907388]
+layout_mode = 2
+text = "Peaceful Mobs"
+script = ExtResource("6_f8067")
+
 [node name="Back" type="Button" parent="MenuHolder/DebugMenu/VBox" unique_id=1836120978]
 layout_mode = 2
 text = "Back"
