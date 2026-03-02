@@ -16,6 +16,7 @@
 
 [node name="Main" type="Control" unique_id=910366092]
 process_mode = 3
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -118,7 +119,7 @@ text = "Audio"
 
 [node name="Accessibility" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=360409152]
 layout_mode = 2
-text = "accessibility"
+text = "Accessibility"
 
 [node name="Back" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=1398029019]
 layout_mode = 2
@@ -308,7 +309,7 @@ horizontal_alignment = 1
 
 [node name="Body" type="Label" parent="MenuHolder/Credits/VBox" unique_id=1070838515]
 layout_mode = 2
-text = "GOLEM PINK - Music and sound effects
+text = "GOLEM PINK - Music and sound design
 Jade J. Laidlaw / Starfishness - Art
 Riley / etmm - Programming"
 

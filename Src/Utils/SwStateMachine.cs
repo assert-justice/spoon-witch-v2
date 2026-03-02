@@ -12,11 +12,12 @@ public class SwStateMachine<TParent, TState>
 		protected readonly TParent Parent = parent;
 		public readonly TState State = state;
 		public virtual void EnterState(TState lastState){}
-		public virtual void ExitState(TState lastState){}
+		public virtual void ExitState(TState nextState){}
 		public virtual void Tick(float dt){}
 	}
 	private readonly Dictionary<TState, SwStateData> States = [];
 	private readonly Queue<TState> StateQueue = new();
+	private readonly SwQueueOne<TState> LastState = new();
 	private SwStateData CurrentStateData;
 	public bool LogStates = false;
 	public SwStateMachine(){}
@@ -64,6 +65,10 @@ public class SwStateMachine<TParent, TState>
 		if(CurrentStateData is null) return false;
 		state = CurrentStateData.State;
 		return true;
+	}
+	public bool TryGetLastState(out TState state)
+	{
+		return LastState.TryReadTop(out state);
 	}
 	public bool IsInState(TState state){return TryGetState(out var currentState) && SwStatic.IsEqual(state, currentState);}
 }

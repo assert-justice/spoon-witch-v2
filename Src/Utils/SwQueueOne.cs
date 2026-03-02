@@ -20,4 +20,9 @@ public class SwQueueOne<T>
         value = default;
         return false;
     }
+    public bool TryReadTop(out T value)
+    {
+        value = Value;
+        return HasValue;
+    }
 }

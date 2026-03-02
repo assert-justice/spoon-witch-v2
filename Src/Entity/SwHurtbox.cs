@@ -14,8 +14,8 @@ public partial class SwHurtbox : Area2D
     }
     [Export] private SwHurtboxDamageEvent DamageEvent = SwHurtboxDamageEvent.OnEnter;
     [Export] protected Node2D DamageSource;
-    [Export] private string[] Whitelist;
-    [Export] private SwDamage[] Damages;
+    [Export] private string[] Whitelist = [];
+    [Export] private SwDamage[] Damages = [];
     public HashSet<string> GroupWhitelist = [];
     public HashSet<Node2D> TargetsInArea = [];
     public List<SwDamage> DamageList = [];
