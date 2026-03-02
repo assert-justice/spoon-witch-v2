@@ -3,3 +3,5 @@
 .vscode/
 /android/
 assets/artifacts/
+bin/
+__pycache__/
