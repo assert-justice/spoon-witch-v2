@@ -34,11 +34,11 @@ public partial class SwHud : SwMenu
     public override void _PhysicsProcess(double delta)
     {
         if(PlayerHealth.IsDirty() || PlayerMaxHealth.IsDirty()) 
-            HealthLabel.Text = $"Health: {PlayerHealth.Value}/{PlayerMaxHealth.Value}";
+            HealthLabel.Text = $"Health: {PlayerHealth.Value:F0}/{PlayerMaxHealth.Value:F0}";
         if(PlayerAmmo.IsDirty() || PlayerMaxAmmo.IsDirty()) 
-            AmmoLabel.Text = $"Ammo: {PlayerAmmo.Value}/{PlayerMaxAmmo.Value}";
+            AmmoLabel.Text = $"Ammo: {PlayerAmmo.Value:F0}/{PlayerMaxAmmo.Value:F0}";
         if(PlayerRoots.IsDirty() || PlayerMaxRoots.IsDirty()) 
-            RootLabel.Text = $"Roots: {PlayerRoots.Value}/{PlayerMaxRoots.Value}";
+            RootLabel.Text = $"Roots: {PlayerRoots.Value:F0}/{PlayerMaxRoots.Value:F0}";
         UpdateMessages();
         // Deliberately does not call base physics process method
     }
@@ -64,7 +64,7 @@ public partial class SwHud : SwMenu
     }
     public void UpdatePlayer(SwPlayer player)
     {
-        PlayerHealth.Value = player.GetHealth();
+        PlayerHealth.Value = Mathf.Clamp(player.GetHealth(), 0, player.MaxHealth);
         PlayerMaxHealth.Value = player.MaxHealth;
         if(player.Inventory.Slots.TryGetValue(Inventory.SwItemType.SlingBullet, out var ammoSlot))
         {

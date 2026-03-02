@@ -78,6 +78,12 @@ public partial class SwPlayer : SwActor
 		Hud.Tick(dt);
 		if(SwGlobal.GetInputManager().Pause.IsJustPressed()) Main.Message("pause");
 	}
+	public override float Damage(SwDamage damage, Node2D source)
+	{
+		SwDamage adjDamage = new(damage.Type, damage.Value * SwGlobal.GetSettings().DamageTakenMultiplier);
+		return base.Damage(adjDamage, source);
+	}
+
 	protected override float ApplyDamage()
 	{
 		float totalDamage = base.ApplyDamage();

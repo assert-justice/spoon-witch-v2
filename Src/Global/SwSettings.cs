@@ -14,7 +14,10 @@ public class SwSettings
     public float GameSpeed = 1;
     public float DamageTakenMultiplier = 1;
     public float DamageDealtMultiplier = 1;
-    public bool DebugMode = false;
+    // Debug settings, do not save
+    public float MinPitchShift = 1;
+    public float MaxPitchShift = 1;
+    public bool DebugDraw = false;
     public SwSettings(){}
     public bool TryLoad()
     {

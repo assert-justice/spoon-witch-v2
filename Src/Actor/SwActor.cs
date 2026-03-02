@@ -14,11 +14,6 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 	[Export] public float InvulnerableTime = 0.5f;
 	[Export] public float FlickersPerSecond = 8;
 	[Export] private bool DebugDrawEnabled = false;
-	// private SwHud Hud;
-	// private Action<Rect2, Color> DebugDrawRect;
-	// private Action<Vector2, Vector2, Color> DebugDrawLine;
-	// private Action<Vector2, string, Color> DebugDrawText;
-	private DebugDrawCallbacks DrawCallbacks;
 	public SwClock InvulnerableClock;
 	public SwClock FlickerClock;
 	public float Health;
@@ -34,41 +29,11 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 		}
 	}
 	private Vector2 LastVelocity = Vector2.Down;
-	protected record class DebugDrawCallbacks
-	{
-		public required Action<Rect2, Color> DrawRect{get; init;}
-		public required Action<Vector2, Vector2, Color> DrawLine{get; init;}
-		public required Action<Vector2, string, Color> DrawText{get; init;}
-	}
 	public override void _Ready()
 	{
 		Health = GetMaxHealth();
 		InvulnerableClock = new(new(){Duration=InvulnerableTime,IsPaused=true});
 		FlickerClock = new(new(){Duration=1/FlickersPerSecond,Repeats=true});
-		if(DebugDrawEnabled && Main.TryGetHud(out var hud))
-		{
-			void drawRect(Rect2 rect, Color color)
-			{
-				var trans = GetViewportTransform().Inverse();
-				hud.AddDrawRect(rect * trans, color);
-			}
-			void drawLine(Vector2 from, Vector2 to, Color color)
-			{
-				var trans = GetViewportTransform().Inverse();
-				hud.AddDrawLine(from * trans, to * trans, color);
-			}
-			void drawText(Vector2 position, string text, Color color)
-			{
-				var trans = GetViewportTransform().Inverse();
-				hud.AddDrawText(position * trans, text, color);
-			}
-			DrawCallbacks = new()
-			{
-				DrawRect = drawRect,
-				DrawLine = drawLine,
-				DrawText = drawText,
-			};
-		}
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -81,11 +46,38 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 			item.Tick(dt);
 		}
 		Tick(dt);
-		if(DebugDrawEnabled)DebugDraw(DrawCallbacks);
 		MoveAndSlide();
 		// LateTick(dt);
 		ApplyDamage();
 	}
+	public bool CanDebugDraw(){return DebugDrawEnabled && SwGlobal.GetSettings().DebugDraw;}
+	public void DebugDrawRect(Rect2 rect, Color color)
+    {
+		if(!CanDebugDraw() || !Main.TryGetHud(out var hud)) return;
+		var trans = GetViewportTransform().Inverse();
+        void fn(SwHud hud){
+            hud.DrawRect(rect * trans, color);
+        }
+        hud.AddDrawCommand(fn);
+    }
+    public void DebugDrawLine(Vector2 from, Vector2 to, Color color)
+    {
+		if(!CanDebugDraw() || !Main.TryGetHud(out var hud)) return;
+		var trans = GetViewportTransform().Inverse();
+        void fn(SwHud hud){
+            hud.DrawLine(from * trans, to * trans, color);
+        }
+        hud.AddDrawCommand(fn);
+    }
+    public void DebugDrawText(Vector2 position, string text, Color color)
+    {
+		if(!CanDebugDraw() || !Main.TryGetHud(out var hud)) return;
+		var trans = GetViewportTransform().Inverse();
+        void fn(SwHud hud){
+            hud.DrawString(ThemeDB.FallbackFont, position * trans, text, HorizontalAlignment.Left, -1, 16, color);
+        }
+        hud.AddDrawCommand(fn);
+    }
 	private void HandleInvulnerability(float dt)
 	{
 		if(!InvulnerableClock.IsRunning()) return;
@@ -111,7 +103,7 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 	}
 	protected virtual void Tick(float dt){}
 	// protected virtual void LateTick(float dt){}
-	protected virtual void DebugDraw(DebugDrawCallbacks drawCallbacks){}
+	// protected virtual void DebugDraw(DebugDrawCallbacks drawCallbacks){}
 	protected T AddTicker<T>(T ticker) where T : ISwTick
 	{
 		Tickers.Add(ticker);

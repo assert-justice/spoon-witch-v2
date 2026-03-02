@@ -1,4 +1,6 @@
+using System.Linq;
 using Godot;
+using SW.Src.Effect;
 using SW.Src.Entity;
 using SW.Src.Entity.Projectile;
 using SW.Src.Global;
@@ -21,7 +23,8 @@ public class SwPlayerEvoker
     {
         Hurtbox.IsEnabled = true;
         SpoonPivot.Rotation = Parent.GetLastAngleRounded();
-        Hurtbox.DamageList = [..Parent.SpoonDamages];
+        float damageMul = SwGlobal.GetSettings().DamageDealtMultiplier * Parent.SpoonDamageMul;
+        Hurtbox.DamageList = [..Parent.SpoonDamages.Select(d => new SwDamage(d.Type, d.Value * damageMul))];
     }
     public void EndSpoonAttack()
     {
@@ -42,7 +45,8 @@ public class SwPlayerEvoker
         }
         var bullet = Parent.SlingBulletScene.Instantiate<SwProjectile>();
         bullet.Init(Parent.GetParent(), Parent.Controls.Aim() * Parent.SlingBulletSpeed, Parent.Position);
-        bullet.DamageList = [..Parent.SlingDamages];
+        float damageMul = SwGlobal.GetSettings().DamageDealtMultiplier * Parent.SpoonDamageMul;
+        bullet.DamageList = [..Parent.SlingDamages.Select(d => new SwDamage(d.Type, d.Value * damageMul))];
     }
     public void Heal()
     {

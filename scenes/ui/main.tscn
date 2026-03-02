@@ -13,6 +13,8 @@
 [ext_resource type="Script" uid="uid://dwq5qcfn58pr2" path="res://Src/UI/SwCheckBox.cs" id="6_f8067"]
 [ext_resource type="Script" uid="uid://caojwd4iekped" path="res://Src/UI/Menu/SwAudioMenu.cs" id="8_dpyut"]
 [ext_resource type="AudioStream" uid="uid://b32ll64nblx0q" path="res://assets/sfx/player/SW SFX Spoon Swing 1.mp3" id="8_yiij1"]
+[ext_resource type="Script" uid="uid://dv0ij3mey0ayl" path="res://Src/UI/Menu/SwAccessibilityMenu.cs" id="10_xbw52"]
+[ext_resource type="Script" uid="uid://cjewdhbwowc60" path="res://Src/UI/Menu/SwDebugMenu.cs" id="11_gph5m"]
 
 [node name="Main" type="Control" unique_id=910366092]
 process_mode = 3
@@ -121,6 +123,10 @@ text = "Audio"
 layout_mode = 2
 text = "Accessibility"
 
+[node name="Debug" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=1740774532]
+layout_mode = 2
+text = "Debug"
+
 [node name="Back" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=1398029019]
 layout_mode = 2
 text = "Back"
@@ -134,7 +140,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
-script = ExtResource("3_02nsg")
+script = ExtResource("10_xbw52")
 
 [node name="VBox" type="VBoxContainer" parent="MenuHolder/AccessibilityMenu" unique_id=420138296]
 layout_mode = 2
@@ -182,6 +188,7 @@ step = 5.0
 value = 100.0
 
 [node name="GameSpeed" type="PanelContainer" parent="MenuHolder/AccessibilityMenu/VBox" unique_id=810216735]
+visible = false
 layout_mode = 2
 script = ExtResource("5_jvuow")
 DisplayName = "Game Speed"
@@ -199,11 +206,78 @@ max_value = 200.0
 step = 5.0
 value = 100.0
 
-[node name="CheckBox" type="CheckBox" parent="MenuHolder/AccessibilityMenu/VBox" unique_id=197872168]
+[node name="PauseOnSubmenu" type="CheckBox" parent="MenuHolder/AccessibilityMenu/VBox" unique_id=197872168]
+visible = false
 layout_mode = 2
 text = "Pause on Submenu"
+script = ExtResource("6_f8067")
 
 [node name="Back" type="Button" parent="MenuHolder/AccessibilityMenu/VBox" unique_id=1782414142]
+layout_mode = 2
+text = "Back"
+
+[node name="DebugMenu" type="HBoxContainer" parent="MenuHolder" unique_id=1261217324]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("11_gph5m")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/DebugMenu" unique_id=1589209875]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MenuHolder/DebugMenu/VBox" unique_id=62986339]
+layout_mode = 2
+text = "Debug"
+horizontal_alignment = 1
+
+[node name="MaxPitchShift" type="PanelContainer" parent="MenuHolder/DebugMenu/VBox" unique_id=1213085818]
+layout_mode = 2
+script = ExtResource("5_jvuow")
+DisplayName = "Max Pitch Shift"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/DebugMenu/VBox/MaxPitchShift" unique_id=1330375115]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuHolder/DebugMenu/VBox/MaxPitchShift/VBoxContainer" unique_id=80493634]
+layout_mode = 2
+text = "Max Pitch Shift"
+
+[node name="HSlider" type="HSlider" parent="MenuHolder/DebugMenu/VBox/MaxPitchShift/VBoxContainer" unique_id=1043842707]
+layout_mode = 2
+max_value = 200.0
+step = 5.0
+value = 100.0
+
+[node name="MinPitchShift" type="PanelContainer" parent="MenuHolder/DebugMenu/VBox" unique_id=1202738714]
+layout_mode = 2
+script = ExtResource("5_jvuow")
+DisplayName = "MinPitchShift"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/DebugMenu/VBox/MinPitchShift" unique_id=1472487268]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MenuHolder/DebugMenu/VBox/MinPitchShift/VBoxContainer" unique_id=1557984805]
+layout_mode = 2
+text = "Min Pitch Shift"
+
+[node name="HSlider" type="HSlider" parent="MenuHolder/DebugMenu/VBox/MinPitchShift/VBoxContainer" unique_id=1768312187]
+layout_mode = 2
+max_value = 200.0
+step = 5.0
+value = 100.0
+
+[node name="DebugDraw" type="CheckBox" parent="MenuHolder/DebugMenu/VBox" unique_id=25868411]
+layout_mode = 2
+text = "Debug Draw"
+script = ExtResource("6_f8067")
+
+[node name="Back" type="Button" parent="MenuHolder/DebugMenu/VBox" unique_id=1836120978]
 layout_mode = 2
 text = "Back"
 
@@ -226,10 +300,6 @@ alignment = 1
 layout_mode = 2
 text = "Options"
 horizontal_alignment = 1
-
-[node name="Back" type="Button" parent="MenuHolder/AudioMenu/VBox" unique_id=895797879]
-layout_mode = 2
-text = "Back"
 
 [node name="MainVolume" type="PanelContainer" parent="MenuHolder/AudioMenu/VBox" unique_id=1478852774]
 layout_mode = 2
@@ -281,6 +351,10 @@ text = "Sfx Volume: 50%"
 layout_mode = 2
 step = 5.0
 value = 50.0
+
+[node name="Back" type="Button" parent="MenuHolder/AudioMenu/VBox" unique_id=895797879]
+layout_mode = 2
+text = "Back"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MenuHolder/AudioMenu" unique_id=399086490]
 stream = ExtResource("8_yiij1")
@@ -367,6 +441,7 @@ layout_mode = 2
 text = "Quit"
 
 [node name="GameOver" type="HBoxContainer" parent="MenuHolder" unique_id=1446578973]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

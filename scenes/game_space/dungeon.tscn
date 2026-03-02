@@ -53,4 +53,5 @@ DebugDrawEnabled = true
 
 [node name="Slume" parent="." unique_id=483287388 instance=ExtResource("5_qcii0")]
 position = Vector2(559, 45)
+InitialState = 2
 DebugDrawEnabled = true

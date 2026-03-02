@@ -60,19 +60,20 @@ public partial class SwSlume : SwEnemy
 		base.Tick(dt);
 		AudioManager.Tick(dt);
 		StateMachine.Tick(dt);
+		DebugDraw();
 	}
 	protected override float GetMaxHealth()
 	{
 		return MaxHealth;
 	}
-	protected override void DebugDraw(DebugDrawCallbacks drawCallbacks)
+	private void DebugDraw()
 	{
-		if(!TryGetPlayer(out var player)) return;
+		if(!CanDebugDraw() || !TryGetPlayer(out var player)) return;
 		bool canSeePlayer = CanSeePlayer();
 		Color color = canSeePlayer ? Colors.Red : Colors.Green;
 		color.A = 0.5f;
-		if(canSeePlayer && IsAlive()) drawCallbacks.DrawLine(Position, player.Position, color);
-		if(StateMachine.TryGetState(out var state)) drawCallbacks.DrawText(Position, state.ToString(), color);
+		if(canSeePlayer && IsAlive()) DebugDrawLine(Position, player.Position, color);
+		if(StateMachine.TryGetState(out var state)) DebugDrawText(Position, state.ToString(), color);
 	}
 
 	public override float Damage(SwDamage damage, Node2D source)

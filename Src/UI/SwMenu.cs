@@ -27,6 +27,7 @@ public partial class SwMenu : Control, ISwUiNode
         AttachButton("VBox/Credits", ()=>MenuHolder.QueueMenu("Credits"));
         AttachButton("VBox/Audio", ()=>MenuHolder.QueueMenu("AudioMenu"));
         AttachButton("VBox/Accessibility", ()=>MenuHolder.QueueMenu("AccessibilityMenu"));
+        AttachButton("VBox/Debug", ()=>MenuHolder.QueueMenu("DebugMenu"));
         GetFocusPoints(this);
         InputManager = SwGlobal.GetInputManager();
     }
