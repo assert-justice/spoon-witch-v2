@@ -14,9 +14,9 @@ public class SwPlayerAnimator(SwPlayer parent)
 	private readonly CpuParticles2D SlingParticles = parent.GetNode<CpuParticles2D>("SlingParticles");
     private readonly CpuParticles2D HealingParticles = parent.GetNode<CpuParticles2D>("HealingParticles");
     private readonly string[] Facing = ["right", "down", "left", "up"];
-    private string GetFacing()
+    private string GetFacing(int facingIdx)
 	{
-        string dir = Facing[Parent.GetLastFacing4()];
+        string dir = Facing[facingIdx];
 		if(dir == "left")
 		{
 			dir = "right";
@@ -34,16 +34,32 @@ public class SwPlayerAnimator(SwPlayer parent)
     }
     public void PlayBodyAnimFaced(string animName)
     {
-        PlayBodyAnim(animName + "_" + GetFacing());
+        PlayBodyAnim(animName + "_" + GetFacing(Parent.GetLastFacing4()));
     }
     public void PlayBodyAnimFaced(string animName, int hands)
     {
         PlayBodyAnimFaced($"{animName}{hands}");
     }
+    public void PlayBodyAnimFaced(string animName, int hands, int facingIdx)
+    {
+        PlayBodyAnim($"{animName}{hands}_{GetFacing(facingIdx)}");
+    }
     public void PlayBodyAnimDefault(int hands)
     {
         string animName = Parent.Controls.IsMoving() ? "run" : "idle";
         PlayBodyAnimFaced($"{animName}{hands}");
+    }
+    public void PlayBodyAnimAiming(int hands)
+    {
+        string animName = Parent.Controls.IsMoving() ? "run" : "idle";
+        Vector2 aim = Parent.Controls.Aim();
+        if(aim.LengthSquared() < SwConstants.EPSILON)
+        {
+            PlayBodyAnimDefault(hands);
+            return;
+        }
+        int facingIdx = SwMath.RoundAngleToInt(aim.Angle(), 4);
+        PlayBodyAnimFaced(animName, hands, facingIdx);
     }
 	public void PlaySpoonAnim()
 	{
