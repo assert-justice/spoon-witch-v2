@@ -7,16 +7,26 @@ public class SwKnightStateChasing : SwStateMachine<SwKnight, SwState>.SwStateDat
 {
     //
     public SwKnightStateChasing(SwKnight parent) : base(parent, SwState.Chasing){}
+    private bool CanAttack()
+    {
+        return Parent.IsPlayerInRadius(Parent.AttackRange) && !Parent.AttackCooldownClock.IsRunning();
+    }
     public override void EnterState(SwState lastState){}
     public override void ExitState(SwState lastState){}
     public override void Tick(float dt)
     {
-        Parent.Animator.PlayBodyDefault();
+        float animSpeed = 1;
+        if (Parent.IsPlayerInRadius(Parent.ChargeRadius) && !Parent.ChargeRecoveryClock.IsRunning())
+        {
+            // Parent.ChargeRecoveryClock.Restart();
+            animSpeed = Parent.ChargeSpeedMul;
+        }
+        Parent.Animator.PlayBodyDefault(2, animSpeed);
         if (Parent.CanSeePlayer(out var player))
         {
-            if(Parent.IsPlayerInRadius(Parent.AttackRange)) Parent.StateMachine.QueueState(SwState.Attacking);
+            if(CanAttack()) Parent.StateMachine.QueueState(SwState.Attacking);
             Parent.TargetPoint = player.Position;
-            Parent.Velocity = Parent.DirectionToPlayer() * Parent.Speed;
+            Parent.Velocity = Parent.DirectionToPlayer() * Parent.Speed * animSpeed;
         }
         else
         {

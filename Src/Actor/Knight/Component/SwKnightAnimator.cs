@@ -15,11 +15,11 @@ public class SwKnightAnimator
         BodySprite = Parent.GetNode<AnimatedSprite2D>("BodySprite");
         SwordSprite = Parent.GetNode<AnimatedSprite2D>("SwordPivot/SwordSprite");
     }
-    public void PlayBodyDefault(int hands = 2)
+    public void PlayBodyDefault(int hands = 2, float animSpeed = 1)
     {
         if (Parent.IsMoving())
         {
-            BodySprite.Play("walk" + hands.ToString());
+            BodySprite.Play("walk" + hands.ToString(), animSpeed);
             BodySprite.FlipH = Parent.Velocity.X < 0;
         }
         else BodySprite.Stop();

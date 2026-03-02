@@ -1,3 +1,4 @@
+using Godot;
 using SW.Src.Utils;
 
 namespace SW.Src.Actor.Player.State;
@@ -10,6 +11,8 @@ public class SwPlayerStateDying : SwStateMachine<SwPlayer, SwPlayer.SwState>.SwS
     {
         // Disable stuff
         Parent.AudioManager.PlayDeathSound();
+        Parent.Animator.PlayDeathAnim();
+        Parent.Velocity = Vector2.Zero;
     }
     public override void Tick(float dt)
     {

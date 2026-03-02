@@ -14,6 +14,7 @@ public class SwSettings
     public float GameSpeed = 1;
     public float DamageTakenMultiplier = 1;
     public float DamageDealtMultiplier = 1;
+    public bool DebugMode = false;
     public SwSettings(){}
     public bool TryLoad()
     {

@@ -340,6 +340,7 @@ animations = [{
 [node name="Knight" type="CharacterBody2D" unique_id=1206254036 groups=["Enemy"]]
 texture_filter = 1
 script = ExtResource("1_t8xe0")
+Speed = 30.0
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=2032764580]
 shape = SubResource("RectangleShape2D_t8xe0")

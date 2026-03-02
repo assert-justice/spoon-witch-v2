@@ -96,4 +96,8 @@ public class SwPlayerAnimator(SwPlayer parent)
     {
         HealingParticles.Emitting = false;
     }
+    public void PlayDeathAnim()
+    {
+        BodySprite.Rotation = SwConstants.HALF_PI;
+    }
 }
