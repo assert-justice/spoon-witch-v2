@@ -17,7 +17,7 @@ public partial class SwKnight : SwEnemy
 	[Export] public float MinWanderDistance = 300;
 	[Export] public float MaxWanderDistance = 500;
 	[Export] public float CloseEnough = 8;
-	[Export] public float AttackRange = 24;
+	[Export] public float AttackRange = 32;
 	[Export] public float AttackDelayFrames = 3;
 	[Export] public float FleeThreshold = 0.1f;
 	[Export] private SwState InitialState = SwState.Default;
@@ -51,6 +51,7 @@ public partial class SwKnight : SwEnemy
 		StateMachine.AddState(new SwKnightStateSeeking(this));
 		StateMachine.AddState(new SwKnightStateFleeing(this));
 		StateMachine.AddState(new SwKnightStateDead(this));
+		// StateMachine.LogStates = true;
 		Evoker = new(this);
 	}
 	protected override void Tick(float dt)
@@ -66,9 +67,10 @@ public partial class SwKnight : SwEnemy
 	protected override void DebugDraw(DebugDrawCallbacks drawCallbacks)
 	{
 		if(!TryGetPlayer(out var player)) return;
-		Color color = CanSeePlayer() ? Colors.Red : Colors.Green;
+		bool canSeePlayer = CanSeePlayer();
+		Color color = canSeePlayer ? Colors.Red : Colors.Green;
 		color.A = 0.5f;
-		drawCallbacks.DrawLine(Position, player.Position, color);
+		if(canSeePlayer && IsAlive()) drawCallbacks.DrawLine(Position, player.Position, color);
 		if(StateMachine.TryGetState(out var state)) drawCallbacks.DrawText(Position, state.ToString(), color);
 	}
 	public override float Damage(SwDamage damage, Node2D source)

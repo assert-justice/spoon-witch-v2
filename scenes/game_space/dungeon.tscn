@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cnlx84yh2duii" path="res://Src/GameSpace/DualGrid/SwDualGrid.cs" id="2_l4h3w"]
 [ext_resource type="Resource" uid="uid://4pijtkuy000h" path="res://resources/terrain.tres" id="3_bca5f"]
 [ext_resource type="PackedScene" uid="uid://omnnl3utnahx" path="res://scenes/actors/player.tscn" id="4_micdf"]
+[ext_resource type="PackedScene" uid="uid://daq3h4vpr4mgh" path="res://scenes/actors/slume.tscn" id="5_qcii0"]
 [ext_resource type="PackedScene" uid="uid://buobd167x4xsv" path="res://scenes/pickups/seed_pickup.tscn" id="6_mkh0v"]
 [ext_resource type="PackedScene" uid="uid://df6mek1p0crse" path="res://scenes/actors/knight.tscn" id="6_v8et7"]
 
@@ -45,6 +46,12 @@ DebugDrawEnabled = true
 position = Vector2(86, 265)
 
 [node name="Knight" parent="." unique_id=1206254036 instance=ExtResource("6_v8et7")]
-position = Vector2(490, 161)
+position = Vector2(552, 239)
+motion_mode = 1
 InitialState = 3
+DebugDrawEnabled = true
+
+[node name="Slume" parent="." unique_id=483287388 instance=ExtResource("5_qcii0")]
+position = Vector2(559, 45)
+InitialState = 2
 DebugDrawEnabled = true

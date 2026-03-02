@@ -337,7 +337,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="Knight" type="CharacterBody2D" unique_id=1206254036]
+[node name="Knight" type="CharacterBody2D" unique_id=1206254036 groups=["Enemy"]]
 texture_filter = 1
 script = ExtResource("1_t8xe0")
 

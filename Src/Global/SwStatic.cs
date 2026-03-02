@@ -6,62 +6,62 @@ namespace SW.Src.Global;
 
 public static class SwStatic
 {
-    public static bool IsEqual<T>(T a, T b)
-    {
-        return EqualityComparer<T>.Default.Equals(a, b);
-    }
-    public static bool TrySlice(string str, string start, out string slice)
+	public static bool IsEqual<T>(T a, T b)
+	{
+		return EqualityComparer<T>.Default.Equals(a, b);
+	}
+	public static bool TrySlice(string str, string start, out string slice)
 	{
 		slice = default;
 		if(!str.StartsWith(start)) return false;
 		slice = str[start.Length..].Trim();
 		return true;
 	}
-    public static void FreeChildren(Node node)
-    {
-        foreach (var child in node.GetChildren())
-        {
-            child.QueueFree();
-        }
-    }
-    public static bool TryChooseRandom<T>(IReadOnlyList<T> values, out T value)
-    {
-        value = default;
-        if(values.Count == 0) return false;
-        int idx = Mathf.FloorToInt(GD.Randf() * values.Count);
-        value = values[idx];
-        return true;
-    }
-    public static T ChooseRandom<T>(IReadOnlyList<T> values, string errorMessage)
-    {
-        if(TryChooseRandom(values, out T value)) return value;
-        LogError(errorMessage);
-        return default;
-    }
-    public static bool HasError{get; private set;} = false;
-    private static readonly StringBuilder Sb = new();
-    public static string Separator{get; set;} = "";
-    public static string EndLine{get; set;} = "\n";
-    private static string Format(object[] messages)
-    {
-        if(messages.Length == 0) return EndLine;
-        Sb.Clear();
-        Sb.Append(messages[0]?.ToString()??"[null]");
-        for (int idx = 1; idx < messages.Length; idx++)
-        {
-            Sb.Append(Separator);
-            Sb.Append(messages[idx]?.ToString()??"[null]");
-        }
-        Sb.Append(EndLine);
-        return Sb.ToString();
-    }
-    public static void Log(params object[] messages)
-    {
-        GD.Print(Format(messages));
-    }
-    public static void LogError(params object[] messages)
-    {
-        GD.PushError(Format(messages));
-        HasError = true;
-    }
+	public static void FreeChildren(Node node)
+	{
+		foreach (var child in node.GetChildren())
+		{
+			child.QueueFree();
+		}
+	}
+	public static bool TryChooseRandom<T>(IReadOnlyList<T> values, out T value)
+	{
+		value = default;
+		if(values.Count == 0) return false;
+		int idx = Mathf.FloorToInt(GD.Randf() * values.Count);
+		value = values[idx];
+		return true;
+	}
+	public static T ChooseRandom<T>(IReadOnlyList<T> values, string errorMessage)
+	{
+		if(TryChooseRandom(values, out T value)) return value;
+		LogError(errorMessage);
+		return default;
+	}
+	public static bool HasError{get; private set;} = false;
+	private static readonly StringBuilder Sb = new();
+	public static string Separator{get; set;} = "";
+	public static string EndLine{get; set;} = "\n";
+	private static string Format(object[] messages)
+	{
+		if(messages.Length == 0) return EndLine;
+		Sb.Clear();
+		Sb.Append(messages[0]?.ToString()??"[null]");
+		for (int idx = 1; idx < messages.Length; idx++)
+		{
+			Sb.Append(Separator);
+			Sb.Append(messages[idx]?.ToString()??"[null]");
+		}
+		Sb.Append(EndLine);
+		return Sb.ToString();
+	}
+	public static void Log(params object[] messages)
+	{
+		GD.Print(Format(messages));
+	}
+	public static void LogError(params object[] messages)
+	{
+		GD.PushError(Format(messages));
+		HasError = true;
+	}
 }

@@ -68,9 +68,10 @@ public partial class SwSlume : SwEnemy
 	protected override void DebugDraw(DebugDrawCallbacks drawCallbacks)
 	{
 		if(!TryGetPlayer(out var player)) return;
-		Color color = CanSeePlayer() ? Colors.Red : Colors.Green;
+		bool canSeePlayer = CanSeePlayer();
+		Color color = canSeePlayer ? Colors.Red : Colors.Green;
 		color.A = 0.5f;
-		drawCallbacks.DrawLine(Position, player.Position, color);
+		if(canSeePlayer && IsAlive()) drawCallbacks.DrawLine(Position, player.Position, color);
 		if(StateMachine.TryGetState(out var state)) drawCallbacks.DrawText(Position, state.ToString(), color);
 	}
 

@@ -16,9 +16,9 @@
 [ext_resource type="AudioStream" uid="uid://r4s6nn5ihlmy" path="res://assets/sfx/player/SW SFX Player Walking.mp3" id="14_nmlhc"]
 [ext_resource type="AudioStream" uid="uid://bski3ue1sxflo" path="res://assets/sfx/player/SW SFX Player Death.mp3" id="15_3hvrq"]
 [ext_resource type="Script" uid="uid://c4fr6dw1kvbay" path="res://Src/Entity/SwMultiSound.cs" id="15_h5w3c"]
-[ext_resource type="AudioStream" uid="uid://b32ll64nblx0q" path="res://assets/sfx/player/SW SFX Spoon Swing 1.mp3" id="16_dferu"]
-[ext_resource type="AudioStream" uid="uid://meqedakwed0h" path="res://assets/sfx/player/SW SFX Spoon Swing 2.mp3" id="17_t62v4"]
+[ext_resource type="AudioStream" uid="uid://c07ennv5scxtv" path="res://assets/sfx/player/SW SFX Spoon Swing FIXED 1.mp3" id="17_3hvrq"]
 [ext_resource type="AudioStream" uid="uid://dkeekm27rjh7l" path="res://assets/sfx/player/SW SFX Player Hit 1.wav" id="18_6a6mx"]
+[ext_resource type="AudioStream" uid="uid://d80rmxd5i3hn" path="res://assets/sfx/player/SW SFX Spoon Swing FIXED 2.mp3" id="18_bwi5y"]
 [ext_resource type="AudioStream" uid="uid://76vm4rhclgdf" path="res://assets/sfx/player/SW SFX Player Hit 2.mp3" id="19_j3wsw"]
 [ext_resource type="AudioStream" uid="uid://d3evmgymolwag" path="res://assets/sfx/player/SW SFX Player Hit 3.mp3" id="20_ds2sr"]
 [ext_resource type="AudioStream" uid="uid://wwn6tbdg47ms" path="res://assets/sfx/player/SW SFX Player Hit 4.mp3" id="21_6xqls"]
@@ -1332,7 +1332,7 @@ bus = &"Sfx"
 [node name="SpoonSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=1097801684]
 bus = &"Sfx"
 script = ExtResource("15_h5w3c")
-Streams = [ExtResource("16_dferu"), ExtResource("17_t62v4")]
+Streams = [ExtResource("17_3hvrq"), ExtResource("18_bwi5y")]
 
 [node name="HitSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=2059829304]
 bus = &"Sfx"

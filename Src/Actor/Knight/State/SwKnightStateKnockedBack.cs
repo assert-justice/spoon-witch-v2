@@ -13,7 +13,7 @@ public class SwKnightStateKnockedBack : SwStateMachine<SwKnight, SwState>.SwStat
     private SwState LastState = SwState.Default;
     public override void EnterState(SwState lastState)
     {
-        LastState = lastState;
+        LastState = lastState == SwState.Attacking ? SwState.Wandering : lastState;
         KnockbackClock.SetDuration(Parent.KnockBackTime);
         Parent.Animator.PlayBodyAnim("knockback");
         float damageValue = 0;
