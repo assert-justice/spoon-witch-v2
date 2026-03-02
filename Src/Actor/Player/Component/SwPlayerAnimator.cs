@@ -49,6 +49,11 @@ public class SwPlayerAnimator(SwPlayer parent)
         string animName = Parent.Controls.IsMoving() ? "run" : "idle";
         PlayBodyAnimFaced($"{animName}{hands}");
     }
+    public void PlayBodyAnimDefault(int hands, int facingIdx)
+    {
+        string animName = Parent.Controls.IsMoving() ? "run" : "idle";
+        PlayBodyAnimFaced(animName, hands, facingIdx);
+    }
     public void PlayBodyAnimAiming(int hands)
     {
         string animName = Parent.Controls.IsMoving() ? "run" : "idle";

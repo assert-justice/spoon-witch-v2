@@ -9,6 +9,7 @@ public class SwKnightStateAttacking : SwStateMachine<SwKnight, SwKnight.SwState>
 	private readonly SwClock SwingClock;
 	private readonly SwClock DelayClock;
 	private SwKnight.SwState LastState;
+	private int FacingIdx = 0;
 	public SwKnightStateAttacking(SwKnight parent) : base(parent, SwKnight.SwState.Attacking)
 	{
         float duration = Parent.Animator.GetSwordSwingDuration();
@@ -22,6 +23,7 @@ public class SwKnightStateAttacking : SwStateMachine<SwKnight, SwKnight.SwState>
 		Parent.Evoker.StartSwordAttack();
 		Parent.Animator.PlaySwordSwing();
 		Parent.AudioManager.PlayAttackSound();
+		FacingIdx = Parent.GetLastFacing4();
 		SwingClock.Restart();
 		DelayClock.Restart();
 	}

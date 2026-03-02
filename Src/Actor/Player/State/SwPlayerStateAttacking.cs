@@ -6,12 +6,14 @@ namespace SW.Src.Actor.Player.State;
 public class SwPlayerStateAttacking(SwPlayer parent) : 
     SwStateMachine<SwPlayer, SwState>.SwStateData(parent, SwState.Attacking)
 {
+    private int FacingIdx = 0;
     public override void EnterState(SwState lastState)
     {
         Parent.Evoker.StartSpoonAttack();
         Parent.Animator.PlaySpoonAnim();
         Parent.AudioManager.PlaySpoonSound();
         Parent.StateManager.SetLockout(0.25f, 0.25f);
+        FacingIdx = Parent.GetLastFacing4();
     }
     public override void ExitState(SwState lastState)
     {
@@ -21,6 +23,6 @@ public class SwPlayerStateAttacking(SwPlayer parent) :
     public override void Tick(float dt)
     {
         Parent.Velocity = Parent.Controls.Move() * Parent.Speed;
-        Parent.Animator.PlayBodyAnimDefault(0);
+        Parent.Animator.PlayBodyAnimDefault(0, FacingIdx);
     }
 }
