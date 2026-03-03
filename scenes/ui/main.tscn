@@ -125,6 +125,7 @@ layout_mode = 2
 text = "Accessibility"
 
 [node name="Debug" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=1740774532]
+visible = false
 layout_mode = 2
 text = "Debug"
 
@@ -429,6 +430,7 @@ layout_mode = 2
 text = "Back"
 
 [node name="Tutorial" type="HBoxContainer" parent="MenuHolder" unique_id=958666500]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -466,6 +468,46 @@ alignment = 1
 [node name="Resume" type="Button" parent="MenuHolder/Tutorial/VBox/HBoxContainer" unique_id=1143621129]
 layout_mode = 2
 text = "Proceed"
+
+[node name="Victory" type="HBoxContainer" parent="MenuHolder" unique_id=585018765]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_02nsg")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/Victory" unique_id=913944702]
+layout_mode = 2
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MenuHolder/Victory/VBox" unique_id=1367374096]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/Victory/VBox/PanelContainer" unique_id=795497977]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MenuHolder/Victory/VBox/PanelContainer/VBoxContainer" unique_id=722309722]
+layout_mode = 2
+text = "A Witch is You!"
+horizontal_alignment = 1
+
+[node name="Body" type="Label" parent="MenuHolder/Victory/VBox/PanelContainer/VBoxContainer" unique_id=1314941826]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "Congratulations Belladonna, you have proven yourself capable in the face of adversity. You are finally ready to join our coven."
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuHolder/Victory/VBox" unique_id=759660585]
+layout_mode = 2
+alignment = 1
+
+[node name="MainMenu" type="Button" parent="MenuHolder/Victory/VBox/HBoxContainer" unique_id=1874998098]
+layout_mode = 2
+text = "Main Menu"
 
 [node name="Pause" type="HBoxContainer" parent="MenuHolder" unique_id=752058347]
 visible = false
@@ -536,6 +578,38 @@ layout_mode = 2
 text = "Main Menu"
 
 [node name="Quit" type="Button" parent="MenuHolder/GameOver/VBox" unique_id=134543301]
+layout_mode = 2
+text = "Quit"
+
+[node name="GameOver2" type="HBoxContainer" parent="MenuHolder" unique_id=1668431624]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_02nsg")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/GameOver2" unique_id=1977331095]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MenuHolder/GameOver2/VBox" unique_id=181699110]
+layout_mode = 2
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="Restart" type="Button" parent="MenuHolder/GameOver2/VBox" unique_id=1904096523]
+layout_mode = 2
+text = "Restart"
+
+[node name="MainMenu" type="Button" parent="MenuHolder/GameOver2/VBox" unique_id=1036485249]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Quit" type="Button" parent="MenuHolder/GameOver2/VBox" unique_id=2015261809]
 layout_mode = 2
 text = "Quit"
 

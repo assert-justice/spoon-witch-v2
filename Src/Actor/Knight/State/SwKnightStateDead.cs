@@ -1,3 +1,4 @@
+using SW.Src.Ui;
 using SW.Src.Utils;
 using static SW.Src.Actor.Knight.SwKnight;
 
@@ -10,6 +11,7 @@ public class SwKnightStateDead : SwStateMachine<SwKnight, SwState>.SwStateData
     {
         Parent.Evoker.Die();
         Parent.Animator.PlayDeathAnim();
+        Main.Message("dead_knight");
     }
     public override void Tick(float dt)
     {

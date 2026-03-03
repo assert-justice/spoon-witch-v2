@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Godot;
+using SW.Src.GameSpace.Dungeon;
 using SW.Src.Global;
 using SW.Src.Ui;
 using SW.Src.Utils;
@@ -23,7 +24,15 @@ public partial class SwTrigger : Area2D, ISwEntity
 		if(SingleUse && TimesUsed > 0) return;
 		if (Match(body))
 		{
-			Main.Message(Command);
+			foreach (var command in Command.Split(';'))
+			{
+				GD.Print(command);
+				if(SwStatic.TrySlice(command, "dungeon:", out string com))
+				{
+					SwDungeon.Message(com);
+				}
+				else Main.Message(command.Trim());
+			}
 			TimesUsed++;
 			if(SingleUse) QueueFree();
 		}
@@ -40,7 +49,8 @@ public partial class SwTrigger : Area2D, ISwEntity
 	public bool TryInit(SwJsonDb db)
 	{
 		if(!db.TryGetString("Command", out Command)) return false;
-		if(!db.TryGetArray("Filters", out Filters)) return false;
+		if(!db.TryGetString("Filters", out string filters)) return false;
+		Filters = filters.Split(',');
 		if(!db.TryGetBool("single_use", out SingleUse)) return false;
 		if(!db.TryGetNumber("width", out float width)) return false;
 		if(!db.TryGetNumber("height", out float height)) return false;

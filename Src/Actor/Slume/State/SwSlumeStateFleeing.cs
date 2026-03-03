@@ -10,10 +10,7 @@ public class SwSlumeStateFleeing(SwSlume parent) : SwStateMachine<SwSlume, SwSta
 {
     public override void EnterState(SwState lastState)
     {
-        if(Parent.IsPassive() && !SwGlobal.GetSettings().CreativeMode)
-        {
-            Main.Message("tutorial:flee");
-        }
+        Main.Message("injured_slume");
     }
     public override void ExitState(SwState lastState)
     {

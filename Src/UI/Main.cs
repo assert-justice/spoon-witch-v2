@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Godot;
+using SW.Src.GameSpace.Dungeon;
 using SW.Src.Global;
 using SW.Src.Ui.Menu;
 using SW.Src.Utils;
@@ -19,6 +20,9 @@ public partial class Main : Control
 	private Control SubmenuHolder;
 	private AudioStreamPlayer MusicPlayer;
 	private readonly Dictionary<string,(string,string)> Tutorials = [];
+	private int DeadSlumes = 0;
+	private int InjuredSlumes = 0;
+	private int DeadKnights = 0;
 	public override void _Ready()
 	{
 		GameHolder = GetNode<SubViewport>("GameHolder/SubViewport");
@@ -105,6 +109,33 @@ public partial class Main : Control
 			case "options":
 				SetMenu("OptionsMenu");
 				break;
+			case "injured_slume":
+				if(InjuredSlumes == 0)
+				{
+					SetTutorial("flee");
+				}
+				InjuredSlumes++;
+				break;
+			case "dead_slume":
+				if(DeadSlumes == 0)
+				{
+					SetTutorial("kill");
+					SwDungeon.Message("clear_rect:3269a9f0-fa90-11f0-9f4c-ad66fec81f90,2");
+				}
+				else if(DeadSlumes == 2)
+				{
+					SetTutorial("finale");
+					SwDungeon.Message("clear_rect:152c4460-fa90-11f0-9f4c-d1f35b1a9b32,2");
+				}
+				DeadSlumes++;
+				break;
+			case "dead_knight":
+				if(DeadKnights == 1)
+				{
+					SetMenu("Victory");
+				}
+				DeadKnights++;
+				break;
 			default:
 				if(SwStatic.TrySlice(message, "queue_music:", out string trackId))
 				{
@@ -120,18 +151,25 @@ public partial class Main : Control
 					SwStatic.LogError(logMessage);
 				}
 				else if(SwStatic.TrySlice(message, "tutorial:", out string tutorialId)){
-					if(!Tutorials.TryGetValue(tutorialId, out var tutorial)) return;
-					GetNode<Label>("MenuHolder/Tutorial/VBox/PanelContainer/VBoxContainer/Title").Text = tutorial.Item1;
-					GetNode<Label>("MenuHolder/Tutorial/VBox/PanelContainer/VBoxContainer/Body").Text = tutorial.Item2;
-					SetMenu("Tutorial");
+					SetTutorial(tutorialId);
 				}
 				else SwStatic.LogError("Unexpected message:", message);
 				break;
 		}
 	}
+	private void SetTutorial(string tutorialId)
+	{
+		if(!Tutorials.TryGetValue(tutorialId, out var tutorial)) return;
+		GetNode<Label>("MenuHolder/Tutorial/VBox/PanelContainer/VBoxContainer/Title").Text = tutorial.Item1;
+		GetNode<Label>("MenuHolder/Tutorial/VBox/PanelContainer/VBoxContainer/Body").Text = tutorial.Item2;
+		SetMenu("Tutorial");
+	}
 	private void LaunchGame()
 	{
 		FreeGame();
+		DeadSlumes = 0;
+		InjuredSlumes = 0;
+		DeadKnights = 0;
 		var game = GameScene.Instantiate();
 		GameHolder.AddChild(game);
 	}

@@ -1247,6 +1247,7 @@ motion_mode = 1
 script = ExtResource("1_xx81n")
 SpoonDamages = [SubResource("Resource_c4rn8")]
 SlingBulletScene = ExtResource("2_kggx2")
+SlingBulletSpeed = 600.0
 SlingDamages = [SubResource("Resource_ypltb")]
 StartingInventory = [SubResource("Resource_3hvrq"), SubResource("Resource_bwi5y")]
 

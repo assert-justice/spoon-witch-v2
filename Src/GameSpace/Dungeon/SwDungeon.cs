@@ -52,6 +52,7 @@ public partial class SwDungeon : Node2D
 	}
 	private void HandleMessage(string message)
 	{
+		GD.Print(message);
 		var mess = message.Split(':');
 		string verb = mess[0].Trim();
 		string arg = mess[1].Trim();
@@ -147,8 +148,6 @@ public partial class SwDungeon : Node2D
 		{
 			case "Area":
 				Rect2I rect = new((int)posX/32,(int)posY/32,(int)width/32,(int)height/32);
-				GD.Print(iid);
-				GD.Print(rect);
 				Areas.Add(iid, rect);
 				return true;
 			case "PlayerSpawner":
