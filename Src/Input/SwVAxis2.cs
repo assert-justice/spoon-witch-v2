@@ -36,7 +36,8 @@ public partial class SwVAxis2 : SwInput, ISwInput<Vector2>
             float x = (GetJoyButton(posX,device)?1:0) - (GetJoyButton(negX,device)?1:0);
             float y = (GetJoyButton(posY,device)?1:0) - (GetJoyButton(negY,device)?1:0);
             return new(x,y);
-        });    }
+        });
+    }
     public void AddJoyAxes(JoyAxis x, JoyAxis y, int device = -1)
     {
         AddFn(()=>new(GetJoyAxis(x, device), GetJoyAxis(y, device)));

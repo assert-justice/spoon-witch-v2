@@ -70,6 +70,7 @@ public partial class Main : Control
 	public override void _PhysicsProcess(double delta)
 	{
 		while(MessageQueue.TryDequeue(out string message)) HandleMessage(message);
+		// GD.Print(Godot.Input.GetConnectedJoypads);
 	}
 	private void HandleMessage(string message)
 	{

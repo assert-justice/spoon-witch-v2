@@ -92,9 +92,7 @@ def main():
         for target in targets:
             cli.data.clear()
             cli.data["target"] = target
-        build_and_publish(cli)
+            build_and_publish(cli)
         return
-    
-
 if __name__ == "__main__":
     main()
