@@ -28,6 +28,7 @@ public class SwKnightAnimator
     {
         SwordSprite.Visible = true;
         SwordSprite.Play();
+        BodySprite.Play("walk0");
     }
     public void EndSwordSwing()
     {

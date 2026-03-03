@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 
@@ -74,7 +75,35 @@ public class SwJsonDb
 		if(!TryGetPath(path, out var node)) return false;
 		return TryAsArray(node, out res);
 	}
-	public bool TryGetDbArray(string path, out SwJsonDb[] res)
+	public bool TryGetArray(string path, out string[] res)
+	{
+		res = default;
+		if(!TryGetPath(path, out var node)) return false;
+		if(!TryAsArray(node, out var array)) return false;
+		List<string> values = new(array.Count);
+		foreach (var val in array)
+		{
+			if(!TryAsString(val, out string str)) return false;
+			values.Add(str);
+		}
+		res = [..values];
+		return true;
+	}
+	public bool TryGetArray(string path, out int[] res)
+	{
+		res = default;
+		if(!TryGetPath(path, out var node)) return false;
+		if(!TryAsArray(node, out var array)) return false;
+		List<int> values = new(array.Count);
+		foreach (var val in array)
+		{
+			if(!TryAsNumber(val, out int str)) return false;
+			values.Add(str);
+		}
+		res = [..values];
+		return true;
+	}
+	public bool TryGetArray(string path, out SwJsonDb[] res)
 	{
 		res = default;
 		if(!TryGetPath(path, out var node)) return false;
@@ -123,41 +152,36 @@ public class SwJsonDb
 	{
 		return Data.ToJsonString();
 	}
-
 	public static bool TryAsString(JsonNode node, out string res)
 	{
 		res = default;
 		if(GetType(node) != JsonType.String) return false;
-		node.AsValue().TryGetValue(out res);
-		return true;
+		return node.AsValue().TryGetValue(out res);
 	}
 	public static bool TryAsNumber(JsonNode node, out double res)
 	{
 		res = default;
 		if(GetType(node) != JsonType.Number) return false;
-		node.AsValue().TryGetValue(out res);
-		return true;
+		return node.AsValue().TryGetValue(out res);
 	}
 	public static bool TryAsNumber(JsonNode node, out float res)
 	{
 		res = default;
 		if(GetType(node) != JsonType.Number) return false;
-		node.AsValue().TryGetValue(out res);
-		return true;
+		return node.AsValue().TryGetValue(out res);
 	}
 	public static bool TryAsNumber(JsonNode node, out int res)
 	{
 		res = default;
 		if(GetType(node) != JsonType.Number) return false;
-		node.AsValue().TryGetValue(out res);
-		return true;
+		// Todo: this is broken. fix it
+		return node.AsValue().TryGetValue(out res);
 	}
 	public static bool TryAsBool(JsonNode node, out bool res)
 	{
 		res = default;
 		if(GetType(node) != JsonType.Bool) return false;
-		node.AsValue().TryGetValue(out res);
-		return true;
+		return node.AsValue().TryGetValue(out res);
 	}
 	public static bool TryAsArray(JsonNode node, out JsonArray res)
 	{

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Godot;
+using SW.Src.Entity;
 using SW.Src.GameSpace.DualGrid;
 using SW.Src.Global;
 using SW.Src.Utils;
@@ -24,10 +25,10 @@ public partial class SwDungeon : Node2D
 		if(!fs.TryReadJsonRaw(MapPath, out var json)) return;
 		SwJsonDb db = new(json);
 		Terrain = GetNode<SwDualGrid>("Terrain");
-		if(!db.TryGetDbArray("levels", out var levels)) return;
+		if(!db.TryGetArray("levels", out SwJsonDb[] levels)) return;
 		foreach (var level in levels)
 		{
-			if(!level.TryGetDbArray("layerInstances", out var layers)) return;
+			if(!level.TryGetArray("layerInstances", out SwJsonDb[] layers)) return;
 			foreach (var layer in layers)
 			{
 				if(!layer.TryGetString("__type", out string layerType)) return;
@@ -49,10 +50,10 @@ public partial class SwDungeon : Node2D
 		int layerIdx = int.Parse(identifier);
 		int worldX = pxWorldX / gridSize;
 		int worldY = pxWorldY / gridSize;
-		layer.TryGetArray("intGridCsv", out var cells);
-		for (int idx = 0; idx < cells.Count; idx++)
+		layer.TryGetArray("intGridCsv", out int[] cells);
+		for (int idx = 0; idx < cells.Length; idx++)
 		{
-			cells[idx].AsValue().TryGetValue(out int cell);
+			int cell = cells[idx];
 			if(cell == 0) continue;
 			cell--;
 			int x = idx % width + worldX;
@@ -62,41 +63,16 @@ public partial class SwDungeon : Node2D
 	}
 	private void AddEntLayer(SwJsonDb layer)
 	{
-		if(!layer.TryGetDbArray("entityInstances", out var entities)) return;
-		foreach (var entity in entities)
+		if(!layer.TryGetArray("entityInstances", out SwJsonDb[] entities)) return;
+		foreach (var entityDb in entities)
 		{
-			if(!TryGetScene(entity, out var scene)) continue;
-			entity.TryGetNumber("__worldX", out float x);
-			entity.TryGetNumber("__worldY", out float y);
-			var ent = scene.Instantiate<Node2D>();
-			AddChild(ent);
-			ent.Position = new(x, y);
+			TrySpawnEntity(entityDb);
 		}
 	}
-	private bool TryGetScene(SwJsonDb entity, out PackedScene scene)
-	{
-		scene = default;
-		entity.TryGetString("__identifier", out string identifier);
-		string name = "";
-		var fields = GetEntityFields(entity);
-		switch (identifier)
-		{
-			case "PlayerSpawner":
-			name = "player";
-			break;
-			case "ActorSpawner":
-			case "EntitySpawner":
-			if(!fields.TryGetString("Type", out name)) return false;
-			break;
-			default:
-			return false;
-		}
-		return EntityLookup.TryGetValue(name, out scene);
-	}
-	private static SwJsonDb GetEntityFields(SwJsonDb entity)
+	private static SwJsonDb GetEntityFields(SwJsonDb entityDb)
 	{
 		SwJsonDb res = new();
-		entity.TryGetDbArray("fieldInstances", out var fields);
+		entityDb.TryGetArray("fieldInstances", out SwJsonDb[] fields);
 		foreach (var field in fields)
 		{
 			field.TryGetString("__identifier", out string identifier);
@@ -104,5 +80,38 @@ public partial class SwDungeon : Node2D
 			res.TrySetPath(identifier, value.DeepClone());
 		}
 		return res;
+	}
+	private bool TrySpawnEntity(SwJsonDb entityDb)
+	{
+		var fields = GetEntityFields(entityDb);
+		string sceneName;
+		entityDb.TryGetString("__identifier", out string identifier);
+		entityDb.TryGetNumber("__worldX", out float posX);
+		entityDb.TryGetNumber("__worldY", out float posY);
+		entityDb.TryGetNumber("width", out float width);
+		entityDb.TryGetNumber("height", out float height);
+		fields.TrySetPath("width", width);
+		fields.TrySetPath("height", height);
+		switch (identifier)
+		{
+			case "PlayerSpawner":
+				sceneName = "player";
+			break;
+			case "ActorSpawner":
+			case "EntitySpawner":
+				if(!fields.TryGetString("Type", out sceneName)) return false;
+			break;
+			case "Trigger":
+				sceneName = "trigger";
+			break;
+			default:
+			return false;
+		}
+		if(!EntityLookup.TryGetValue(sceneName, out var scene)) return false;
+		var entity = scene.Instantiate<Node2D>();
+		AddChild(entity);
+		entity.Position = new(posX, posY);
+		if(entity is ISwEntity ent) return ent.TryInit(fields);
+		return true;
 	}
 }

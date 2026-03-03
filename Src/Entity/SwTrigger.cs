@@ -1,0 +1,48 @@
+using System.Collections.Generic;
+using Godot;
+using SW.Src.Ui;
+using SW.Src.Utils;
+
+namespace SW.Src.Entity;
+
+public partial class SwTrigger : Area2D, ISwEntity
+{
+	[Export] public string Command;
+	[Export] private string[] Filters;
+	private HashSet<string> GroupFilters;
+	private CollisionShape2D CollisionShape;
+	public override void _Ready()
+	{
+		if(Filters is not null) GroupFilters = [..Filters];
+		BodyEntered += OnBodyEntered;
+		CollisionShape = GetChild<CollisionShape2D>(0);
+	}
+	private void OnBodyEntered(Node2D body)
+	{
+		if(Match(body)) Main.Message(Command);
+	}
+	private bool Match(Node2D body)
+	{
+		if(GroupFilters is null) return true;
+		foreach (var group in body.GetGroups())
+		{
+			if(GroupFilters.Contains(group)) return true;
+		}
+		return false;
+	}
+	public bool TryInit(SwJsonDb db)
+	{
+		if(!db.TryGetString("Command", out Command)) return false;
+		if(!db.TryGetArray("Filters", out Filters)) return false;
+		if(!db.TryGetNumber("width", out float width)) return false;
+		if(!db.TryGetNumber("height", out float height)) return false;
+		Vector2 size = new(width, height);
+		RectangleShape2D shape = new()
+		{
+			Size = size,
+		};
+		CollisionShape.Position = shape.Size * 0.5f;
+		CollisionShape.Shape = shape;
+		return true;
+	}
+}

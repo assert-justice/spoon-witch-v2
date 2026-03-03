@@ -74,6 +74,12 @@ public partial class Main : Control
 					else if(trackIdx < 0 || trackIdx >= MusicTracks.Length) SwStatic.LogError($"Invalid audio track idx '{trackIdx}'");
 					else QueueMusic(MusicTracks[trackIdx]);
 				}
+				else if(SwStatic.TrySlice(message, "log:", out string logMessage)){
+					SwStatic.Log(logMessage);
+				}
+				else if(SwStatic.TrySlice(message, "log_err:", out logMessage)){
+					SwStatic.LogError(logMessage);
+				}
 				else SwStatic.LogError("Unexpected message:", message);
 				break;
 		}

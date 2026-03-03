@@ -16,7 +16,6 @@ public partial class SwGame : Node2D
 	{
 		Default,
 		Combat,
-		GameOver,
 	}
 	private readonly Dictionary<Type, List<SwEnemy>> EnemyLookup = [];
 	public const string BEACH_THEME = "SW Beach Theme";
@@ -30,7 +29,6 @@ public partial class SwGame : Node2D
 		StateMachine = new(GameState.Default);
 		StateMachine.AddState(new SwGameStateDefault(this));
 		StateMachine.AddState(new SwGameStateCombat(this));
-		StateMachine.AddState(new SwGameStateGameOver(this));
 	}
 	public override void _PhysicsProcess(double delta)
 	{

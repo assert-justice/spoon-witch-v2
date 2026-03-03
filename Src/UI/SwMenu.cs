@@ -17,18 +17,19 @@ public partial class SwMenu : Control, ISwUiNode
     public override void _Ready()
     {
         MenuHolder = GetParent<SwMenuHolder>();
-        AttachButton("VBox/Embark", ()=>Main.Message("launch"));
-        AttachButton("VBox/Back", MenuHolder.Back);
-        AttachButton("VBox/Quit", ()=>Main.Message("quit"));
-        AttachButton("VBox/Resume", ()=>Main.Message("resume"));
-        AttachButton("VBox/Restart", ()=>Main.Message("restart"));
-        AttachButton("VBox/MainMenu", ()=>Main.Message("main_menu"));
-        AttachButton("VBox/Options", ()=>Main.Message("options"));
-        AttachButton("VBox/Credits", ()=>MenuHolder.QueueMenu("Credits"));
-        AttachButton("VBox/Audio", ()=>MenuHolder.QueueMenu("AudioMenu"));
-        AttachButton("VBox/Accessibility", ()=>MenuHolder.QueueMenu("AccessibilityMenu"));
-        AttachButton("VBox/Debug", ()=>MenuHolder.QueueMenu("DebugMenu"));
-        GetFocusPoints(this);
+        BindControlNodes([
+            ("Embark", ()=>Main.Message("launch")),
+            ("Back", MenuHolder.Back),
+            ("Quit", ()=>Main.Message("quit")),
+            ("Resume", ()=>Main.Message("resume")),
+            ("Restart", ()=>Main.Message("restart")),
+            ("MainMenu", ()=>Main.Message("main_menu")),
+            ("Options", ()=>Main.Message("options")),
+            ("Credits", ()=>MenuHolder.QueueMenu("Credits")),
+            ("Audio", ()=>MenuHolder.QueueMenu("AudioMenu")),
+            ("Accessibility", ()=>MenuHolder.QueueMenu("AccessibilityMenu")),
+            ("Debug", ()=>MenuHolder.QueueMenu("DebugMenu")),
+        ]);
         InputManager = SwGlobal.GetInputManager();
     }
     public override void _PhysicsProcess(double delta)
@@ -91,27 +92,42 @@ public partial class SwMenu : Control, ISwUiNode
         if(FocusIdx < 0) FocusIdx = FocusPoints.Count - 1;
         SetFocus();
     }
-    private void GetFocusPoints(Control parent)
+    private List<Control> GetControlNodesDfs(Control parent = null, List<Control> list = null)
     {
+        parent ??= this;
+        list ??= [];
         foreach (var child in parent.GetChildren())
         {
             if(child is Control control)
             {
-                if(control.FocusMode != FocusModeEnum.None)
-                {
-                    FocusPoints.Add(control);
-                }
-                if(control is ISwUiNode uiNode)
-                {
-                    UiNodes.Add(uiNode);
-                }
-                GetFocusPoints(control);
+                list.Add(control);
+                GetControlNodesDfs(control, list);
             }
         }
+        return list;
     }
-    private void AttachButton(string nodePath, Action action)
+    private void BindControlNodes((string, Action)[] values)
     {
-        if(GetNodeOrNull<Button>(nodePath) is Button button) button.Pressed += action;
+        Dictionary<string, Action> actions = new(values.Length);
+        foreach (var (name, action) in values)
+        {
+            actions.Add(name, action);
+        }
+        foreach (var control in GetControlNodesDfs())
+        {
+            if(control is Button button && actions.TryGetValue(control.Name, out var action))
+            {
+                button.Pressed += action;
+            }
+            if(control.FocusMode != FocusModeEnum.None)
+            {
+                FocusPoints.Add(control);
+            }
+            if(control is ISwUiNode uiNode)
+            {
+                UiNodes.Add(uiNode);
+            }
+        }
     }
     protected virtual bool ShouldPauseOnWake(){return true;}
     public virtual void OnWake()
@@ -124,7 +140,6 @@ public partial class SwMenu : Control, ISwUiNode
         Visible = true;
         GetTree().Paused = ShouldPauseOnWake();
         SetFocus();
-        // if(FocusPoints.Count > FocusIdx) FocusPoints[FocusIdx].GrabFocus();
     }
     public virtual void OnSleep()
     {

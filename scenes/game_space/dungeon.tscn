@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://4pijtkuy000h" path="res://resources/terrain.tres" id="3_bca5f"]
 [ext_resource type="PackedScene" uid="uid://omnnl3utnahx" path="res://scenes/actors/player.tscn" id="4_micdf"]
 [ext_resource type="PackedScene" uid="uid://daq3h4vpr4mgh" path="res://scenes/actors/slume.tscn" id="5_qcii0"]
+[ext_resource type="PackedScene" uid="uid://cloebqr5yf0uf" path="res://scenes/game/trigger.tscn" id="6_m6l7n"]
 [ext_resource type="PackedScene" uid="uid://buobd167x4xsv" path="res://scenes/pickups/seed_pickup.tscn" id="6_mkh0v"]
 [ext_resource type="PackedScene" uid="uid://df6mek1p0crse" path="res://scenes/actors/knight.tscn" id="6_v8et7"]
 
@@ -32,7 +33,7 @@ sources/0 = SubResource("TileSetAtlasSource_o82pg")
 [node name="Dungeon" type="Node2D" unique_id=630593261]
 script = ExtResource("1_gdhqx")
 MapPath = "res://maps/tutorial.json"
-EntityScenes = [ExtResource("4_micdf"), ExtResource("6_mkh0v"), ExtResource("5_qcii0"), ExtResource("6_v8et7")]
+EntityScenes = [ExtResource("4_micdf"), ExtResource("6_mkh0v"), ExtResource("5_qcii0"), ExtResource("6_v8et7"), ExtResource("6_m6l7n")]
 
 [node name="Terrain" type="TileMapLayer" parent="." unique_id=1310598753]
 tile_set = SubResource("TileSet_6727g")

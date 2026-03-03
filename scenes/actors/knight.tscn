@@ -92,6 +92,10 @@ metadata/_custom_type_script = "uid://bm2wc78chtlea"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m08y6"]
 size = Vector2(42, 76)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2frwa"]
+atlas = ExtResource("1_veh5s")
+region = Rect2(0, 198, 99, 99)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_m08y6"]
 atlas = ExtResource("1_veh5s")
 region = Rect2(0, 0, 99, 99)
@@ -218,6 +222,14 @@ region = Rect2(297, 99, 99, 99)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g3xgt"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2frwa")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 8.0
+}, {
 "frames": [],
 "loop": true,
 "name": &"default",
@@ -229,7 +241,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"knockback",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -363,7 +375,7 @@ disabled = true
 
 [node name="BodySprite" type="AnimatedSprite2D" parent="." unique_id=1564156645]
 sprite_frames = SubResource("SpriteFrames_g3xgt")
-animation = &"knockback"
+animation = &"attack"
 
 [node name="Audio" type="Node2D" parent="." unique_id=161983047]
 

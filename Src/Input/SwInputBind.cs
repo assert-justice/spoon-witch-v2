@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Nodes;
 using Godot;
 using SW.Src.Utils;
 
@@ -51,7 +52,7 @@ public class SwInputBind
         int device = 0;
         if(!db.TryGetString("input_name", out string inputName)) return false;
         if(!db.TryGetString("method_name", out string methodName)) return false;
-        if(!db.TryGetArray("values", out var arr)) return false;
+        if(!db.TryGetArray("values", out JsonArray arr)) return false;
         if(!db.TryGetNumber("input_type", out int iType)) return false;
         SwInputType inputType = (SwInputType)iType;
         if(!Enum.IsDefined(inputType)) return false;
