@@ -9,7 +9,7 @@ public class SwGameStateCombat : SwStateMachine<SwGame, SwGame.GameState>.SwStat
     }
     public override void EnterState(SwGame.GameState lastState)
     {
-        Parent.QueueMusic(SwGame.COMBAT_THEME);
+        // Parent.QueueMusic(SwGame.COMBAT_THEME);
     }
     public override void Tick(float dt)
     {

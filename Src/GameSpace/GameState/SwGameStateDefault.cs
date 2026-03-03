@@ -10,7 +10,7 @@ public class SwGameStateDefault : SwStateMachine<SwGame, SwGame.GameState>.SwSta
     public override void EnterState(SwGame.GameState lastState)
     {
         // Chose music track
-        Parent.QueueMusic(SwGame.BEACH_THEME);
+        // Parent.QueueMusic(SwGame.BEACH_THEME);
     }
     public override void Tick(float dt)
     {

@@ -66,12 +66,6 @@ public partial class Main : Control
 		{
 			Tutorials.Add(id, (title, sb.ToString().Trim()));
 		}
-		// foreach (var (key, value) in Tutorials)
-		// {
-		// 	var (t, body) = value;
-		// 	GD.Print(key, " ", t);
-		// 	GD.Print(body);
-		// }
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -125,6 +119,8 @@ public partial class Main : Control
 				else if(DeadSlumes == 2)
 				{
 					SetTutorial("finale");
+					MusicLookup.TryGetValue("SW Combat Theme (hard synth)", out var track);
+					QueueMusic(track);
 					SwDungeon.Message("clear_rect:152c4460-fa90-11f0-9f4c-d1f35b1a9b32,2");
 				}
 				DeadSlumes++;
@@ -132,6 +128,8 @@ public partial class Main : Control
 			case "dead_knight":
 				if(DeadKnights == 1)
 				{
+					MusicLookup.TryGetValue("SW Finale Theme", out var track);
+					QueueMusic(track);
 					SetMenu("Victory");
 				}
 				DeadKnights++;

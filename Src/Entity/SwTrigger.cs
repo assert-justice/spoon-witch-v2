@@ -26,7 +26,6 @@ public partial class SwTrigger : Area2D, ISwEntity
 		{
 			foreach (var command in Command.Split(';'))
 			{
-				GD.Print(command);
 				if(SwStatic.TrySlice(command, "dungeon:", out string com))
 				{
 					SwDungeon.Message(com);

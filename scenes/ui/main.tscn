@@ -11,7 +11,10 @@
 [ext_resource type="Script" uid="uid://gqegyi82qsg4" path="res://Src/UI/Menu/SwOptionsMenu.cs" id="5_aain1"]
 [ext_resource type="Script" uid="uid://b53d7tc1tx42m" path="res://Src/UI/SwNamedHScroll.cs" id="5_jvuow"]
 [ext_resource type="Script" uid="uid://dwq5qcfn58pr2" path="res://Src/UI/SwCheckBox.cs" id="6_f8067"]
+[ext_resource type="AudioStream" uid="uid://dj38kfpdwtn17" path="res://assets/music/SW Combat Theme (soft synth).mp3" id="6_hfsfw"]
+[ext_resource type="AudioStream" uid="uid://bqdqrwl5kvjqn" path="res://assets/music/SW Crafting Theme.mp3" id="7_wweun"]
 [ext_resource type="Script" uid="uid://caojwd4iekped" path="res://Src/UI/Menu/SwAudioMenu.cs" id="8_dpyut"]
+[ext_resource type="AudioStream" uid="uid://be74ftlpeoona" path="res://assets/music/SW Finale Theme.mp3" id="8_rvf5f"]
 [ext_resource type="AudioStream" uid="uid://b32ll64nblx0q" path="res://assets/sfx/player/SW SFX Spoon Swing 1.mp3" id="8_yiij1"]
 [ext_resource type="Script" uid="uid://dv0ij3mey0ayl" path="res://Src/UI/Menu/SwAccessibilityMenu.cs" id="10_xbw52"]
 [ext_resource type="Script" uid="uid://cjewdhbwowc60" path="res://Src/UI/Menu/SwDebugMenu.cs" id="11_gph5m"]
@@ -28,7 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0ay0p")
 GameScene = ExtResource("2_t1dln")
-MusicTracks = [ExtResource("3_t1dln"), ExtResource("4_x68jn"), ExtResource("5_6ic3k")]
+MusicTracks = [ExtResource("3_t1dln"), ExtResource("4_x68jn"), ExtResource("5_6ic3k"), ExtResource("6_hfsfw"), ExtResource("7_wweun"), ExtResource("8_rvf5f")]
 
 [node name="GameHolder" type="SubViewportContainer" parent="." unique_id=1418073324]
 process_mode = 1
