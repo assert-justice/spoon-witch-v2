@@ -41,7 +41,7 @@ public partial class SwDungeon : Node2D
 	private void AddGridLayer(SwJsonDb level, SwJsonDb layer)
 	{
 		layer.TryGetNumber("__cWid", out int width);
-		// layer.TryGetNumber("__cHei", out int height);
+		layer.TryGetNumber("__cHei", out int height);
 		layer.TryGetNumber("__gridSize", out int gridSize);
 		level.TryGetNumber("worldX", out int pxWorldX);
 		level.TryGetNumber("worldY", out int pxWorldY);
@@ -50,6 +50,12 @@ public partial class SwDungeon : Node2D
 		int layerIdx = int.Parse(identifier);
 		int worldX = pxWorldX / gridSize;
 		int worldY = pxWorldY / gridSize;
+		if(identifier == "IntGrid0")
+		{
+			// just fill the whole thing with water
+			Terrain.SetRect(new(worldX, worldY, width, height), 0, 5);
+			return;
+		}
 		layer.TryGetArray("intGridCsv", out int[] cells);
 		for (int idx = 0; idx < cells.Length; idx++)
 		{

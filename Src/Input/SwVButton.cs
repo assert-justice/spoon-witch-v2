@@ -31,7 +31,8 @@ public class SwVButton(float pulseCooldown = 0, float pulseDelay = Mathf.Inf) : 
         PulseState = duration <= dt;
     }
     public bool IsPressed(){return State;}
-    public bool IsJustPressed(){return (State && !LastState) || PulseState;}
+    public bool IsJustPressed(){return State && !LastState;}
+    // public bool IsJustPressed(){return (State && !LastState) || PulseState;}
     public bool IsJustReleased(){return !State && LastState;}
     public bool IsPressedBuffered(float buffer){return State || Duration < buffer;}
     public bool IsReleasedBuffered(float buffer){return !State || Duration < buffer;}

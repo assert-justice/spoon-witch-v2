@@ -39,16 +39,14 @@ Type = 1
 Value = 30.0
 metadata/_custom_type_script = "uid://bm2wc78chtlea"
 
-[sub_resource type="Resource" id="Resource_nmlhc"]
+[sub_resource type="Resource" id="Resource_3hvrq"]
 script = ExtResource("4_ypltb")
-Quantity = 5.0
-Capacity = 20.0
+Capacity = 8.0
 metadata/_custom_type_script = "uid://de6w1ccix8sr1"
 
-[sub_resource type="Resource" id="Resource_h5w3c"]
+[sub_resource type="Resource" id="Resource_bwi5y"]
 script = ExtResource("4_ypltb")
 Type = 1
-Quantity = 4.0
 Capacity = 4.0
 metadata/_custom_type_script = "uid://de6w1ccix8sr1"
 
@@ -1250,7 +1248,7 @@ script = ExtResource("1_xx81n")
 SpoonDamages = [SubResource("Resource_c4rn8")]
 SlingBulletScene = ExtResource("2_kggx2")
 SlingDamages = [SubResource("Resource_ypltb")]
-StartingInventory = [SubResource("Resource_nmlhc"), SubResource("Resource_h5w3c")]
+StartingInventory = [SubResource("Resource_3hvrq"), SubResource("Resource_bwi5y")]
 
 [node name="SpoonPivot" type="Node2D" parent="." unique_id=854999859]
 position = Vector2(0, 9)

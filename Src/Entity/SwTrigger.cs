@@ -9,6 +9,8 @@ public partial class SwTrigger : Area2D, ISwEntity
 {
 	[Export] public string Command;
 	[Export] private string[] Filters;
+	[Export] private bool SingleUse = false;
+	private int TimesUsed = 0;
 	private HashSet<string> GroupFilters;
 	private CollisionShape2D CollisionShape;
 	public override void _Ready()
@@ -19,7 +21,13 @@ public partial class SwTrigger : Area2D, ISwEntity
 	}
 	private void OnBodyEntered(Node2D body)
 	{
-		if(Match(body)) Main.Message(Command);
+		if(SingleUse && TimesUsed > 0) return;
+		if (Match(body))
+		{
+			Main.Message(Command);
+			TimesUsed++;
+			if(SingleUse) QueueFree();
+		}
 	}
 	private bool Match(Node2D body)
 	{
@@ -34,6 +42,7 @@ public partial class SwTrigger : Area2D, ISwEntity
 	{
 		if(!db.TryGetString("Command", out Command)) return false;
 		if(!db.TryGetArray("Filters", out Filters)) return false;
+		if(!db.TryGetBool("single_use", out SingleUse)) return false;
 		if(!db.TryGetNumber("width", out float width)) return false;
 		if(!db.TryGetNumber("height", out float height)) return false;
 		Vector2 size = new(width, height);

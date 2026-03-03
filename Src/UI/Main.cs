@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using Godot;
 using SW.Src.Global;
 using SW.Src.Ui.Menu;
+using SW.Src.Utils;
 
 namespace SW.Src.Ui;
 public partial class Main : Control
@@ -16,6 +18,7 @@ public partial class Main : Control
 	private SwMenuHolder MenuHolder;
 	private Control SubmenuHolder;
 	private AudioStreamPlayer MusicPlayer;
+	private readonly Dictionary<string,(string,string)> Tutorials = [];
 	public override void _Ready()
 	{
 		GameHolder = GetNode<SubViewport>("GameHolder/SubViewport");
@@ -29,6 +32,42 @@ public partial class Main : Control
 		}
 		QueueMusic(MusicTracks[0]);
 		Instance = this;
+		SwFs fs = new();
+		if(!fs.TryReadFileRaw("res://tutorials.md", out string contents)) return;
+		string id = "";
+		string title = "";
+		StringBuilder sb = new();
+		string[] lines = contents.Split(["\r\n", "\r", "\n"],StringSplitOptions.None);
+		foreach (var line in lines)
+		{
+			if (SwStatic.TrySlice(line, "#", out string heading))
+			{
+				if(id.Length > 0)
+				{
+					Tutorials.Add(id, (title, sb.ToString()));
+					id = "";
+					sb.Clear();
+				}
+				var h = heading.Split(':');
+				id = h[0].Trim();
+				title = h[1].Trim();
+			}
+			else
+			{
+				sb.Append(line);
+				sb.Append('\n');
+			}
+		}
+		if(id.Length > 0)
+		{
+			Tutorials.Add(id, (title, sb.ToString()));
+		}
+		// foreach (var (key, value) in Tutorials)
+		// {
+		// 	var (t, body) = value;
+		// 	GD.Print(key, " ", t);
+		// 	GD.Print(body);
+		// }
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -80,6 +119,12 @@ public partial class Main : Control
 				else if(SwStatic.TrySlice(message, "log_err:", out logMessage)){
 					SwStatic.LogError(logMessage);
 				}
+				else if(SwStatic.TrySlice(message, "tutorial:", out string tutorialId)){
+					if(!Tutorials.TryGetValue(tutorialId, out var tutorial)) return;
+					GetNode<Label>("MenuHolder/Tutorial/VBox/Title").Text = tutorial.Item1;
+					GetNode<Label>("MenuHolder/Tutorial/VBox/Body").Text = tutorial.Item2;
+					SetMenu("Tutorial");
+				}
 				else SwStatic.LogError("Unexpected message:", message);
 				break;
 		}
@@ -117,5 +162,5 @@ public partial class Main : Control
 		if(nodes[0] is not SwHud h) return false;
 		hud = h;
 		return true;
-	} 
+	}
 }

@@ -428,6 +428,39 @@ alignment = 1
 layout_mode = 2
 text = "Back"
 
+[node name="Tutorial" type="HBoxContainer" parent="MenuHolder" unique_id=958666500]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_02nsg")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/Tutorial" unique_id=1785253375]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="MenuHolder/Tutorial/VBox" unique_id=721621250]
+layout_mode = 2
+text = "[Tutorial Title]"
+horizontal_alignment = 1
+
+[node name="Body" type="Label" parent="MenuHolder/Tutorial/VBox" unique_id=1963591124]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "Hello Belladonna, you have done well to come this far. This is the final trial to prove yourself worthy to join our coven."
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuHolder/Tutorial/VBox" unique_id=2110237999]
+layout_mode = 2
+alignment = 1
+
+[node name="Resume" type="Button" parent="MenuHolder/Tutorial/VBox/HBoxContainer" unique_id=1143621129]
+layout_mode = 2
+text = "Resume"
+
 [node name="Pause" type="HBoxContainer" parent="MenuHolder" unique_id=752058347]
 visible = false
 layout_mode = 1

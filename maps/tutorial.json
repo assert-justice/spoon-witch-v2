@@ -11,7 +11,7 @@
 	"iid": "269b01f0-fa90-11f0-ad02-97cdb78f9ece",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 16,
+	"nextUid": 18,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "GridVania",
@@ -41,6 +41,41 @@
 	"customCommands": [],
 	"flags": [],
 	"defs": { "layers": [
+		{
+			"__type": "Entities",
+			"identifier": "Triggers",
+			"type": "Entities",
+			"uid": 16,
+			"doc": null,
+			"uiColor": null,
+			"gridSize": 32,
+			"guideGridWid": 0,
+			"guideGridHei": 0,
+			"displayOpacity": 1,
+			"inactiveOpacity": 0.6,
+			"hideInList": false,
+			"hideFieldsWhenInactive": true,
+			"canSelectWhenInactive": true,
+			"renderInWorldView": true,
+			"pxOffsetX": 0,
+			"pxOffsetY": 0,
+			"parallaxFactorX": 0,
+			"parallaxFactorY": 0,
+			"parallaxScaling": true,
+			"requiredTags": [],
+			"excludedTags": [],
+			"autoTilesKilledByOtherLayerUid": null,
+			"uiFilterTags": [],
+			"useAsyncRender": false,
+			"intGridValues": [],
+			"intGridValuesGroups": [],
+			"autoRuleGroups": [],
+			"autoSourceLayerDefUid": null,
+			"tilesetDefUid": null,
+			"tilePivotX": 0,
+			"tilePivotY": 0,
+			"biomeFieldUid": null
+		},
 		{
 			"__type": "Entities",
 			"identifier": "Entities",
@@ -533,6 +568,46 @@
 					"allowedRefsEntityUid": null,
 					"allowedRefTags": [],
 					"tilesetUid": null
+				},
+				{
+					"identifier": "single_use",
+					"doc": null,
+					"__type": "Bool",
+					"uid": 17,
+					"type": "F_Bool",
+					"isArray": false,
+					"canBeNull": false,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "Hidden",
+					"editorDisplayScale": 1,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "StraightArrow",
+					"editorDisplayColor": null,
+					"editorAlwaysShow": false,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"exportToToc": false,
+					"searchable": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": {
+						"id": "V_Bool",
+						"params": [ false ]
+					},
+					"textLanguageMode": null,
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "OnlySame",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
 				}
 			]
 		}
@@ -560,6 +635,58 @@
 			"fieldInstances": [],
 			"layerInstances": [
 				{
+					"__identifier": "Triggers",
+					"__type": "Entities",
+					"__cWid": 20,
+					"__cHei": 10,
+					"__gridSize": 32,
+					"__opacity": 1,
+					"__pxTotalOffsetX": 0,
+					"__pxTotalOffsetY": 0,
+					"__tilesetDefUid": null,
+					"__tilesetRelPath": null,
+					"iid": "b69a59a0-fa90-11f0-9cd0-cb0ccfbc0b0f",
+					"levelId": 0,
+					"layerDefUid": 16,
+					"pxOffsetX": 0,
+					"pxOffsetY": 0,
+					"visible": true,
+					"optionalRules": [],
+					"intGridCsv": [],
+					"autoLayerTiles": [],
+					"seed": 9766849,
+					"overrideTilesetUid": null,
+					"gridTiles": [],
+					"entityInstances": [
+						{
+							"__identifier": "Trigger",
+							"__grid": [1,1],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#FEE761",
+							"iid": "7d795750-fa90-11f0-9cd0-4339428deac2",
+							"width": 576,
+							"height": 256,
+							"defUid": 10,
+							"px": [32,32],
+							"fieldInstances": [
+								{ "__identifier": "Command", "__type": "String", "__value": "tutorial:0", "__tile": null, "defUid": 11, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["tutorial:0"]
+								}] },
+								{ "__identifier": "Filters", "__type": "Array<String>", "__value": [], "__tile": null, "defUid": 15, "realEditorValues": [] },
+								{ "__identifier": "single_use", "__type": "Bool", "__value": true, "__tile": null, "defUid": 17, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] }
+							],
+							"__worldX": 32,
+							"__worldY": 32
+						}
+					]
+				},
+				{
 					"__identifier": "Entities",
 					"__type": "Entities",
 					"__cWid": 20,
@@ -585,7 +712,7 @@
 					"entityInstances": [
 						{
 							"__identifier": "PlayerSpawner",
-							"__grid": [2,5],
+							"__grid": [4,3],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -594,89 +721,10 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 12,
-							"px": [64,160],
+							"px": [128,96],
 							"fieldInstances": [],
-							"__worldX": 64,
-							"__worldY": 160
-						},
-						{
-							"__identifier": "ActorSpawner",
-							"__grid": [16,2],
-							"__pivot": [0,0],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#FF0044",
-							"iid": "99a2b7d0-fa90-11f0-9cd0-79de68f4995b",
-							"width": 32,
-							"height": 32,
-							"defUid": 8,
-							"px": [512,64],
-							"fieldInstances": [{ "__identifier": "Type", "__type": "String", "__value": "knight", "__tile": null, "defUid": 9, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["knight"]
-							}] }],
-							"__worldX": 512,
-							"__worldY": 64
-						},
-						{
-							"__identifier": "ActorSpawner",
-							"__grid": [16,7],
-							"__pivot": [0,0],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#FF0044",
-							"iid": "a57a2e80-fa90-11f0-9cd0-6f2b8f69d3bb",
-							"width": 32,
-							"height": 32,
-							"defUid": 8,
-							"px": [512,224],
-							"fieldInstances": [{ "__identifier": "Type", "__type": "String", "__value": "slume", "__tile": null, "defUid": 9, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["slume"]
-							}] }],
-							"__worldX": 512,
-							"__worldY": 224
-						},
-						{
-							"__identifier": "EntitySpawner",
-							"__grid": [2,8],
-							"__pivot": [0,0],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#BE4A2F",
-							"iid": "aba83680-fa90-11f0-9cd0-1939efef73c2",
-							"width": 32,
-							"height": 32,
-							"defUid": 13,
-							"px": [64,256],
-							"fieldInstances": [{ "__identifier": "Type", "__type": "String", "__value": "seed_pickup", "__tile": null, "defUid": 14, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["seed_pickup"]
-							}] }],
-							"__worldX": 64,
-							"__worldY": 256
-						},
-						{
-							"__identifier": "Trigger",
-							"__grid": [4,2],
-							"__pivot": [0,0],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#FEE761",
-							"iid": "b1da09e0-fa90-11f0-9cd0-29bfb8d2e63d",
-							"width": 192,
-							"height": 128,
-							"defUid": 10,
-							"px": [128,64],
-							"fieldInstances": [
-								{ "__identifier": "Command", "__type": "String", "__value": "log: hello from trigger!", "__tile": null, "defUid": 11, "realEditorValues": [{
-									"id": "V_String",
-									"params": ["log: hello from trigger!"]
-								}] },
-								{ "__identifier": "Filters", "__type": "Array<String>", "__value": [], "__tile": null, "defUid": 15, "realEditorValues": [] }
-							],
 							"__worldX": 128,
-							"__worldY": 64
+							"__worldY": 96
 						}
 					]
 				},
@@ -764,9 +812,9 @@
 					"optionalRules": [],
 					"intGridCsv": [
 						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,
-						6,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0,
-						0,0,0,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,0,0,0,0,0,0,0,0,
+						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 					],
@@ -832,6 +880,31 @@
 			"externalRelPath": null,
 			"fieldInstances": [],
 			"layerInstances": [
+				{
+					"__identifier": "Triggers",
+					"__type": "Entities",
+					"__cWid": 20,
+					"__cHei": 10,
+					"__gridSize": 32,
+					"__opacity": 1,
+					"__pxTotalOffsetX": 0,
+					"__pxTotalOffsetY": 0,
+					"__tilesetDefUid": null,
+					"__tilesetRelPath": null,
+					"iid": "b69aa7c0-fa90-11f0-9cd0-21dad3fb1e1b",
+					"levelId": 7,
+					"layerDefUid": 16,
+					"pxOffsetX": 0,
+					"pxOffsetY": 0,
+					"visible": true,
+					"optionalRules": [],
+					"intGridCsv": [],
+					"autoLayerTiles": [],
+					"seed": 9988954,
+					"overrideTilesetUid": null,
+					"gridTiles": [],
+					"entityInstances": []
+				},
 				{
 					"__identifier": "Entities",
 					"__type": "Entities",
