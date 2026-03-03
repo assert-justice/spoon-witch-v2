@@ -60,7 +60,7 @@ public partial class Main : Control
 		}
 		if(id.Length > 0)
 		{
-			Tutorials.Add(id, (title, sb.ToString()));
+			Tutorials.Add(id, (title, sb.ToString().Trim()));
 		}
 		// foreach (var (key, value) in Tutorials)
 		// {
@@ -121,8 +121,8 @@ public partial class Main : Control
 				}
 				else if(SwStatic.TrySlice(message, "tutorial:", out string tutorialId)){
 					if(!Tutorials.TryGetValue(tutorialId, out var tutorial)) return;
-					GetNode<Label>("MenuHolder/Tutorial/VBox/Title").Text = tutorial.Item1;
-					GetNode<Label>("MenuHolder/Tutorial/VBox/Body").Text = tutorial.Item2;
+					GetNode<Label>("MenuHolder/Tutorial/VBox/PanelContainer/VBoxContainer/Title").Text = tutorial.Item1;
+					GetNode<Label>("MenuHolder/Tutorial/VBox/PanelContainer/VBoxContainer/Body").Text = tutorial.Item2;
 					SetMenu("Tutorial");
 				}
 				else SwStatic.LogError("Unexpected message:", message);

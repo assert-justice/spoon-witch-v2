@@ -28,7 +28,7 @@ public class SwKnightStateWandering : SwStateMachine<SwKnight, SwState>.SwStateD
     {
         Parent.Animator.PlayBodyDefault();
         if(Parent.ShouldFlee()) Parent.StateMachine.QueueState(SwState.Fleeing);
-        else if(Parent.CanSeePlayer()) Parent.StateMachine.QueueState(SwState.Chasing);
+        else if(Parent.CanSeePlayer() && !Parent.IsPassive()) Parent.StateMachine.QueueState(SwState.Chasing);
         if(ShouldReset()) SetRandomTargetPoint();
         Parent.Velocity = Parent.DirectionToTargetPoint() * Parent.Speed * Parent.WanderSpeedMul;
     }

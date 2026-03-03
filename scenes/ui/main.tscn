@@ -442,12 +442,18 @@ script = ExtResource("3_02nsg")
 layout_mode = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="MenuHolder/Tutorial/VBox" unique_id=721621250]
+[node name="PanelContainer" type="PanelContainer" parent="MenuHolder/Tutorial/VBox" unique_id=33887319]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/Tutorial/VBox/PanelContainer" unique_id=392140120]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MenuHolder/Tutorial/VBox/PanelContainer/VBoxContainer" unique_id=721621250]
 layout_mode = 2
 text = "[Tutorial Title]"
 horizontal_alignment = 1
 
-[node name="Body" type="Label" parent="MenuHolder/Tutorial/VBox" unique_id=1963591124]
+[node name="Body" type="Label" parent="MenuHolder/Tutorial/VBox/PanelContainer/VBoxContainer" unique_id=1051614722]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 text = "Hello Belladonna, you have done well to come this far. This is the final trial to prove yourself worthy to join our coven."
@@ -459,7 +465,7 @@ alignment = 1
 
 [node name="Resume" type="Button" parent="MenuHolder/Tutorial/VBox/HBoxContainer" unique_id=1143621129]
 layout_mode = 2
-text = "Resume"
+text = "Proceed"
 
 [node name="Pause" type="HBoxContainer" parent="MenuHolder" unique_id=752058347]
 visible = false

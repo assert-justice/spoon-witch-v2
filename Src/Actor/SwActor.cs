@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using SW.Src.Effect;
+using SW.Src.Entity;
 using SW.Src.Global;
 using SW.Src.Timer;
 using SW.Src.Ui;
@@ -9,7 +10,7 @@ using SW.Src.Ui.Menu;
 using SW.Src.Utils;
 
 namespace SW.Src.Actor;
-public abstract partial class SwActor : CharacterBody2D, ISwDamageable
+public abstract partial class SwActor : CharacterBody2D, ISwDamageable, ISwEntity
 {
 	[Export] public float InvulnerableTime = 0.5f;
 	[Export] public float FlickersPerSecond = 8;
@@ -161,4 +162,6 @@ public abstract partial class SwActor : CharacterBody2D, ISwDamageable
 		InvulnerableClock.Restart();
 		return totalDamage;
 	}
+	protected virtual bool TryInitInternal(SwJsonDb db){return true;}
+    public bool TryInit(SwJsonDb db){return TryInitInternal(db);}
 }

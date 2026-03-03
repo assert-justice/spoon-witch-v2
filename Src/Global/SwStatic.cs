@@ -40,7 +40,7 @@ public static class SwStatic
 	}
 	public static bool HasError{get; private set;} = false;
 	private static readonly StringBuilder Sb = new();
-	public static string Separator{get; set;} = "";
+	public static string Separator{get; set;} = " ";
 	public static string EndLine{get; set;} = "\n";
 	private static string Format(object[] messages)
 	{

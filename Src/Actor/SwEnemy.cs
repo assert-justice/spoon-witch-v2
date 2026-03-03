@@ -1,6 +1,8 @@
 using Godot;
 using SW.Src.Actor.Player;
+using SW.Src.Global;
 using SW.Src.Timer;
+using SW.Src.Utils;
 
 namespace SW.Src.Actor;
 public abstract partial class SwEnemy : SwActor
@@ -15,6 +17,7 @@ public abstract partial class SwEnemy : SwActor
     private SwClock SleepClock;
     private RayCast2D VisionRay;
     public Vector2 TargetPoint = Vector2.Zero;
+    private bool IsPassive_ = false;
     public override void _Ready()
     {
         SleepRadiusSquared = SleepRadius * SleepRadius;
@@ -28,6 +31,16 @@ public abstract partial class SwEnemy : SwActor
             TargetPoint = player.Position;
         }
         base._Ready();
+    }
+    protected override bool TryInitInternal(SwJsonDb db)
+    {
+        if(!db.TryGetBool("Passive", out bool isPassive)) return false;
+        IsPassive_ = isPassive;
+        return true;
+    }
+    public bool IsPassive()
+    {
+        return IsPassive_ || SwGlobal.GetSettings().CreativeMode;
     }
     public override void _PhysicsProcess(double delta)
     {

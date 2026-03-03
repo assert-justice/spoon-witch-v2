@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using SW.Src.Entity;
 using SW.Src.GameSpace.DualGrid;
@@ -12,13 +13,19 @@ public partial class SwDungeon : Node2D
 	[Export(PropertyHint.File, "*.json")] private string MapPath;
 	[Export] private PackedScene[] EntityScenes = [];
 	private readonly Dictionary<string, PackedScene> EntityLookup = [];
+	private readonly Dictionary<string, Rect2I> Areas = [];
+	private readonly Queue<string> MessageQueue = new();
 	private SwDualGrid Terrain;
+	private static SwDungeon Instance;
+	public static void Message(string message)
+	{
+		Instance.MessageQueue.Enqueue(message);
+	}
 	public override void _Ready()
 	{
 		foreach (var scene in EntityScenes)
 		{
 			string name = scene.ResourcePath.Split('/')[^1].Split('.')[0];
-			// SwStatic.Log(name);
 			EntityLookup.Add(name, scene);
 		}
 		SwFs fs = new();
@@ -37,7 +44,44 @@ public partial class SwDungeon : Node2D
 				else SwStatic.LogError("poo");
 			}
 		}
+		Instance = this;
 	}
+	public override void _PhysicsProcess(double delta)
+	{
+		while(MessageQueue.TryDequeue(out string message)) HandleMessage(message);
+	}
+	private void HandleMessage(string message)
+	{
+		var mess = message.Split(':');
+		string verb = mess[0].Trim();
+		string arg = mess[1].Trim();
+		string[] coords;
+		int layerIdx, tileIdx;
+		string iid;
+		Rect2I rect;
+		switch (verb)
+		{
+			case "clear_rect":
+			coords = arg.Split(',');
+			iid = coords[0];
+			layerIdx = int.Parse(coords[1]);
+			if(!Areas.TryGetValue(iid, out rect)) return;
+
+			Terrain.ClearRect(rect, layerIdx);
+			break;
+			case "set_rect":
+			coords = arg.Split(',');
+			iid = coords[0];
+			layerIdx = int.Parse(coords[1]);
+			tileIdx = int.Parse(coords[2]);
+			if(!Areas.TryGetValue(iid, out rect)) return;
+			Terrain.SetRect(rect, layerIdx, tileIdx);
+			break;
+			default:
+			break;
+		}
+	}
+
 	private void AddGridLayer(SwJsonDb level, SwJsonDb layer)
 	{
 		layer.TryGetNumber("__cWid", out int width);
@@ -50,10 +94,10 @@ public partial class SwDungeon : Node2D
 		int layerIdx = int.Parse(identifier);
 		int worldX = pxWorldX / gridSize;
 		int worldY = pxWorldY / gridSize;
-		if(identifier == "IntGrid0")
+		if(layerIdx == 0)
 		{
 			// just fill the whole thing with water
-			Terrain.SetRect(new(worldX, worldY, width, height), 0, 5);
+			Terrain.SetRect(new(worldX, worldY, width, height), layerIdx, 4);
 			return;
 		}
 		layer.TryGetArray("intGridCsv", out int[] cells);
@@ -92,6 +136,7 @@ public partial class SwDungeon : Node2D
 		var fields = GetEntityFields(entityDb);
 		string sceneName;
 		entityDb.TryGetString("__identifier", out string identifier);
+		entityDb.TryGetString("iid", out string iid);
 		entityDb.TryGetNumber("__worldX", out float posX);
 		entityDb.TryGetNumber("__worldY", out float posY);
 		entityDb.TryGetNumber("width", out float width);
@@ -100,6 +145,12 @@ public partial class SwDungeon : Node2D
 		fields.TrySetPath("height", height);
 		switch (identifier)
 		{
+			case "Area":
+				Rect2I rect = new((int)posX/32,(int)posY/32,(int)width/32,(int)height/32);
+				GD.Print(iid);
+				GD.Print(rect);
+				Areas.Add(iid, rect);
+				return true;
 			case "PlayerSpawner":
 				sceneName = "player";
 			break;

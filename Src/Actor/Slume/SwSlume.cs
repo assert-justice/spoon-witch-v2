@@ -58,8 +58,8 @@ public partial class SwSlume : SwEnemy
 	}
 	protected override void Tick(float dt)
 	{
-		if(SwGlobal.GetSettings().CreativeMode) StateMachine.QueueState(SwState.Default);
-		else if(StateMachine.IsInState(SwState.Default)) StateMachine.QueueState(SwState.Wandering);
+		// if(IsPassive()) StateMachine.QueueState(SwState.Default);
+		// else if(StateMachine.IsInState(SwState.Default)) StateMachine.QueueState(SwState.Wandering);
 		base.Tick(dt);
 		AudioManager.Tick(dt);
 		StateMachine.Tick(dt);

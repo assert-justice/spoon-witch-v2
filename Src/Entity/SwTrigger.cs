@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Godot;
+using SW.Src.Global;
 using SW.Src.Ui;
 using SW.Src.Utils;
 
@@ -15,8 +16,6 @@ public partial class SwTrigger : Area2D, ISwEntity
 	private CollisionShape2D CollisionShape;
 	public override void _Ready()
 	{
-		if(Filters is not null) GroupFilters = [..Filters];
-		BodyEntered += OnBodyEntered;
 		CollisionShape = GetChild<CollisionShape2D>(0);
 	}
 	private void OnBodyEntered(Node2D body)
@@ -50,8 +49,11 @@ public partial class SwTrigger : Area2D, ISwEntity
 		{
 			Size = size,
 		};
-		CollisionShape.Position = shape.Size * 0.5f;
+		CollisionShape.Position = size * 0.5f;
 		CollisionShape.Shape = shape;
+		if(Filters is not null && Filters.Length > 0) GroupFilters = [..Filters];
+		BodyEntered += OnBodyEntered;
+		CollisionShape.Disabled = false;
 		return true;
 	}
 }

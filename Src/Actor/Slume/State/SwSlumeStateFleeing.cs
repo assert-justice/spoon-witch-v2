@@ -1,3 +1,6 @@
+using SW.Src.GameSpace.Dungeon;
+using SW.Src.Global;
+using SW.Src.Ui;
 using SW.Src.Utils;
 using static SW.Src.Actor.Slume.SwSlume;
 
@@ -7,6 +10,10 @@ public class SwSlumeStateFleeing(SwSlume parent) : SwStateMachine<SwSlume, SwSta
 {
     public override void EnterState(SwState lastState)
     {
+        if(Parent.IsPassive() && !SwGlobal.GetSettings().CreativeMode)
+        {
+            Main.Message("tutorial:flee");
+        }
     }
     public override void ExitState(SwState lastState)
     {
