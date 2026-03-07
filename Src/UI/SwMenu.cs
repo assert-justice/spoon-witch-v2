@@ -115,6 +115,7 @@ public partial class SwMenu : Control, ISwUiNode
         }
         foreach (var control in GetControlNodesDfs())
         {
+            if(!control.Visible) continue;
             if(control is Button button && actions.TryGetValue(control.Name, out var action))
             {
                 button.Pressed += action;

@@ -17,13 +17,14 @@ public abstract class SwInput
     {
         return Godot.Input.IsMouseButtonPressed(button);
     }
-    public static bool GetJoyButton(JoyButton button, int device = -1)
+    public static bool GetJoyButton(JoyButton button, int device = 0)
     {
-        return Godot.Input.IsJoyButtonPressed(device, button);
+        // Todo: if device index is negative read from all connected devices
+        return Godot.Input.IsJoyButtonPressed(0, button);
     }
-    public static float GetJoyAxis(JoyAxis axis, int device = -1)
+    public static float GetJoyAxis(JoyAxis axis, int device = 0)
     {
-        return Godot.Input.GetJoyAxis(device, axis);
+        return Godot.Input.GetJoyAxis(0, axis);
     }
     public abstract bool TryAddBind(SwInputBind inputBind);
 }

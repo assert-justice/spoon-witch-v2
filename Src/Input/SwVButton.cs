@@ -60,7 +60,7 @@ public class SwVButton(float pulseCooldown = 0, float pulseDelay = Mathf.Inf) : 
     }
     public void AddJoyButton(JoyButton button, int device = -1)
     {
-        AddFn(()=>Godot.Input.IsJoyButtonPressed(device, button));
+        AddFn(()=>GetJoyButton(button, device));
     }
     public void AddAxisPos(Func<float> fn)
     {
