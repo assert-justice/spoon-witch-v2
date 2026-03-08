@@ -75,13 +75,13 @@ public class SwVButton(float pulseCooldown = float.PositiveInfinity, float pulse
     {
         AddFn(()=>GetJoyButton(button, device));
     }
-    public void AddAxisPos(Func<float> fn)
+    public void AddAxisGreater(Func<float> fn, float threshold)
     {
-        AddFn(()=>fn() > 0);
+        AddFn(()=>fn() > threshold);
     }
-    public void AddAxisNeg(Func<float> fn)
+    public void AddAxisLess(Func<float> fn, float threshold)
     {
-        AddFn(()=>fn() < 0);
+        AddFn(()=>fn() < threshold);
     }
     public override bool TryAddBind(SwInputBind inputBind)
     {
@@ -105,16 +105,16 @@ public class SwVButton(float pulseCooldown = float.PositiveInfinity, float pulse
                 if(Enum.IsDefined(joyButton)) return false;
                 AddJoyButton(joyButton);
                 return true;
-            case "AddAxisPos":
-                if(inputBind.SourceNames.Length != 1) return false;
-                if(!SwGlobal.GetInputManager().TryGetAxis(inputBind.SourceNames[0], out var axis)) return false;
-                AddAxisPos(axis.GetValue);
-                return true;
-            case "AddAxisNeg":
-                if(inputBind.SourceNames.Length != 1) return false;
-                if(!SwGlobal.GetInputManager().TryGetAxis(inputBind.SourceNames[0], out axis)) return false;
-                AddAxisNeg(axis.GetValue);
-                return true;
+            // case "AddAxisPos":
+            //     if(inputBind.SourceNames.Length != 1) return false;
+            //     if(!SwGlobal.GetInputManager().TryGetAxis(inputBind.SourceNames[0], out var axis)) return false;
+            //     AddAxisGreater(axis.GetValue);
+            //     return true;
+            // case "AddAxisNeg":
+            //     if(inputBind.SourceNames.Length != 1) return false;
+            //     if(!SwGlobal.GetInputManager().TryGetAxis(inputBind.SourceNames[0], out axis)) return false;
+            //     AddAxisLess(axis.GetValue);
+            //     return true;
             default:
                 throw new Exception("Should be unreachable");
         }

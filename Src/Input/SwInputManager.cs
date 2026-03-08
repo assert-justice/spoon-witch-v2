@@ -148,10 +148,10 @@ public class SwInputManager
 		UiMove.AddJoyAxes(JoyAxis.LeftX, JoyAxis.LeftY);
 		UiMove.AddJoyAxes(JoyAxis.RightX, JoyAxis.RightY);
 		UiMove.AddJoyButtons(JoyButton.DpadLeft, JoyButton.DpadRight, JoyButton.DpadUp, JoyButton.DpadDown);
-		UiLeft.AddAxisNeg(()=>UiMove.GetValue().X);
-		UiRight.AddAxisPos(()=>UiMove.GetValue().X);
-		UiUp.AddAxisNeg(()=>UiMove.GetValue().Y);
-		UiDown.AddAxisPos(()=>UiMove.GetValue().Y);
+		UiLeft.AddAxisLess(()=>UiMove.GetValue().X, -0.2f);
+		UiRight.AddAxisGreater(()=>UiMove.GetValue().X, 0.2f);
+		UiUp.AddAxisLess(()=>UiMove.GetValue().Y, -0.2f);
+		UiDown.AddAxisGreater(()=>UiMove.GetValue().Y, 0.2f);
 		UiPrevious.AddPhysicalKey(Key.Key1);
 		UiPrevious.AddJoyButton(JoyButton.LeftShoulder);
 		UiNext.AddPhysicalKey(Key.Key2);
@@ -159,7 +159,7 @@ public class SwInputManager
 		RightTrigger.AddJoyAxis(JoyAxis.TriggerRight);
 		LeftTrigger.AddJoyAxis(JoyAxis.TriggerLeft);
 		ChargeSling.AddMouseButton(MouseButton.Right);
-		ChargeSling.AddAxisPos(RightTrigger.GetValue);
+		ChargeSling.AddAxisGreater(RightTrigger.GetValue, 0.2f);
 		SpoonAttack.AddMouseButton(MouseButton.Left);
 		SpoonAttack.AddJoyButton(JoyButton.RightShoulder);
 		SpoonAttack.AddJoyButton(JoyButton.X);
@@ -177,7 +177,7 @@ public class SwInputManager
 		PlaceCauldron.AddPhysicalKey(Key.R);
 		PlaceCauldron.AddJoyButton(JoyButton.DpadDown);
 		PlayInstrument.AddPhysicalKey(Key.Ctrl);
-		PlayInstrument.AddAxisPos(LeftTrigger.GetValue);
+		PlayInstrument.AddAxisGreater(LeftTrigger.GetValue, 0.2f);
 		Map.AddPhysicalKey(Key.M);
 		Inventory.AddPhysicalKey(Key.I);
 		Journal.AddPhysicalKey(Key.J);
