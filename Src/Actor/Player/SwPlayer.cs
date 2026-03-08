@@ -76,6 +76,7 @@ public partial class SwPlayer : SwActor
 		Controls.Poll();
 		StateManager.Tick(dt);
 		Hud.Tick(dt);
+		Animator.UpdateReticle();
 		if(SwGlobal.GetInputManager().Pause.IsJustPressed()) Main.Message("pause");
 	}
 	public override float Damage(SwDamage damage, Node2D source)

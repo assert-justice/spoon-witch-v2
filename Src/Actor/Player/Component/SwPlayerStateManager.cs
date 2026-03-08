@@ -72,5 +72,5 @@ public class SwPlayerStateManager
 	{
 		return RecoveryClock.IsRunning();
 	}
-
+	public bool IsInState(SwState state){return StateMachine.IsInState(state);}
 }

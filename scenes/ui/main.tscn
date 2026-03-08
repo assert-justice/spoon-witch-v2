@@ -19,6 +19,29 @@
 [ext_resource type="Script" uid="uid://dv0ij3mey0ayl" path="res://Src/UI/Menu/SwAccessibilityMenu.cs" id="10_xbw52"]
 [ext_resource type="Script" uid="uid://cjewdhbwowc60" path="res://Src/UI/Menu/SwDebugMenu.cs" id="11_gph5m"]
 [ext_resource type="AudioStream" uid="uid://bski3ue1sxflo" path="res://assets/sfx/player/SW SFX Player Death.mp3" id="15_qmqn8"]
+[ext_resource type="Texture2D" uid="uid://ce34oa388031l" path="res://assets/sprites/Reticle.png" id="20_wweun"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvf5f"]
+atlas = ExtResource("20_wweun")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uk7en"]
+atlas = ExtResource("20_wweun")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8kxn6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvf5f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uk7en")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Main" type="Control" unique_id=910366092]
 process_mode = 3
@@ -668,6 +691,9 @@ text = "- Message Here"
 [node name="Label2" type="Label" parent="MenuHolder/Hud/VBox/Messages" unique_id=326133734]
 layout_mode = 2
 text = "- Another Message Here"
+
+[node name="Reticle" type="AnimatedSprite2D" parent="MenuHolder/Hud" unique_id=465675887]
+sprite_frames = SubResource("SpriteFrames_8kxn6")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2062631309]
 bus = &"Music"

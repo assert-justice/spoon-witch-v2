@@ -17,6 +17,7 @@ public partial class SwHud : SwMenu
     private Label AmmoLabel;
     private Label RootLabel;
     private VBoxContainer MessageContainer;
+    private AnimatedSprite2D Reticle;
     private readonly SwDirtyWrapper<float> PlayerHealth = new(100);
     private readonly SwDirtyWrapper<float> PlayerMaxHealth = new(100);
     private readonly SwDirtyWrapper<float> PlayerRoots = new(100);
@@ -29,6 +30,8 @@ public partial class SwHud : SwMenu
         AmmoLabel = GetNode<Label>("VBox/HBox/Ammo");
         RootLabel = GetNode<Label>("VBox/HBox/Roots");
         MessageContainer = GetNode<VBoxContainer>("VBox/Messages");
+        MessageContainer = GetNode<VBoxContainer>("VBox/Messages");
+        Reticle = GetNode<AnimatedSprite2D>("Reticle");
         SwStatic.FreeChildren(MessageContainer);
     }
     public override void _PhysicsProcess(double delta)
@@ -62,6 +65,16 @@ public partial class SwHud : SwMenu
     {
         return false;
     }
+    public override void OnWake()
+    {
+        base.OnWake();
+        Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Hidden;
+    }
+    public override void OnSleep()
+    {
+        base.OnSleep();
+        Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Visible;
+    }
     public void UpdatePlayer(SwPlayer player)
     {
         PlayerHealth.Value = Mathf.Clamp(player.GetHealth(), 0, player.MaxHealth);
@@ -76,6 +89,15 @@ public partial class SwHud : SwMenu
             PlayerRoots.Value = rootSlot.Quantity;
             PlayerMaxRoots.Value = rootSlot.Capacity;
         }
+        // Update reticle
+        Reticle.Visible = player.StateManager.IsInState(SwPlayer.SwState.SlingCharging) ||
+            player.StateManager.IsInState(SwPlayer.SwState.SlingCharged) ||
+            player.Controls.Aim.LengthSquared() > SwConstants.EPSILON;
+        if(!Reticle.Visible) return;
+        if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb) Reticle.Position = player.Controls.Aim * player.Controls.LastAimLength;
+        else if(player.Controls.Aim == player.Controls.LastAim) Reticle.Position = player.Controls.Aim * 64;
+        else Reticle.Position = player.GetLastVelocity().Normalized() * 64;
+        Reticle.Position += GetViewportRect().Size * 0.5f;
     }
     public void AddMessage(string message, float duration = 1)
     {

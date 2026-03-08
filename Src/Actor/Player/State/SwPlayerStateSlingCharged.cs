@@ -9,7 +9,6 @@ public class SwPlayerStateSlingCharged(SwPlayer parent) :
     public override void EnterState(SwState lastState)
     {
         // Parent.Animator.SetReticleVisible(true);
-        Parent.Animator.ReticleState = Component.SwPlayerAnimator.SwReticleState.Charged;
         Parent.Animator.PlaySlingAnim();
         Parent.AudioManager.PlaySlingChargedSound();
     }
@@ -17,13 +16,11 @@ public class SwPlayerStateSlingCharged(SwPlayer parent) :
     {
         Parent.Animator.HideSling();
         Parent.AudioManager.StopSlingSound();
-        Parent.Animator.ReticleState = Component.SwPlayerAnimator.SwReticleState.None;
     }
     public override void Tick(float dt)
     {
         Parent.Velocity = Parent.Controls.Move() * Parent.Speed * Parent.SlingMovementSpeedMul;
         Parent.Animator.PlayBodyAnimDefault(1);
-        Parent.Animator.UpdateReticlePosition();
         if (Parent.Controls.JustAttacked())
         {
             // Fire!

@@ -11,39 +11,12 @@ public class SwPlayerAnimator(SwPlayer parent)
     private readonly AnimatedSprite2D BodySprite = parent.GetNode<AnimatedSprite2D>("BodySprite");
 	private readonly AnimatedSprite2D SpoonSprite = parent.GetNode<AnimatedSprite2D>("SpoonPivot/SpoonSprite");
 	private readonly AnimatedSprite2D SlingSprite = parent.GetNode<AnimatedSprite2D>("SlingSprite");
-	private readonly AnimatedSprite2D Reticle = parent.GetNode<AnimatedSprite2D>("Reticle");
+	// private readonly AnimatedSprite2D Reticle = parent.GetNode<AnimatedSprite2D>("Reticle");
 	private readonly CpuParticles2D SlingParticles = parent.GetNode<CpuParticles2D>("SlingParticles");
     private readonly CpuParticles2D HealingParticles = parent.GetNode<CpuParticles2D>("HealingParticles");
     private readonly string[] Facing = ["right", "down", "left", "up"];
-    public enum SwReticleState
-    {
-        None,
-        Charging,
-        Charged,
-    }
-    private SwReticleState ReticleState_ = SwReticleState.None;
-    public SwReticleState ReticleState{get => ReticleState_; set
-        {
-            if(ReticleState_ == value) return;
-            ReticleState_ = value;
-            switch (value)
-            {
-                case SwReticleState.None:
-                    Reticle.Visible = false;
-                    break;
-                case SwReticleState.Charging:
-                    Reticle.Visible = true;
-                    Reticle.Frame = 0;
-                    break;
-                case SwReticleState.Charged:
-                    Reticle.Visible = true;
-                    Reticle.Frame = 1;
-                    break;
-                default:
-                break;
-            }
-        }
-    }
+    public Vector2 ReticlePos = Vector2.Zero;
+    public bool ReticleVisible = false;
     private string GetFacing(int facingIdx)
 	{
         string dir = Facing[facingIdx];
@@ -132,10 +105,14 @@ public class SwPlayerAnimator(SwPlayer parent)
     {
         BodySprite.Rotation = SwConstants.HALF_PI;
     }
-    public void UpdateReticlePosition()
+    public void UpdateReticle()
     {
-        if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb) Reticle.Position = Parent.Controls.Aim * Parent.Controls.LastAimLength;
-        else if(Parent.Controls.Aim == Parent.Controls.LastAim) Reticle.Position = Parent.Controls.Aim * 64;
-        else Reticle.Position = Parent.GetLastVelocity().Normalized() * 64;
+        ReticleVisible = Parent.StateManager.IsInState(SwPlayer.SwState.SlingCharging) ||
+            Parent.StateManager.IsInState(SwPlayer.SwState.SlingCharged) ||
+            Parent.Controls.Aim.LengthSquared() > SwConstants.EPSILON;
+        if(!ReticleVisible) return;
+        if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb) ReticlePos = Parent.Controls.Aim * Parent.Controls.LastAimLength;
+        else if(Parent.Controls.Aim == Parent.Controls.LastAim) ReticlePos = Parent.Controls.Aim * 64;
+        else ReticlePos = Parent.GetLastVelocity().Normalized() * 64;
     }
 }

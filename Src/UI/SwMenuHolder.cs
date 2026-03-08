@@ -34,14 +34,16 @@ public partial class SwMenuHolder : Control
     {
         Visible = true;
         var top = GetTop();
+        SwMenu activeMenu = null;
         foreach (var child in GetChildren())
         {
             if(child is SwMenu menu)
             {
-                if(menu == top) menu.OnWake();
+                if(menu == top) activeMenu = menu;
                 else menu.OnSleep();
             }
         }
+        activeMenu.OnWake();
     }
     private void Pop()
     {

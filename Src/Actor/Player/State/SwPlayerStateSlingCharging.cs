@@ -16,19 +16,16 @@ public class SwPlayerStateSlingCharging : SwStateMachine<SwPlayer, SwState>.SwSt
     {
         ChargeClock.Restart();
         Parent.AudioManager.PlaySlingChargingSound();
-        Parent.Animator.ReticleState = Component.SwPlayerAnimator.SwReticleState.Charging;
     }
     public override void ExitState(SwState lastState)
     {
         Parent.Animator.HideSling();
         Parent.AudioManager.StopSlingSound();
-        Parent.Animator.ReticleState = Component.SwPlayerAnimator.SwReticleState.None;
     }
     public override void Tick(float dt)
     {
         Parent.Velocity = Parent.Controls.Move() * Parent.Speed * Parent.SlingMovementSpeedMul;
         Parent.Animator.PlayBodyAnimDefault(1);
-        Parent.Animator.UpdateReticlePosition();
         if (Parent.Controls.IsChargingJustReleased())
         {
             // Cancel charge

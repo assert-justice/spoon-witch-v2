@@ -190,7 +190,10 @@ public partial class Main : Control
 		MusicPlayer.Stream = track;
 		MusicPlayer.Play();
 	}
-	public static void Message(string message){MessageQueue.Enqueue(message);}
+	public static void Message(string message)
+	{
+		MessageQueue.Enqueue(message);
+	}
 	public static bool TryGetHud(out SwHud hud)
 	{
 		hud = default;
