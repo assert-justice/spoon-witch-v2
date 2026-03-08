@@ -1317,11 +1317,13 @@ color = Color(0.53951395, 0.9822832, 1.540184e-06, 1)
 
 [node name="Audio" type="Node2D" parent="." unique_id=985742839]
 
-[node name="AudioListener2D" type="AudioListener2D" parent="Audio" unique_id=1091282840]
+[node name="PlayerListener" type="AudioListener2D" parent="Audio" unique_id=1091282840]
+rotation = 3.1415927
 current = true
 
 [node name="WalkSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=1102222889]
 stream = ExtResource("14_nmlhc")
+volume_db = -5.0
 bus = &"Sfx"
 script = ExtResource("15_h5w3c")
 Streams = [ExtResource("14_nmlhc")]
@@ -1343,11 +1345,13 @@ script = ExtResource("15_h5w3c")
 Streams = [ExtResource("18_6a6mx"), ExtResource("19_j3wsw"), ExtResource("20_ds2sr"), ExtResource("21_6xqls"), ExtResource("22_3hvrq")]
 
 [node name="SlingSounds" type="AudioStreamPlayer2D" parent="Audio" unique_id=1937007982]
+volume_db = -5.0
 bus = &"Sfx"
 script = ExtResource("15_h5w3c")
 Streams = [ExtResource("23_6xqls"), ExtResource("24_3hvrq"), ExtResource("25_bwi5y")]
 
 [node name="SlingFireSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=1839041456]
+volume_db = -5.0
 bus = &"Sfx"
 script = ExtResource("15_h5w3c")
 Streams = [ExtResource("25_bwi5y")]

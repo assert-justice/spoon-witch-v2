@@ -10,8 +10,19 @@ public partial class SwMultiSound : AudioStreamPlayer2D
 	[Export] public bool RandomizePitch = true;
 	[Export] public float MinPitchShift = 1;
 	[Export] public float MaxPitchShift = 1;
+	[Export] public float AttenuationMul = 3;
 	private readonly Queue<AudioStream> StreamList = [];
 	private readonly List<AudioStream> TempStreams = [];
+	private float DefaultAttenuation = 1;
+	private float DefaultVolume = 1;
+    public override void _Ready()
+    {
+		DefaultAttenuation = Attenuation;
+        Attenuation = DefaultAttenuation * AttenuationMul;
+		DefaultVolume = VolumeDb;
+		MaxDistance = 1000;
+    }
+
 	private bool TryGetShuffled(out AudioStream audioStream)
 	{
 		// Puts sound effects in shuffled order such that no elements repeat back to back.
@@ -81,5 +92,9 @@ public partial class SwMultiSound : AudioStreamPlayer2D
 	{
 		if(idx < 0 || idx >= Streams.Length) SwStatic.LogError($"Invalid index for '{Name}': {idx}");
 		else Play(Streams[idx]);
+	}
+	public void SwSetVolumeDb(float volume)
+	{
+		VolumeDb = DefaultVolume + volume;
 	}
 }

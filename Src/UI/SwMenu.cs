@@ -100,6 +100,7 @@ public partial class SwMenu : Control, ISwUiNode
         {
             if(child is Control control)
             {
+                if(!control.Visible) continue;
                 list.Add(control);
                 GetControlNodesDfs(control, list);
             }
@@ -115,7 +116,6 @@ public partial class SwMenu : Control, ISwUiNode
         }
         foreach (var control in GetControlNodesDfs())
         {
-            if(!control.Visible) continue;
             if(control is Button button && actions.TryGetValue(control.Name, out var action))
             {
                 button.Pressed += action;

@@ -14,6 +14,7 @@ public class SwSettings
     public float GameSpeed = 1;
     public float DamageTakenMultiplier = 1;
     public float DamageDealtMultiplier = 1;
+    public bool SkipTutorials = false;
     // Debug settings
     public float MinPitchShift = 1f;
     public float MaxPitchShift = 1f;
@@ -31,6 +32,7 @@ public class SwSettings
         if(db.TryGetNumber("sfx_volume", out d))InitialSfxVolume = d;
         if(db.TryGetNumber("voice_volume", out d))InitialVoiceVolume = d;
         if(db.TryGetBool("pause_on_submenu", out b))PauseOnSubmenu = b;
+        if(db.TryGetBool("skip_tutorials", out b))SkipTutorials = b;
         if(db.TryGetNumber("game_speed", out d))GameSpeed = d;
         if(db.TryGetNumber("damage_taken_multiplier", out d))DamageTakenMultiplier = d;
         if(db.TryGetNumber("damage_dealt_multiplier", out d))DamageDealtMultiplier = d;
@@ -50,6 +52,7 @@ public class SwSettings
         db.TrySetPath("sfx_volume", SwGlobal.GetVolume(SwGlobal.AudioBus.Sfx));
         db.TrySetPath("voice_volume", SwGlobal.GetVolume(SwGlobal.AudioBus.Voice));
         db.TrySetPath("pause_on_submenu", PauseOnSubmenu);
+        db.TrySetPath("skip_tutorials", SkipTutorials);
         db.TrySetPath("game_speed", GameSpeed);
         db.TrySetPath("damage_taken_multiplier", DamageTakenMultiplier);
         db.TrySetPath("damage_dealt_multiplier", DamageDealtMultiplier);

@@ -158,6 +158,7 @@ public partial class Main : Control
 	}
 	private void SetTutorial(string tutorialId)
 	{
+		if(SwGlobal.GetSettings().SkipTutorials) return;
 		if(!Tutorials.TryGetValue(tutorialId, out var tutorial)) return;
 		GetNode<Label>("MenuHolder/Tutorial/VBox/PanelContainer/VBoxContainer/Title").Text = tutorial.Item1;
 		GetNode<Label>("MenuHolder/Tutorial/VBox/PanelContainer/VBoxContainer/Body").Text = tutorial.Item2;

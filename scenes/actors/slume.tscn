@@ -414,6 +414,7 @@ shape = SubResource("CircleShape2D_107sd")
 
 [node name="WalkSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=122913752]
 stream = ExtResource("11_ydiqi")
+volume_db = -5.0
 bus = &"Sfx"
 script = ExtResource("13_8nr63")
 Streams = [ExtResource("11_ydiqi")]

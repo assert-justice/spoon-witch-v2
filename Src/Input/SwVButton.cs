@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using SW.Src.Global;
+using SW.Src.Timer;
 
 namespace SW.Src.Input;
 
-public class SwVButton(float pulseCooldown = 0, float pulseDelay = Mathf.Inf) : SwInput, ISwInput<bool>
+public class SwVButton(float pulseCooldown = float.PositiveInfinity, float pulseDelay = float.PositiveInfinity) : SwInput, ISwInput<bool>
 {
     private readonly List<Func<bool>> Fns = [];
     private readonly float PulseCooldown = pulseCooldown;
@@ -15,6 +16,7 @@ public class SwVButton(float pulseCooldown = 0, float pulseDelay = Mathf.Inf) : 
     protected bool State = false;
     protected bool LastState = false;
     private float Duration = 0;
+    // private readonly SwClock PulseClock = new(new(){Duration=pulseCooldown});
     public virtual void Tick(float dt)
     {
         if(State == LastState) Duration += dt;
@@ -25,7 +27,18 @@ public class SwVButton(float pulseCooldown = 0, float pulseDelay = Mathf.Inf) : 
         // We take the duration, shave off the pulse delay, and get rid of the previous thresholds
         // If what's left over of the duration is less than or equal to dt, that means we just crossed a threshold
         // Todo: testing plz
-        if(Duration < PulseDelay || !State) return;
+        if(Duration < PulseDelay || !State)
+        {
+            // PulseClock.Restart();
+            PulseState = false;
+            return;
+        }
+        // PulseClock.Tick(dt);
+        // if (!PulseClock.IsRunning())
+        // {
+        //     PulseClock.Restart();
+        //     PulseState = true;
+        // }
         float duration = Duration - PulseDelay;
         duration -= Mathf.Floor(duration / PulseCooldown) * PulseCooldown;
         PulseState = duration <= dt;
@@ -70,7 +83,6 @@ public class SwVButton(float pulseCooldown = 0, float pulseDelay = Mathf.Inf) : 
     {
         AddFn(()=>fn() < 0);
     }
-
     public override bool TryAddBind(SwInputBind inputBind)
     {
         switch (inputBind.MethodName)

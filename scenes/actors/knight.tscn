@@ -383,6 +383,7 @@ animation = &"attack"
 
 [node name="WalkSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=296745851]
 stream = ExtResource("6_1lgou")
+volume_db = -5.0
 script = ExtResource("6_5lyfx")
 Streams = [ExtResource("6_1lgou")]
 

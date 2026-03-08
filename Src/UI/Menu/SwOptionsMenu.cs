@@ -12,5 +12,8 @@ public partial class SwOptionsMenu : SwMenu
         FullscreenCheckBox = GetNode<SwCheckBox>("VBox/Fullscreen");
         FullscreenCheckBox.SetOnWakeFn(()=>SwGlobal.IsFullscreen());
         FullscreenCheckBox.SetOnChangeFn(SwGlobal.SetFullscreen);
+        FullscreenCheckBox = GetNode<SwCheckBox>("VBox/SkipTutorials");
+        FullscreenCheckBox.SetOnWakeFn(()=>SwGlobal.GetSettings().SkipTutorials);
+        FullscreenCheckBox.SetOnChangeFn(val => SwGlobal.GetSettings().SkipTutorials = val);
     }
 }
