@@ -24,7 +24,7 @@ public partial class SwTrigger : Area2D, ISwEntity
 		if(SingleUse && TimesUsed > 0) return;
 		if (Match(body))
 		{
-			foreach (var command in Command.Split(';'))
+			foreach (var command in Command.Split('\n', System.StringSplitOptions.TrimEntries))
 			{
 				if(SwStatic.TrySlice(command, "dungeon:", out string com))
 				{

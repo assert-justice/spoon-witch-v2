@@ -50,7 +50,7 @@ public partial class SwDualGrid : TileMapLayer
 				Name = "CollisionLayer"
 			};
 			AddChild(CollisionLayer);
-			CollisionLayer.Owner = GetTree().Root;
+			// CollisionLayer.Owner = GetTree().Root;
 		}
 		CollisionLayer.TileSet = TerrainData.CollisionTileSet;
 		SetNumLayers(NumLayers);

@@ -136,6 +136,7 @@ public class SwInputManager
 		ClearInputs();
 		Move.AddPhysicalKeys(Key.A, Key.D, Key.W, Key.S);
 		Move.AddJoyAxes(JoyAxis.LeftX, JoyAxis.LeftY);
+		Move.AddJoyButtons(JoyButton.DpadLeft, JoyButton.DpadRight, JoyButton.DpadUp, JoyButton.DpadDown);
 		Aim.AddJoyAxes(JoyAxis.RightX, JoyAxis.RightY);
 		UiConfirm.AddPhysicalKey(Key.Space);
 		UiConfirm.AddPhysicalKey(Key.Enter);
@@ -160,6 +161,8 @@ public class SwInputManager
 		ChargeSling.AddMouseButton(MouseButton.Right);
 		ChargeSling.AddAxisPos(RightTrigger.GetValue);
 		SpoonAttack.AddMouseButton(MouseButton.Left);
+		SpoonAttack.AddJoyButton(JoyButton.RightShoulder);
+		SpoonAttack.AddJoyButton(JoyButton.X);
 		Dodge.AddPhysicalKey(Key.Space);
 		Dodge.AddJoyButton(JoyButton.A);
 		Dodge.AddJoyButton(JoyButton.LeftShoulder);

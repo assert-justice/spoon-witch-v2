@@ -1,3 +1,4 @@
+using SW.Src.Global;
 using SW.Src.Utils;
 using static SW.Src.Actor.Player.SwPlayer;
 
@@ -13,7 +14,7 @@ public class SwPlayerStateAttacking(SwPlayer parent) :
         Parent.Animator.PlaySpoonAnim();
         Parent.AudioManager.PlaySpoonSound();
         Parent.StateManager.SetLockout(0.25f, 0.25f);
-        FacingIdx = Parent.GetLastFacing4();
+        FacingIdx = SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4);
     }
     public override void ExitState(SwState lastState)
     {

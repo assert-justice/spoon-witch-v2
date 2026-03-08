@@ -65,8 +65,8 @@ public partial class SwDungeon : Node2D
 			coords = arg.Split(',');
 			iid = coords[0];
 			layerIdx = int.Parse(coords[1]);
-			if(!Areas.TryGetValue(iid, out rect)) return;
-
+			// if(!Areas.TryGetValue(iid, out rect)) return;
+			rect = Areas[iid];
 			Terrain.ClearRect(rect, layerIdx);
 			break;
 			case "set_rect":
@@ -161,6 +161,12 @@ public partial class SwDungeon : Node2D
 			break;
 			default:
 			return false;
+		}
+		// Center non trigger entities
+		if(identifier != "Trigger")
+		{
+			posX += width * 0.5f; 
+			posY += height * 0.5f;
 		}
 		if(!EntityLookup.TryGetValue(sceneName, out var scene)) return false;
 		var entity = scene.Instantiate<Node2D>();

@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://cw7ww6qu8t0ww" path="res://assets/sprites/characters/belladonna/run/bella_run_dr.png" id="5_wl55n"]
 [ext_resource type="Texture2D" uid="uid://beluggnt0jhei" path="res://assets/sprites/characters/belladonna/run/bella_run_u.png" id="6_kggx2"]
 [ext_resource type="Texture2D" uid="uid://dws1oebv0d83k" path="res://assets/sprites/characters/belladonna/sling/bella_sling.png" id="9_0w4p8"]
+[ext_resource type="Texture2D" uid="uid://ce34oa388031l" path="res://assets/sprites/Reticle.png" id="14_bwi5y"]
 [ext_resource type="AudioStream" uid="uid://r4s6nn5ihlmy" path="res://assets/sfx/player/SW SFX Player Walking.mp3" id="14_nmlhc"]
 [ext_resource type="AudioStream" uid="uid://bski3ue1sxflo" path="res://assets/sfx/player/SW SFX Player Death.mp3" id="15_3hvrq"]
 [ext_resource type="Script" uid="uid://c4fr6dw1kvbay" path="res://Src/Entity/SwMultiSound.cs" id="15_h5w3c"]
@@ -1238,10 +1239,33 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_liqhi"]
+atlas = ExtResource("14_bwi5y")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6kumf"]
+atlas = ExtResource("14_bwi5y")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ri35e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_liqhi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6kumf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8o2w2"]
 size = Vector2(20, 26)
 
 [node name="Player" type="CharacterBody2D" unique_id=313462690 groups=["Player"]]
+z_index = 1
 texture_filter = 1
 motion_mode = 1
 script = ExtResource("1_xx81n")
@@ -1280,6 +1304,10 @@ animation = &"run1_up"
 visible = false
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_8kex2")
+
+[node name="Reticle" type="AnimatedSprite2D" parent="." unique_id=488389051]
+visible = false
+sprite_frames = SubResource("SpriteFrames_ri35e")
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=1232585008]
 visible = false

@@ -11,9 +11,39 @@ public class SwPlayerAnimator(SwPlayer parent)
     private readonly AnimatedSprite2D BodySprite = parent.GetNode<AnimatedSprite2D>("BodySprite");
 	private readonly AnimatedSprite2D SpoonSprite = parent.GetNode<AnimatedSprite2D>("SpoonPivot/SpoonSprite");
 	private readonly AnimatedSprite2D SlingSprite = parent.GetNode<AnimatedSprite2D>("SlingSprite");
+	private readonly AnimatedSprite2D Reticle = parent.GetNode<AnimatedSprite2D>("Reticle");
 	private readonly CpuParticles2D SlingParticles = parent.GetNode<CpuParticles2D>("SlingParticles");
     private readonly CpuParticles2D HealingParticles = parent.GetNode<CpuParticles2D>("HealingParticles");
     private readonly string[] Facing = ["right", "down", "left", "up"];
+    public enum SwReticleState
+    {
+        None,
+        Charging,
+        Charged,
+    }
+    private SwReticleState ReticleState_ = SwReticleState.None;
+    public SwReticleState ReticleState{get => ReticleState_; set
+        {
+            if(ReticleState_ == value) return;
+            ReticleState_ = value;
+            switch (value)
+            {
+                case SwReticleState.None:
+                    Reticle.Visible = false;
+                    break;
+                case SwReticleState.Charging:
+                    Reticle.Visible = true;
+                    Reticle.Frame = 0;
+                    break;
+                case SwReticleState.Charged:
+                    Reticle.Visible = true;
+                    Reticle.Frame = 1;
+                    break;
+                default:
+                break;
+            }
+        }
+    }
     private string GetFacing(int facingIdx)
 	{
         string dir = Facing[facingIdx];
@@ -34,7 +64,9 @@ public class SwPlayerAnimator(SwPlayer parent)
     }
     public void PlayBodyAnimFaced(string animName)
     {
-        PlayBodyAnim(animName + "_" + GetFacing(Parent.GetLastFacing4()));
+        int facingIdx = SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4);
+        PlayBodyAnim(animName + "_" + GetFacing(facingIdx));
+        // PlayBodyAnim(animName + "_" + GetFacing(Parent.GetLastFacing4()));
     }
     public void PlayBodyAnimFaced(string animName, int hands)
     {
@@ -54,18 +86,18 @@ public class SwPlayerAnimator(SwPlayer parent)
         string animName = Parent.Controls.IsMoving() ? "run" : "idle";
         PlayBodyAnimFaced(animName, hands, facingIdx);
     }
-    public void PlayBodyAnimAiming(int hands)
-    {
-        string animName = Parent.Controls.IsMoving() ? "run" : "idle";
-        Vector2 aim = Parent.Controls.Aim();
-        if(aim.LengthSquared() < SwConstants.EPSILON)
-        {
-            PlayBodyAnimDefault(hands);
-            return;
-        }
-        int facingIdx = SwMath.RoundAngleToInt(aim.Angle(), 4);
-        PlayBodyAnimFaced(animName, hands, facingIdx);
-    }
+    // public void PlayBodyAnimAiming(int hands)
+    // {
+    //     string animName = Parent.Controls.IsMoving() ? "run" : "idle";
+    //     Vector2 aim = Parent.Controls.Aim;
+    //     if(aim.LengthSquared() < SwConstants.EPSILON)
+    //     {
+    //         PlayBodyAnimDefault(hands);
+    //         return;
+    //     }
+    //     int facingIdx = SwMath.RoundAngleToInt(aim.Angle(), 4);
+    //     PlayBodyAnimFaced(animName, hands, facingIdx);
+    // }
 	public void PlaySpoonAnim()
 	{
 		SpoonSprite.Visible = true;
@@ -99,5 +131,11 @@ public class SwPlayerAnimator(SwPlayer parent)
     public void PlayDeathAnim()
     {
         BodySprite.Rotation = SwConstants.HALF_PI;
+    }
+    public void UpdateReticlePosition()
+    {
+        if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb) Reticle.Position = Parent.Controls.Aim * Parent.Controls.LastAimLength;
+        else if(Parent.Controls.Aim == Parent.Controls.LastAim) Reticle.Position = Parent.Controls.Aim * 64;
+        else Reticle.Position = Parent.GetLastVelocity().Normalized() * 64;
     }
 }

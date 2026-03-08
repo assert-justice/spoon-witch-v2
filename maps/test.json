@@ -800,6 +800,25 @@
 							"fieldInstances": [],
 							"__worldX": 96,
 							"__worldY": 128
+						},
+						{
+							"__identifier": "EntitySpawner",
+							"__grid": [17,4],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#BE4A2F",
+							"iid": "f98226b0-fa90-11f0-9a5f-0d11640b2c49",
+							"width": 32,
+							"height": 32,
+							"defUid": 13,
+							"px": [544,128],
+							"fieldInstances": [{ "__identifier": "Type", "__type": "String", "__value": "sling_bullet", "__tile": null, "defUid": 14, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["sling_bullet"]
+							}] }],
+							"__worldX": 544,
+							"__worldY": 128
 						}
 					]
 				},

@@ -15,16 +15,22 @@ public partial class SwGlobal : Node
     public static SwSettings GetSettings(){return Global.Settings;}
     private float Delta;
     public static float GetDelta(){return Global.Delta;}
-    private static InputEvent LastInputEvent;
-    public static InputEvent GetLastInputEvent(){return LastInputEvent;}
-    public static bool WasLastInputKbm()
+    // private static InputEvent LastInputEvent;
+    // public static InputEvent GetLastInputEvent(){return LastInputEvent;}
+    public enum SwInputMode
     {
-        return LastInputEvent is InputEventKey || LastInputEvent is InputEventMouse;
+        Kb,
+        XBox,
     }
-    public static bool WasLastInputJoy()
-    {
-        return LastInputEvent is InputEventJoypadButton || LastInputEvent is InputEventJoypadMotion;
-    }
+    public static SwInputMode InputMode{get; private set;} = SwInputMode.Kb;
+    // private static bool WasLastInputKbm()
+    // {
+    //     return LastInputEvent is InputEventKey || LastInputEvent is InputEventMouse;
+    // }
+    // public static bool WasLastInputJoy()
+    // {
+    //     return LastInputEvent is InputEventJoypadButton || LastInputEvent is InputEventJoypadMotion;
+    // }
     public static bool IsFullscreen()
     {
         return DisplayServer.WindowGetMode() == DisplayServer.WindowMode.Fullscreen;
@@ -72,6 +78,11 @@ public partial class SwGlobal : Node
     }
     public override void _Input(InputEvent inputEvent)
     {
-        LastInputEvent = inputEvent;
+        // We ignore joypad axis events beneath some threshold
+        if(inputEvent is InputEventKey || inputEvent is InputEventMouse) InputMode = SwInputMode.Kb;
+        else if(inputEvent is InputEventJoypadButton) InputMode = SwInputMode.XBox;
+        else if(inputEvent is InputEventJoypadMotion joypadMotion && Mathf.Abs(joypadMotion.AxisValue) > 0.25f) InputMode = SwInputMode.XBox;
+        else return;
+        // GD.Print(inputEvent.GetType());
     }
 }

@@ -21,17 +21,39 @@ public class SwPlayerControls : ISwPoll
     public void Poll()
     {
         InputBuffer.Poll();
+        Aim = Vector2.Zero;
+        var joyAim = InputManager.Aim.GetValue();
+        var move = InputManager.Move.GetValue();
+        // Aim = InputManager.Aim.GetValue();
+        if (SwGlobal.InputMode == SwGlobal.SwInputMode.Kb)
+        {
+            var viewport = Parent.GetViewport();
+            Vector2 center = viewport.GetVisibleRect().Size / 2;
+            Aim = Parent.GetViewport().GetMousePosition() - center;
+        }
+        else if (joyAim.LengthSquared() > SwConstants.EPSILON)
+        {
+            Aim = joyAim;
+            // Aim = Parent.GetLastVelocity();//.Normalized();
+        }
+        else if (move.LengthSquared() > SwConstants.EPSILON)
+        {
+            Aim = move;
+        }
+        float length = Aim.Length(); 
+        Aim = Aim.Normalized();
+        if(length > SwConstants.EPSILON)
+        {
+            LastAim = Aim;
+            LastAimLength = length;
+        }
         // IsMoving_.Value = InputManager.Move.GetValue().LengthSquared() > SwConstants.EPSILON;
     }
     public bool IsMoving(){return InputManager.Move.GetValue().LengthSquared() > SwConstants.EPSILON;}
     public Vector2 Move(){return InputManager.Move.GetValue();}
-    public Vector2 Aim()
-    {
-        if(!SwGlobal.WasLastInputKbm()) return InputManager.Aim.GetValue();
-        var viewport = Parent.GetViewport();
-        Vector2 center = viewport.GetVisibleRect().Size / 2;
-        return (Parent.GetViewport().GetMousePosition() - center).Normalized();
-    }
+    public Vector2 Aim{get; private set;} = Vector2.Zero;
+    public Vector2 LastAim{get; private set;} = Vector2.Zero;
+    public float LastAimLength{get; private set;} = 0;
     public bool JustAttacked(){return InputManager.SpoonAttack.IsJustPressed();}
     public bool JustCharged(){return InputManager.ChargeSling.IsJustPressed();}
     public bool IsCharging(){return InputManager.ChargeSling.IsPressed();}

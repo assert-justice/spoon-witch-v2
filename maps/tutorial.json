@@ -39,7 +39,7 @@
 	"levelNamePattern": "Level_%idx",
 	"tutorialDesc": null,
 	"customCommands": [],
-	"flags": [],
+	"flags": ["IgnoreBackupSuggest"],
 	"defs": { "layers": [
 		{
 			"__type": "Entities",
@@ -227,7 +227,7 @@
 				{ "value": 3, "identifier": "Sand", "color": "#EAD4AA", "tile": null, "groupUid": 0 },
 				{ "value": 4, "identifier": "Wood", "color": "#733E39", "tile": null, "groupUid": 0 },
 				{ "value": 5, "identifier": "Water", "color": "#0099DB", "tile": null, "groupUid": 0 },
-				{ "value": 6, "identifier": "Wall", "color": "#5A6988", "tile": null, "groupUid": 0 }
+				{ "value": 6, "identifier": "ForceField", "color": "#68386C", "tile": null, "groupUid": 0 }
 			],
 			"intGridValuesGroups": [],
 			"autoRuleGroups": [],
@@ -537,7 +537,7 @@
 					"doc": null,
 					"__type": "String",
 					"uid": 11,
-					"type": "F_String",
+					"type": "F_Text",
 					"isArray": false,
 					"canBeNull": true,
 					"arrayMinLength": null,
@@ -746,9 +746,9 @@
 							"defUid": 10,
 							"px": [32,32],
 							"fieldInstances": [
-								{ "__identifier": "Command", "__type": "String", "__value": "tutorial:0;queue_music:SW Beach Theme", "__tile": null, "defUid": 11, "realEditorValues": [{
+								{ "__identifier": "Command", "__type": "String", "__value": "tutorial:0\nqueue_music:SW Beach Theme", "__tile": null, "defUid": 11, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["tutorial:0;queue_music:SW Beach Theme"]
+									"params": ["tutorial:0\\nqueue_music:SW Beach Theme"]
 								}] },
 								{ "__identifier": "single_use", "__type": "Bool", "__value": true, "__tile": null, "defUid": 17, "realEditorValues": [{
 									"id": "V_Bool",
@@ -987,20 +987,22 @@
 					"entityInstances": [
 						{
 							"__identifier": "Trigger",
-							"__grid": [1,5],
+							"__grid": [7,7],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FEE761",
 							"iid": "48095570-fa90-11f0-9f4c-9739cb3b4da0",
-							"width": 576,
+							"width": 192,
 							"height": 64,
 							"defUid": 10,
-							"px": [32,160],
+							"px": [224,224],
 							"fieldInstances": [
-								{ "__identifier": "Command", "__type": "String", "__value": "tutorial:1;queue_music:SW Crafting Theme", "__tile": null, "defUid": 11, "realEditorValues": [{
+								{ "__identifier": "Command", "__type": "String", "__value": "tutorial:1\nqueue_music:SW Crafting Theme\ndungeon:clear_rect:8b904480-fa90-11f0-a6b6-71e96942c3f7,2", "__tile": null, "defUid": 11, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["tutorial:1;queue_music:SW Crafting Theme"]
+									"params": [
+										"tutorial:1\\nqueue_music:SW Crafting Theme\\ndungeon:clear_rect:8b904480-fa90-11f0-a6b6-71e96942c3f7,2"
+									]
 								}] },
 								{ "__identifier": "single_use", "__type": "Bool", "__value": true, "__tile": null, "defUid": 17, "realEditorValues": [{
 									"id": "V_Bool",
@@ -1008,8 +1010,8 @@
 								}] },
 								{ "__identifier": "Filters", "__type": "String", "__value": "Player", "__tile": null, "defUid": 22, "realEditorValues": [] }
 							],
-							"__worldX": 32,
-							"__worldY": -160
+							"__worldX": 224,
+							"__worldY": -96
 						},
 						{
 							"__identifier": "Area",
@@ -1025,6 +1027,22 @@
 							"px": [608,96],
 							"fieldInstances": [],
 							"__worldX": 608,
+							"__worldY": -224
+						},
+						{
+							"__identifier": "Area",
+							"__grid": [8,3],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#D77643",
+							"iid": "8b904480-fa90-11f0-a6b6-71e96942c3f7",
+							"width": 128,
+							"height": 128,
+							"defUid": 20,
+							"px": [256,96],
+							"fieldInstances": [],
+							"__worldX": 256,
 							"__worldY": -224
 						}
 					]
@@ -1164,9 +1182,9 @@
 					"optionalRules": [],
 					"intGridCsv": [
 						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-						0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,
-						0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,
+						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,
+						6,6,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,6,0,0,6,0,0,0,0,0,0,0,6,0,0,0,0,0,
+						0,0,0,6,0,0,6,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,6,6,6,6,0,0,0,0,0,0,0,6,
 						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 					],
@@ -1572,10 +1590,10 @@
 							"defUid": 10,
 							"px": [96,64],
 							"fieldInstances": [
-								{ "__identifier": "Command", "__type": "String", "__value": "tutorial:bullets;dungeon:clear_rect:ea3e7550-fa90-11f0-9f4c-7720f00e9601,2;queue_music:SW Combat Theme (soft synth)", "__tile": null, "defUid": 11, "realEditorValues": [{
+								{ "__identifier": "Command", "__type": "String", "__value": "tutorial:bullets\ndungeon:clear_rect:ea3e7550-fa90-11f0-9f4c-7720f00e9601,2\nqueue_music:SW Combat Theme (soft synth)", "__tile": null, "defUid": 11, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"tutorial:bullets;dungeon:clear_rect:ea3e7550-fa90-11f0-9f4c-7720f00e9601,2;queue_music:SW Combat Theme (soft synth)"
+										"tutorial:bullets\\ndungeon:clear_rect:ea3e7550-fa90-11f0-9f4c-7720f00e9601,2\\nqueue_music:SW Combat Theme (soft synth)"
 									]
 								}] },
 								{ "__identifier": "single_use", "__type": "Bool", "__value": true, "__tile": null, "defUid": 17, "realEditorValues": [] },
