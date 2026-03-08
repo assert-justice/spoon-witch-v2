@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://dtcta1g1110d3"]
 
 [ext_resource type="Script" uid="uid://d38gh1yit7ght" path="res://Src/Entity/Projectile/SwProjectile.cs" id="1_ms78m"]
-[ext_resource type="Texture2D" uid="uid://cf2or4m3cuf64" path="res://assets/sprites/projectiles/sling_ammo.png" id="2_ms78m"]
+[ext_resource type="Texture2D" uid="uid://drpc236rb7uwq" path="res://assets/sprites/projectiles/sling_ammo_shot.png" id="2_ms78m"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hah6i"]
-radius = 9.0
+radius = 6.0
 
 [node name="SlingBullet" type="Area2D" unique_id=1530589230]
 texture_filter = 1
@@ -15,5 +15,4 @@ Whitelist = PackedStringArray("Player")
 shape = SubResource("CircleShape2D_hah6i")
 
 [node name="SlingBullet" type="Sprite2D" parent="." unique_id=148910143]
-scale = Vector2(4, 4)
 texture = ExtResource("2_ms78m")
