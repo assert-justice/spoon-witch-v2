@@ -171,7 +171,7 @@ script = ExtResource("6_f8067")
 
 [node name="SkipTutorials" type="CheckBox" parent="MenuHolder/OptionsMenu/VBox" unique_id=1166533514]
 layout_mode = 2
-text = "SkipTutorials"
+text = "Skip Tutorials"
 script = ExtResource("6_f8067")
 
 [node name="Audio" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=456206967]

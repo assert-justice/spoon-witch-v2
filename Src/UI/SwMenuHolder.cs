@@ -57,6 +57,7 @@ public partial class SwMenuHolder : Control
     }
     public void QueueMenu(string menuName)
     {
+        // GD.Print(menuName);
         NextMenuQueue.Enqueue(menuName);
     }
     public void Back()
@@ -64,7 +65,8 @@ public partial class SwMenuHolder : Control
         // Cannot back out of main menu
         if(MenuStack.Count <= 1) return;
         Pop();
-        SetMenuInternal();
+        QueueMenu(GetTop().Name);
+        // SetMenuInternal();
     }
     public void ToMainMenu()
     {
