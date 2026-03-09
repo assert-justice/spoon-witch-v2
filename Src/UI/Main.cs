@@ -12,6 +12,7 @@ public partial class Main : Control
 {
 	[Export] private PackedScene GameScene;
 	[Export] private AudioStream[] MusicTracks = [];
+	// [Export(PropertyHint.File, "*.txt")] private string TutorialsPath;
 	private static readonly Queue<string> MessageQueue = new();
 	private readonly Dictionary<string, AudioStream> MusicLookup = [];
 	private static Main Instance;
@@ -37,7 +38,8 @@ public partial class Main : Control
 		QueueMusic(MusicTracks[0]);
 		Instance = this;
 		SwFs fs = new();
-		if(!fs.TryReadFileRaw("res://tutorials.md", out string contents)) return;
+		// if(!fs.TryReadFileRaw(TutorialsPath, out string contents)) return;
+		string contents = Tutorial.TutorialText();
 		string id = "";
 		string title = "";
 		StringBuilder sb = new();

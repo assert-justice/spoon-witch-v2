@@ -81,7 +81,7 @@ def publish(cli: Cli):
 
 def build_and_publish(cli: Cli):
     build(cli)
-    publish(cli)
+    # publish(cli)
 
 def main():
     targets = get_targets()

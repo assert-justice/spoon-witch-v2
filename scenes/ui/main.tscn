@@ -81,6 +81,7 @@ grow_vertical = 2
 script = ExtResource("1_0ay0p")
 GameScene = ExtResource("2_t1dln")
 MusicTracks = [ExtResource("3_t1dln"), ExtResource("4_x68jn"), ExtResource("5_6ic3k"), ExtResource("6_hfsfw"), ExtResource("7_wweun"), ExtResource("8_rvf5f")]
+TutorialsPath = "res://tutorials/tutorials.txt"
 
 [node name="GameHolder" type="SubViewportContainer" parent="." unique_id=1418073324]
 process_mode = 1
