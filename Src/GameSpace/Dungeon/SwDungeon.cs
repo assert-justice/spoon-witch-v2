@@ -24,7 +24,10 @@ public partial class SwDungeon : Node2D
 	}
 	public static bool TryGetTerrainAtPos(Vector2 pos, out SwTerrainTypeRes res)
 	{
-		res =  Instance?.Terrain?.GetTileTerrain(new((int)pos.X / 32, (int)pos.Y / 32));
+		// Note: naively casting to int does not work here!
+		int ix = Mathf.FloorToInt(pos.X / 32);
+		int iy = Mathf.FloorToInt(pos.Y / 32);
+		res =  Instance?.Terrain?.GetTileTerrain(new(ix, iy));
 		return res is not null;
 	}
 	public override void _Ready()

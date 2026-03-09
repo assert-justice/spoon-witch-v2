@@ -65,16 +65,16 @@ public partial class SwHud : SwMenu
     {
         return false;
     }
-    public override void OnWake()
-    {
-        base.OnWake();
-        Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Hidden;
-    }
-    public override void OnSleep()
-    {
-        base.OnSleep();
-        Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Visible;
-    }
+    // public override void OnWake()
+    // {
+    //     base.OnWake();
+    //     Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Hidden;
+    // }
+    // public override void OnSleep()
+    // {
+    //     base.OnSleep();
+    //     Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Visible;
+    // }
     public void UpdatePlayer(SwPlayer player)
     {
         PlayerHealth.Value = Mathf.Clamp(player.GetHealth(), 0, player.MaxHealth);
@@ -90,11 +90,12 @@ public partial class SwHud : SwMenu
             PlayerMaxRoots.Value = rootSlot.Capacity;
         }
         // Update reticle
-        Reticle.Visible = player.StateManager.IsInState(SwPlayer.SwState.SlingCharging) ||
-            player.StateManager.IsInState(SwPlayer.SwState.SlingCharged) ||
-            player.Controls.Aim.LengthSquared() > SwConstants.EPSILON;
+        bool isCharged = player.StateManager.IsInState(SwPlayer.SwState.SlingCharged);
+        bool isCharging = player.StateManager.IsInState(SwPlayer.SwState.SlingCharging);
+        Reticle.Visible = isCharged || isCharging || player.Controls.Aim.LengthSquared() > SwConstants.EPSILON;
         if(!Reticle.Visible) return;
-        if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb) Reticle.Position = player.Controls.Aim * player.Controls.LastAimLength;
+        Reticle.Play(isCharged ? "spinning" : "default");
+        if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb) Reticle.Position = player.Controls.Aim * player.Controls.AimLength;
         else if(player.Controls.Aim == player.Controls.LastAim) Reticle.Position = player.Controls.Aim * 64;
         else Reticle.Position = player.GetLastVelocity().Normalized() * 64;
         Reticle.Position += GetViewportRect().Size * 0.5f;

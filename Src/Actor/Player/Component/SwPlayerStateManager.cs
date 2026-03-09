@@ -61,6 +61,7 @@ public class SwPlayerStateManager
     }
     public void QueueState(SwState state)
     {
+		if(IsInState(SwState.Dying)) return;
         StateMachine.QueueState(state);
     }
     public void SetLockout(float recoveryTime, float defaultTime = 0)

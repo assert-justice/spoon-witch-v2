@@ -70,6 +70,8 @@ public partial class Main : Control
 	public override void _PhysicsProcess(double delta)
 	{
 		while(MessageQueue.TryDequeue(out string message)) HandleMessage(message);
+		bool cursorVisible = !GetNode<SwHud>("MenuHolder/Hud").Visible && SwGlobal.InputMode == SwGlobal.SwInputMode.Kb;
+		Godot.Input.MouseMode = cursorVisible ? Godot.Input.MouseModeEnum.Visible : Godot.Input.MouseModeEnum.Hidden;
 		// GD.Print(Godot.Input.GetConnectedJoypads);
 	}
 	private void HandleMessage(string message)

@@ -22,9 +22,8 @@ public class SwPlayerEvoker
     public void StartSpoonAttack()
     {
         Hurtbox.IsEnabled = true;
-        // if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb) SpoonPivot.Rotation = Parent.GetLastAngleRounded();
-        // else 
-        SpoonPivot.Rotation = SwMath.SegmentAngle(Parent.Controls.LastAim.Angle(), 4);
+        if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb) SpoonPivot.Rotation = Parent.GetLastAngleRounded();
+        else SpoonPivot.Rotation = SwMath.SegmentAngle(Parent.Controls.LastAim.Angle(), 4);
         float damageMul = SwGlobal.GetSettings().DamageDealtMultiplier * Parent.SpoonDamageMul;
         Hurtbox.DamageList = [..Parent.SpoonDamages.Select(d => new SwDamage(d.Type, d.Value * damageMul))];
     }

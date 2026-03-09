@@ -37,7 +37,9 @@ public class SwPlayerAnimator(SwPlayer parent)
     }
     public void PlayBodyAnimFaced(string animName)
     {
-        int facingIdx = SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4);
+        int facingIdx = SwGlobal.InputMode == SwGlobal.SwInputMode.Kb ? Parent.GetLastFacing4() 
+            : SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4);
+        // int facingIdx = SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4);
         PlayBodyAnim(animName + "_" + GetFacing(facingIdx));
         // PlayBodyAnim(animName + "_" + GetFacing(Parent.GetLastFacing4()));
     }
@@ -104,15 +106,5 @@ public class SwPlayerAnimator(SwPlayer parent)
     public void PlayDeathAnim()
     {
         BodySprite.Rotation = SwConstants.HALF_PI;
-    }
-    public void UpdateReticle()
-    {
-        ReticleVisible = Parent.StateManager.IsInState(SwPlayer.SwState.SlingCharging) ||
-            Parent.StateManager.IsInState(SwPlayer.SwState.SlingCharged) ||
-            Parent.Controls.Aim.LengthSquared() > SwConstants.EPSILON;
-        if(!ReticleVisible) return;
-        if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb) ReticlePos = Parent.Controls.Aim * Parent.Controls.LastAimLength;
-        else if(Parent.Controls.Aim == Parent.Controls.LastAim) ReticlePos = Parent.Controls.Aim * 64;
-        else ReticlePos = Parent.GetLastVelocity().Normalized() * 64;
     }
 }

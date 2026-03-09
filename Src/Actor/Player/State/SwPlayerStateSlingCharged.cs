@@ -1,3 +1,4 @@
+using SW.Src.Global;
 using SW.Src.Utils;
 using static SW.Src.Actor.Player.SwPlayer;
 
@@ -20,7 +21,8 @@ public class SwPlayerStateSlingCharged(SwPlayer parent) :
     public override void Tick(float dt)
     {
         Parent.Velocity = Parent.Controls.Move() * Parent.Speed * Parent.SlingMovementSpeedMul;
-        Parent.Animator.PlayBodyAnimDefault(1);
+        // Parent.Animator.PlayBodyAnimDefault(1);
+        Parent.Animator.PlayBodyAnimDefault(1, SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4));
         if (Parent.Controls.JustAttacked())
         {
             // Fire!
