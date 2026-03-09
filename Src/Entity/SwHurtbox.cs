@@ -51,6 +51,12 @@ public partial class SwHurtbox : Area2D
     }
     private void OnNodeEnteredInternal(Node2D node)
     {
+        // GD.Print(node.);
+        // if(node is CollisionObject2D co)
+        // {
+        //     uint layer = co.CollisionLayer;
+        //     GD.Print(GetParent().Name, " ", co, " ", layer);
+        // }
         if(!IsTarget(node)) return;
         TargetsInArea.Add(node);
         OnNodeEntered(node);

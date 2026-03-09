@@ -65,7 +65,6 @@ public partial class SwMenu : Control, ISwUiNode
                 slider.Value += slider.Step;
             }
         }
-        GD.Print(InputManager.UiMove.GetValue());
     }
     private bool TryGetCurrentFocus(out Control focusPoint)
     {

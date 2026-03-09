@@ -34,7 +34,7 @@ metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
 [sub_resource type="Resource" id="Resource_0v4n0"]
 script = ExtResource("3_a8h1h")
 Texture = ExtResource("7_7vtna")
-IsSolid = true
+MovementMul = 0.0
 metadata/_custom_type_script = "uid://bt4nfl4crtwpi"
 
 [sub_resource type="Resource" id="Resource_8o8f8"]

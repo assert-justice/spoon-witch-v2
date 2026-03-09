@@ -3,6 +3,7 @@ using System.Linq;
 using Godot;
 using SW.Src.Entity;
 using SW.Src.GameSpace.DualGrid;
+using SW.Src.GameSpace.Terrain;
 using SW.Src.Global;
 using SW.Src.Utils;
 
@@ -20,6 +21,11 @@ public partial class SwDungeon : Node2D
 	public static void Message(string message)
 	{
 		Instance.MessageQueue.Enqueue(message);
+	}
+	public static bool TryGetTerrainAtPos(Vector2 pos, out SwTerrainTypeRes res)
+	{
+		res =  Instance?.Terrain?.GetTileTerrain(new((int)pos.X / 32, (int)pos.Y / 32));
+		return res is not null;
 	}
 	public override void _Ready()
 	{

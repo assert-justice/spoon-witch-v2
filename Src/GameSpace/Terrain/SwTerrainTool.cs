@@ -16,25 +16,25 @@ namespace SW.Src.GameSpace.Terrain;
 	{
 		TerrainData.TerrainTypes = TerrainTypes;
 		// Base tile set
-		TileSet tileSet = new()
-		{
-			TileSize = new(TileWidth, TileHeight)
-		};
-		TerrainData.BaseTileSet = tileSet;
-		var atlas = SwTerrainUtils.AddAtlas(tileSet, 1, 1, out _);
-		SwTerrainUtils.AddTile(atlas, Vector2I.Zero);
+		// TileSet tileSet = new()
+		// {
+		// 	TileSize = new(TileWidth, TileHeight)
+		// };
+		// TerrainData.BaseTileSet = tileSet;
+		// var atlas = SwTerrainUtils.AddAtlas(tileSet, 1, 1, out _);
+		// SwTerrainUtils.AddTile(atlas, Vector2I.Zero);
 		// Collision tile set
-		tileSet = new()
-		{
-			TileSize = new(TileWidth, TileHeight)
-		};
-		TerrainData.CollisionTileSet = tileSet;
-		tileSet.AddPhysicsLayer();
-		atlas = SwTerrainUtils.AddAtlas(tileSet, 2, 1, out _);
-		SwTerrainUtils.AddTile(atlas, Vector2I.Zero);
-		SwTerrainUtils.AddTile(atlas, Vector2I.Right, true);
+		// tileSet = new()
+		// {
+		// 	TileSize = new(TileWidth, TileHeight)
+		// };
+		// TerrainData.CollisionTileSet = tileSet;
+		// tileSet.AddPhysicsLayer();
+		// atlas = SwTerrainUtils.AddAtlas(tileSet, 2, 1, out _);
+		// SwTerrainUtils.AddTile(atlas, Vector2I.Zero);
+		// SwTerrainUtils.AddTile(atlas, Vector2I.Right, true);
 		// Visual tile set
-		tileSet = new()
+		TileSet tileSet = new()
 		{
 			TileSize = new(TileWidth, TileHeight)
 		};
@@ -46,7 +46,7 @@ namespace SW.Src.GameSpace.Terrain;
 		{
 			// init atlas
 			var texture = terrain.Texture;
-			atlas = SwTerrainUtils.AddAtlas(tileSet, texture, out int atlasId);
+			var atlas = SwTerrainUtils.AddAtlas(tileSet, texture, out int atlasId);
 			var image = texture.GetImage();
 			int width = texture.GetWidth() / TileWidth;
 			int height = texture.GetHeight() / TileHeight;

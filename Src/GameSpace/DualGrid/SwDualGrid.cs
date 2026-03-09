@@ -47,7 +47,7 @@ public partial class SwDualGrid : TileMapLayer
 		{
 			CollisionLayer = new()
 			{
-				Name = "CollisionLayer"
+				Name = "CollisionLayer",
 			};
 			AddChild(CollisionLayer);
 			// CollisionLayer.Owner = GetTree().Root;
@@ -188,41 +188,65 @@ public partial class SwDualGrid : TileMapLayer
 		TileCoordLookup = coordLookup;
 		return coordLookup;
 	}
-	private void Update()
-	{
-		if(!TryGetDisplayLayer(CurrentLayer_, out var layer)) return;
-		var updated = GetUsedCells();
-		if(updated.Count == 0)return;
+	// private void Update()
+	// {
+	// 	if(!TryGetDisplayLayer(CurrentLayer_, out var layer)) return;
+	// 	var updated = GetUsedCells();
+	// 	if(updated.Count == 0)return;
 		// SwStatic.Log($"Updating {updated.Count} tiles");
-		if (EraseMode)
+		// if (EraseMode)
+		// {
+		// 	foreach (var cellPos in updated)
+		// 	{
+		// 		layer.ClearTile(cellPos);
+		// 		if(IsSolid(cellPos)) CollisionLayer.SetCell(cellPos, 0, Vector2I.Right);
+		// 		else CollisionLayer.SetCell(cellPos);
+		// 	}
+		// }
+		// else
+		// {
+		// 	foreach (var cellPos in updated)
+		// 	{
+		// 		layer.SetTile(cellPos, CurrentTerrainType_);
+		// 		if(IsSolid(cellPos)) CollisionLayer.SetCell(cellPos, 0, Vector2I.Right);
+		// 		else CollisionLayer.SetCell(cellPos);
+		// 	}
+		// }
+	// 	Clear();
+	// }
+	// public bool IsSolid(Vector2I tilePos)
+	// {
+	// 	foreach (var layer in GetLayersR())
+	// 	{
+	// 		int tileId = layer.GetTileId(tilePos);
+	// 		if(tileId == -1) continue;
+	// 		return TerrainData.TerrainTypes[tileId].GetIsSolid();
+	// 	}
+	// 	return false;
+	// }
+	public int GetPhysicsTileIdx(Vector2I tilePos)
+	{
+		int tileIdx = -1;
+		foreach (var layer in GetLayersR())
 		{
-			foreach (var cellPos in updated)
-			{
-				layer.ClearTile(cellPos);
-				if(IsSolid(cellPos)) CollisionLayer.SetCell(cellPos, 0, Vector2I.Right);
-				else CollisionLayer.SetCell(cellPos);
-			}
+			int tileId = layer.GetTileId(tilePos);
+			if(tileId == -1) continue;
+			if(TerrainData.TerrainTypes[tileId].IsSolid) tileIdx = 0;
+			else if(TerrainData.TerrainTypes[tileId].MovementMul == 0) tileIdx = 1;
+			break;
 		}
-		else
-		{
-			foreach (var cellPos in updated)
-			{
-				layer.SetTile(cellPos, CurrentTerrainType_);
-				if(IsSolid(cellPos)) CollisionLayer.SetCell(cellPos, 0, Vector2I.Right);
-				else CollisionLayer.SetCell(cellPos);
-			}
-		}
-		Clear();
+		// GD.Print(tileIdx);
+		return tileIdx;
 	}
-	public bool IsSolid(Vector2I tilePos)
+	public SwTerrainTypeRes GetTileTerrain(Vector2I tilePos)
 	{
 		foreach (var layer in GetLayersR())
 		{
 			int tileId = layer.GetTileId(tilePos);
 			if(tileId == -1) continue;
-			return TerrainData.TerrainTypes[tileId].GetIsSolid();
+			return TerrainData.TerrainTypes[tileId];
 		}
-		return false;
+		return null;
 	}
 	public bool TryGetAtlasCoords((bool, bool, bool, bool) mask, int sourceId, out Vector2I atlasCoords)
 	{
@@ -251,7 +275,10 @@ public partial class SwDualGrid : TileMapLayer
 		foreach (var tilePos in tilePositions)
 		{
 			layer.SetTile(tilePos, terrainTypeIdx);
-			if(IsSolid(tilePos)) CollisionLayer.SetCell(tilePos, 0, Vector2I.Right);
+			// CollisionLayer.SetCell(tilePos, 0, Vector2I.Right * collisionTileIdx)
+			// if(IsSolid(tilePos)) CollisionLayer.SetCell(tilePos, 0, Vector2I.Right);
+			int collisionTileIdx = GetPhysicsTileIdx(tilePos);
+			if(collisionTileIdx >= 0) CollisionLayer.SetCell(tilePos, 0, Vector2I.Right * collisionTileIdx);
 			else CollisionLayer.SetCell(tilePos);
 		}
 	}
@@ -277,7 +304,10 @@ public partial class SwDualGrid : TileMapLayer
 		foreach (var tilePos in tilePositions)
 		{
 			layer.ClearTile(tilePos);
-			if(IsSolid(tilePos)) CollisionLayer.SetCell(tilePos, 0, Vector2I.Right);
+			// if(IsSolid(tilePos)) CollisionLayer.SetCell(tilePos, 0, Vector2I.Right);
+			// else CollisionLayer.SetCell(tilePos);
+			int collisionTileIdx = GetPhysicsTileIdx(tilePos);
+			if(collisionTileIdx >= 0) CollisionLayer.SetCell(tilePos, 0, Vector2I.Right * collisionTileIdx);
 			else CollisionLayer.SetCell(tilePos);
 		}
 	}
