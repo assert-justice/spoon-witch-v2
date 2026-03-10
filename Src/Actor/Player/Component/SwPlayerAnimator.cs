@@ -37,10 +37,10 @@ public class SwPlayerAnimator(SwPlayer parent)
     }
     public void PlayBodyAnimFaced(string animName)
     {
-        int facingIdx = SwGlobal.InputMode == SwGlobal.SwInputMode.Kb ? Parent.GetLastFacing4() 
-            : SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4);
+        // int facingIdx = SwGlobal.InputMode == SwGlobal.SwInputMode.Kb ? Parent.GetLastFacing4() 
+        //     : SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4);
         // int facingIdx = SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4);
-        PlayBodyAnim(animName + "_" + GetFacing(facingIdx));
+        PlayBodyAnim(animName + "_" + GetFacing(Parent.Controls.FacingIdx));
         // PlayBodyAnim(animName + "_" + GetFacing(Parent.GetLastFacing4()));
     }
     public void PlayBodyAnimFaced(string animName, int hands)

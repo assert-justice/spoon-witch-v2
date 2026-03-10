@@ -10,11 +10,24 @@ public class SwPlayerControls : ISwPoll
     private readonly SwInputBuffer InputBuffer;
     private readonly SwInputManager InputManager;
     private readonly SwPlayer Parent;
+    public int FacingIdx{get; private set;} = 0;
+    public int LastAimFacingIdx{get; private set;} = 0;
+    public int LastMoveFacingIdx{get; private set;} = 0;
     public SwPlayerControls(SwPlayer parent)
     {
         Parent = parent;
         InputManager = SwGlobal.GetInputManager();
         InputBuffer = new([]);
+    }
+    private void CalculateFacing()
+    {
+        LastMoveFacingIdx = SwMath.RoundAngleToInt(Parent.GetLastVelocity().Angle(), 4);
+		LastAimFacingIdx = SwMath.RoundAngleToInt(LastAim.Angle(), 4);
+		FacingIdx = LastAimFacingIdx;
+		if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb && SwGlobal.GetSettings().AimSpoonWithKeyboard)
+		{
+			FacingIdx = LastMoveFacingIdx;
+		}
     }
     public SwInputBuffer GetInputBuffer(){return InputBuffer;}
 
@@ -48,6 +61,7 @@ public class SwPlayerControls : ISwPoll
             LastAim = Aim;
         }
         else if(move.LengthSquared() > SwConstants.EPSILON) LastAim = move.Normalized();
+        CalculateFacing();
         // IsMoving_.Value = InputManager.Move.GetValue().LengthSquared() > SwConstants.EPSILON;
     }
     public bool IsMoving(){return InputManager.Move.GetValue().LengthSquared() > SwConstants.EPSILON;}
@@ -57,7 +71,12 @@ public class SwPlayerControls : ISwPoll
     public float AimLength{get; private set;} = 0;
     public bool JustAttacked(){return InputManager.SpoonAttack.IsJustPressed();}
     public bool JustCharged(){return InputManager.ChargeSling.IsJustPressed();}
-    public bool IsCharging(){return InputManager.ChargeSling.IsPressed();}
+    public bool IsCharging()
+    {
+        bool isCharging = InputManager.ChargeSling.IsPressed();
+        if(SwGlobal.InputMode == SwGlobal.SwInputMode.XBox) isCharging |= Aim.LengthSquared() > SwConstants.EPSILON;
+        return isCharging;
+    }
     public bool IsChargingJustReleased(){return InputManager.ChargeSling.IsJustReleased();}
     public bool JustDodged(){return InputManager.Dodge.IsJustPressed();}
     public bool JustUsedItem(){return InputManager.UseItem.IsJustPressed();}

@@ -5,16 +5,19 @@ namespace SW.Src.Ui.Menu;
 
 public partial class SwOptionsMenu : SwMenu
 {
-    private SwCheckBox FullscreenCheckBox;
-    private SwCheckBox SkipTutorialsCheckBox;
+    // private SwCheckBox FullscreenCheckBox;
+    // private SwCheckBox SkipTutorialsCheckBox;
     public override void _Ready()
     {
         base._Ready();
-        FullscreenCheckBox = GetNode<SwCheckBox>("VBox/Fullscreen");
-        FullscreenCheckBox.SetOnWakeFn(()=>SwGlobal.IsFullscreen());
-        FullscreenCheckBox.SetOnChangeFn(SwGlobal.SetFullscreen);
-        SkipTutorialsCheckBox = GetNode<SwCheckBox>("VBox/SkipTutorials");
-        SkipTutorialsCheckBox.SetOnWakeFn(()=>SwGlobal.GetSettings().SkipTutorials);
-        SkipTutorialsCheckBox.SetOnChangeFn(val => SwGlobal.GetSettings().SkipTutorials = val);
+        var checkbox = GetNode<SwCheckBox>("PanelContainer/VBox/Fullscreen");
+        checkbox.SetOnWakeFn(()=>SwGlobal.IsFullscreen());
+        checkbox.SetOnChangeFn(SwGlobal.SetFullscreen);
+        checkbox = GetNode<SwCheckBox>("PanelContainer/VBox/SkipTutorials");
+        checkbox.SetOnWakeFn(()=>SwGlobal.GetSettings().SkipTutorials);
+        checkbox.SetOnChangeFn(val => SwGlobal.GetSettings().SkipTutorials = val);
+        checkbox = GetNode<SwCheckBox>("PanelContainer/VBox/SpoonAimMode");
+        checkbox.SetOnWakeFn(()=>SwGlobal.GetSettings().AimSpoonWithKeyboard);
+        checkbox.SetOnChangeFn(val => SwGlobal.GetSettings().AimSpoonWithKeyboard = val);
     }
 }

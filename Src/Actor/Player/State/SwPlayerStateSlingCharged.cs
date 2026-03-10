@@ -22,7 +22,8 @@ public class SwPlayerStateSlingCharged(SwPlayer parent) :
     {
         Parent.Velocity = Parent.Controls.Move() * Parent.Speed * Parent.SlingMovementSpeedMul;
         // Parent.Animator.PlayBodyAnimDefault(1);
-        Parent.Animator.PlayBodyAnimDefault(1, SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4));
+        // Parent.Animator.PlayBodyAnimDefault(1, SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4));
+        Parent.Animator.PlayBodyAnimDefault(1, Parent.Controls.LastAimFacingIdx);
         if (Parent.Controls.JustAttacked())
         {
             // Fire!

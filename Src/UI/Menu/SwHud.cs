@@ -26,11 +26,11 @@ public partial class SwHud : SwMenu
     private readonly SwDirtyWrapper<float> PlayerMaxAmmo = new(5);
     public override void _Ready()
     {
-        HealthLabel = GetNode<Label>("VBox/HBox/Health");
-        AmmoLabel = GetNode<Label>("VBox/HBox/Ammo");
-        RootLabel = GetNode<Label>("VBox/HBox/Roots");
-        MessageContainer = GetNode<VBoxContainer>("VBox/Messages");
-        MessageContainer = GetNode<VBoxContainer>("VBox/Messages");
+        HealthLabel = GetNode<Label>("VBox/PanelContainer/HBox/Health");
+        AmmoLabel = GetNode<Label>("VBox/PanelContainer/HBox/Ammo");
+        RootLabel = GetNode<Label>("VBox/PanelContainer/HBox/Roots");
+        MessageContainer = GetNode<VBoxContainer>("VBox/PanelContainer/Messages");
+        MessageContainer = GetNode<VBoxContainer>("VBox/PanelContainer/Messages");
         Reticle = GetNode<AnimatedSprite2D>("Reticle");
         SwStatic.FreeChildren(MessageContainer);
     }

@@ -14,9 +14,17 @@ public class SwPlayerStateAttacking(SwPlayer parent) :
 		Parent.Animator.PlaySpoonAnim();
 		Parent.AudioManager.PlaySpoonSound();
 		Parent.StateManager.SetLockout(0.25f, 0.25f);
-		FacingIdx = SwGlobal.InputMode == SwGlobal.SwInputMode.Kb ? 
-			SwMath.RoundAngleToInt(Parent.GetLastVelocity().Angle(), 4) :
-			SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4);
+		FacingIdx = Parent.Controls.FacingIdx;
+		// int lastMoveIdx = SwMath.RoundAngleToInt(Parent.GetLastVelocity().Angle(), 4);
+		// int lastAimIdx = SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4);
+		// FacingIdx = lastAimIdx;
+		// if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb && SwGlobal.GetSettings().AimSpoonWithKeyboard)
+		// {
+		// 	FacingIdx = lastMoveIdx;
+		// }
+		// FacingIdx = SwGlobal.InputMode == SwGlobal.SwInputMode.Kb ? 
+		// 	SwMath.RoundAngleToInt(Parent.GetLastVelocity().Angle(), 4) :
+		// 	SwMath.RoundAngleToInt(Parent.Controls.LastAim.Angle(), 4);
 	}
 	public override void ExitState(SwState lastState)
 	{

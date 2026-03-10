@@ -81,7 +81,6 @@ grow_vertical = 2
 script = ExtResource("1_0ay0p")
 GameScene = ExtResource("2_t1dln")
 MusicTracks = [ExtResource("3_t1dln"), ExtResource("4_x68jn"), ExtResource("5_6ic3k"), ExtResource("6_hfsfw"), ExtResource("7_wweun"), ExtResource("8_rvf5f")]
-TutorialsPath = "res://tutorials/tutorials.txt"
 
 [node name="GameHolder" type="SubViewportContainer" parent="." unique_id=1418073324]
 process_mode = 1
@@ -133,6 +132,10 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Embark"
 
+[node name="Controls" type="Button" parent="MenuHolder/MainMenu/VBox" unique_id=511995422]
+layout_mode = 2
+text = "Controls"
+
 [node name="Options" type="Button" parent="MenuHolder/MainMenu/VBox" unique_id=819568292]
 layout_mode = 2
 text = "Options"
@@ -146,7 +149,6 @@ layout_mode = 2
 text = "Quit"
 
 [node name="OptionsMenu" type="HBoxContainer" parent="MenuHolder" unique_id=1139717682]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -156,39 +158,53 @@ grow_vertical = 2
 alignment = 1
 script = ExtResource("5_aain1")
 
-[node name="VBox" type="VBoxContainer" parent="MenuHolder/OptionsMenu" unique_id=670519201]
+[node name="PanelContainer" type="PanelContainer" parent="MenuHolder/OptionsMenu" unique_id=1914001157]
 layout_mode = 2
+size_flags_vertical = 4
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/OptionsMenu/PanelContainer" unique_id=670519201]
+layout_mode = 2
+size_flags_vertical = 4
 alignment = 1
 
-[node name="Title" type="Label" parent="MenuHolder/OptionsMenu/VBox" unique_id=710192260]
+[node name="Title" type="Label" parent="MenuHolder/OptionsMenu/PanelContainer/VBox" unique_id=710192260]
 layout_mode = 2
 text = "Options"
 horizontal_alignment = 1
 
-[node name="Fullscreen" type="CheckBox" parent="MenuHolder/OptionsMenu/VBox" unique_id=613830937]
+[node name="Fullscreen" type="CheckBox" parent="MenuHolder/OptionsMenu/PanelContainer/VBox" unique_id=613830937]
 layout_mode = 2
 text = "Fullscreen"
 script = ExtResource("6_f8067")
 
-[node name="SkipTutorials" type="CheckBox" parent="MenuHolder/OptionsMenu/VBox" unique_id=1166533514]
+[node name="SkipTutorials" type="CheckBox" parent="MenuHolder/OptionsMenu/PanelContainer/VBox" unique_id=1166533514]
 layout_mode = 2
 text = "Skip Tutorials"
 script = ExtResource("6_f8067")
 
-[node name="Audio" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=456206967]
+[node name="SpoonAimMode" type="CheckBox" parent="MenuHolder/OptionsMenu/PanelContainer/VBox" unique_id=34187779]
+layout_mode = 2
+text = "Aim Spoon With Keyboard"
+script = ExtResource("6_f8067")
+
+[node name="Controls" type="Button" parent="MenuHolder/OptionsMenu/PanelContainer/VBox" unique_id=1939523156]
+layout_mode = 2
+text = "Controls"
+
+[node name="Audio" type="Button" parent="MenuHolder/OptionsMenu/PanelContainer/VBox" unique_id=456206967]
 layout_mode = 2
 text = "Audio"
 
-[node name="Accessibility" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=360409152]
+[node name="Accessibility" type="Button" parent="MenuHolder/OptionsMenu/PanelContainer/VBox" unique_id=360409152]
 layout_mode = 2
 text = "Accessibility"
 
-[node name="Debug" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=1740774532]
+[node name="Debug" type="Button" parent="MenuHolder/OptionsMenu/PanelContainer/VBox" unique_id=1740774532]
 visible = false
 layout_mode = 2
 text = "Debug"
 
-[node name="Back" type="Button" parent="MenuHolder/OptionsMenu/VBox" unique_id=1398029019]
+[node name="Back" type="Button" parent="MenuHolder/OptionsMenu/PanelContainer/VBox" unique_id=1398029019]
 layout_mode = 2
 text = "Back"
 
@@ -488,6 +504,49 @@ alignment = 1
 layout_mode = 2
 text = "Back"
 
+[node name="Controls" type="HBoxContainer" parent="MenuHolder" unique_id=2030628320]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_02nsg")
+
+[node name="VBox" type="VBoxContainer" parent="MenuHolder/Controls" unique_id=846342679]
+layout_mode = 2
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MenuHolder/Controls/VBox" unique_id=35441385]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuHolder/Controls/VBox/PanelContainer" unique_id=240277273]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MenuHolder/Controls/VBox/PanelContainer/VBoxContainer" unique_id=1925686735]
+layout_mode = 2
+text = "Controls"
+horizontal_alignment = 1
+
+[node name="Body" type="Label" parent="MenuHolder/Controls/VBox/PanelContainer/VBoxContainer" unique_id=1180553857]
+layout_mode = 2
+text = "Move: WASD,	 Left Stick
+Aim:	 Mouse, Right Stick
+Spoon Attack:	 Left Mouse Button, 	X/Right Bumper
+Charge Sling (hold): 	Right Mouse Button, 	Right Trigger
+Fire Sling (when charged):	Left Mouse Button	X/Right Bumper
+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuHolder/Controls/VBox" unique_id=1765043680]
+layout_mode = 2
+alignment = 1
+
+[node name="Back" type="Button" parent="MenuHolder/Controls/VBox/HBoxContainer" unique_id=374359761]
+layout_mode = 2
+text = "Back"
+
 [node name="Tutorial" type="HBoxContainer" parent="MenuHolder" unique_id=958666500]
 visible = false
 layout_mode = 1
@@ -640,39 +699,8 @@ text = "Main Menu"
 layout_mode = 2
 text = "Quit"
 
-[node name="GameOver2" type="HBoxContainer" parent="MenuHolder" unique_id=1668431624]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-script = ExtResource("3_02nsg")
-
-[node name="VBox" type="VBoxContainer" parent="MenuHolder/GameOver2" unique_id=1977331095]
-layout_mode = 2
-alignment = 1
-
-[node name="Title" type="Label" parent="MenuHolder/GameOver2/VBox" unique_id=181699110]
-layout_mode = 2
-text = "Game Over"
-horizontal_alignment = 1
-
-[node name="Restart" type="Button" parent="MenuHolder/GameOver2/VBox" unique_id=1904096523]
-layout_mode = 2
-text = "Restart"
-
-[node name="MainMenu" type="Button" parent="MenuHolder/GameOver2/VBox" unique_id=1036485249]
-layout_mode = 2
-text = "Main Menu"
-
-[node name="Quit" type="Button" parent="MenuHolder/GameOver2/VBox" unique_id=2015261809]
-layout_mode = 2
-text = "Quit"
-
 [node name="Hud" type="HBoxContainer" parent="MenuHolder" unique_id=269682189 groups=["Hud"]]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -684,37 +712,40 @@ script = ExtResource("5_7n028")
 [node name="VBox" type="VBoxContainer" parent="MenuHolder/Hud" unique_id=196462009]
 layout_mode = 2
 
-[node name="HBox" type="HBoxContainer" parent="MenuHolder/Hud/VBox" unique_id=383093858]
+[node name="PanelContainer" type="PanelContainer" parent="MenuHolder/Hud/VBox" unique_id=168200124]
 layout_mode = 2
 
-[node name="Health" type="Label" parent="MenuHolder/Hud/VBox/HBox" unique_id=696996745]
+[node name="HBox" type="HBoxContainer" parent="MenuHolder/Hud/VBox/PanelContainer" unique_id=383093858]
+layout_mode = 2
+
+[node name="Health" type="Label" parent="MenuHolder/Hud/VBox/PanelContainer/HBox" unique_id=696996745]
 layout_mode = 2
 text = "Health"
 
-[node name="Pad" type="Label" parent="MenuHolder/Hud/VBox/HBox" unique_id=1249226877]
+[node name="Pad" type="Label" parent="MenuHolder/Hud/VBox/PanelContainer/HBox" unique_id=1249226877]
 layout_mode = 2
 text = "---"
 
-[node name="Ammo" type="Label" parent="MenuHolder/Hud/VBox/HBox" unique_id=1670458026]
+[node name="Ammo" type="Label" parent="MenuHolder/Hud/VBox/PanelContainer/HBox" unique_id=1670458026]
 layout_mode = 2
 text = "Ammo"
 
-[node name="Pad2" type="Label" parent="MenuHolder/Hud/VBox/HBox" unique_id=1954094813]
+[node name="Pad2" type="Label" parent="MenuHolder/Hud/VBox/PanelContainer/HBox" unique_id=1954094813]
 layout_mode = 2
 text = "---"
 
-[node name="Roots" type="Label" parent="MenuHolder/Hud/VBox/HBox" unique_id=357095965]
+[node name="Roots" type="Label" parent="MenuHolder/Hud/VBox/PanelContainer/HBox" unique_id=357095965]
 layout_mode = 2
 text = "Roots"
 
-[node name="Messages" type="VBoxContainer" parent="MenuHolder/Hud/VBox" unique_id=1572130743]
+[node name="Messages" type="VBoxContainer" parent="MenuHolder/Hud/VBox/PanelContainer" unique_id=1572130743]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MenuHolder/Hud/VBox/Messages" unique_id=631944528]
+[node name="Label" type="Label" parent="MenuHolder/Hud/VBox/PanelContainer/Messages" unique_id=631944528]
 layout_mode = 2
 text = "- Message Here"
 
-[node name="Label2" type="Label" parent="MenuHolder/Hud/VBox/Messages" unique_id=326133734]
+[node name="Label2" type="Label" parent="MenuHolder/Hud/VBox/PanelContainer/Messages" unique_id=326133734]
 layout_mode = 2
 text = "- Another Message Here"
 

@@ -22,8 +22,9 @@ public class SwPlayerEvoker
     public void StartSpoonAttack()
     {
         Hurtbox.IsEnabled = true;
-        if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb) SpoonPivot.Rotation = Parent.GetLastAngleRounded();
-        else SpoonPivot.Rotation = SwMath.SegmentAngle(Parent.Controls.LastAim.Angle(), 4);
+        SpoonPivot.Rotation = Parent.Controls.FacingIdx * SwConstants.HALF_PI;
+        // if(SwGlobal.InputMode == SwGlobal.SwInputMode.Kb) SpoonPivot.Rotation = Parent.GetLastAngleRounded();
+        // else SpoonPivot.Rotation = SwMath.SegmentAngle(Parent.Controls.LastAim.Angle(), 4);
         float damageMul = SwGlobal.GetSettings().DamageDealtMultiplier * Parent.SpoonDamageMul;
         Hurtbox.DamageList = [..Parent.SpoonDamages.Select(d => new SwDamage(d.Type, d.Value * damageMul))];
     }
@@ -45,9 +46,9 @@ public class SwPlayerEvoker
             return;
         }
         var bullet = Parent.SlingBulletScene.Instantiate<SwProjectile>();
-        var aim = Parent.Controls.Aim;
-        if(aim.LengthSquared() < SwConstants.EPSILON) aim = Parent.GetLastVelocity().Normalized();
-        bullet.Init(Parent.GetParent(), aim * Parent.SlingBulletSpeed, Parent.Position);
+        // var aim = Parent.Controls.Aim;
+        // if(aim.LengthSquared() < SwConstants.EPSILON) aim = Parent.GetLastVelocity().Normalized();
+        bullet.Init(Parent.GetParent(), Parent.Controls.LastAim * Parent.SlingBulletSpeed, Parent.Position);
         float damageMul = SwGlobal.GetSettings().DamageDealtMultiplier * Parent.SpoonDamageMul;
         bullet.DamageList = [..Parent.SlingDamages.Select(d => new SwDamage(d.Type, d.Value * damageMul))];
     }

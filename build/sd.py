@@ -70,18 +70,16 @@ def build(cli: Cli):
     command = f"godot --headless --export-release {target} {get_filepath(cli)}"
     # print(command)
     cli.run(command.split(" "))
-    pass
 
 def publish(cli: Cli):
     target = cli.data["target"]
     # butler push directory user/game:channel
     command = f"butler push {get_directory(cli)} {get_user(cli)}/{get_project_web_name(cli)}:{target}"
     cli.run(command.split(" "))
-    pass
 
 def build_and_publish(cli: Cli):
     build(cli)
-    # publish(cli)
+    publish(cli)
 
 def main():
     targets = get_targets()
@@ -94,5 +92,6 @@ def main():
             cli.data["target"] = target
             build_and_publish(cli)
         return
+
 if __name__ == "__main__":
     main()
