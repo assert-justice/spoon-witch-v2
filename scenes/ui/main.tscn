@@ -187,6 +187,11 @@ layout_mode = 2
 text = "Aim Spoon With Keyboard"
 script = ExtResource("6_f8067")
 
+[node name="SlingChargeMode" type="CheckBox" parent="MenuHolder/OptionsMenu/PanelContainer/VBox" unique_id=467859849]
+layout_mode = 2
+text = "Auto Charge With Gamepad"
+script = ExtResource("6_f8067")
+
 [node name="Controls" type="Button" parent="MenuHolder/OptionsMenu/PanelContainer/VBox" unique_id=1939523156]
 layout_mode = 2
 text = "Controls"

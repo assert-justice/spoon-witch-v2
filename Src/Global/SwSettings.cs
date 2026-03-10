@@ -16,6 +16,7 @@ public class SwSettings
     public float DamageDealtMultiplier = 1;
     public bool SkipTutorials = false;
     public bool AimSpoonWithKeyboard = false;
+    public bool AutoChargeSlingWithGamepad = true;
     // Debug settings
     public float MinPitchShift = 1f;
     public float MaxPitchShift = 1f;
@@ -35,6 +36,7 @@ public class SwSettings
         if(db.TryGetBool("pause_on_submenu", out b))PauseOnSubmenu = b;
         if(db.TryGetBool("skip_tutorials", out b))SkipTutorials = b;
         if(db.TryGetBool("aim_spoon_with_keyboard", out b))AimSpoonWithKeyboard = b;
+        if(db.TryGetBool("auto_charge_sling_with_gamepad", out b))AutoChargeSlingWithGamepad = b;
         if(db.TryGetNumber("game_speed", out d))GameSpeed = d;
         if(db.TryGetNumber("damage_taken_multiplier", out d))DamageTakenMultiplier = d;
         if(db.TryGetNumber("damage_dealt_multiplier", out d))DamageDealtMultiplier = d;
@@ -56,6 +58,7 @@ public class SwSettings
         db.TrySetPath("pause_on_submenu", PauseOnSubmenu);
         db.TrySetPath("skip_tutorials", SkipTutorials);
         db.TrySetPath("aim_spoon_with_keyboard", AimSpoonWithKeyboard);
+        db.TrySetPath("auto_charge_sling_with_gamepad", AutoChargeSlingWithGamepad);
         db.TrySetPath("game_speed", GameSpeed);
         db.TrySetPath("damage_taken_multiplier", DamageTakenMultiplier);
         db.TrySetPath("damage_dealt_multiplier", DamageDealtMultiplier);

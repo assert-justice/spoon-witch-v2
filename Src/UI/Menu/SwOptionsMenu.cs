@@ -19,5 +19,8 @@ public partial class SwOptionsMenu : SwMenu
         checkbox = GetNode<SwCheckBox>("PanelContainer/VBox/SpoonAimMode");
         checkbox.SetOnWakeFn(()=>SwGlobal.GetSettings().AimSpoonWithKeyboard);
         checkbox.SetOnChangeFn(val => SwGlobal.GetSettings().AimSpoonWithKeyboard = val);
+        checkbox = GetNode<SwCheckBox>("PanelContainer/VBox/SlingChargeMode");
+        checkbox.SetOnWakeFn(()=>SwGlobal.GetSettings().AutoChargeSlingWithGamepad);
+        checkbox.SetOnChangeFn(val => SwGlobal.GetSettings().AutoChargeSlingWithGamepad = val);
     }
 }

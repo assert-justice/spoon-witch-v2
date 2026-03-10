@@ -74,7 +74,9 @@ public class SwPlayerControls : ISwPoll
     public bool IsCharging()
     {
         bool isCharging = InputManager.ChargeSling.IsPressed();
-        if(SwGlobal.InputMode == SwGlobal.SwInputMode.XBox) isCharging |= Aim.LengthSquared() > SwConstants.EPSILON;
+        if(SwGlobal.InputMode == SwGlobal.SwInputMode.XBox &&
+            SwGlobal.GetSettings().AutoChargeSlingWithGamepad &&
+            Aim.LengthSquared() > SwConstants.EPSILON) isCharging = true;
         return isCharging;
     }
     public bool IsChargingJustReleased(){return InputManager.ChargeSling.IsJustReleased();}
